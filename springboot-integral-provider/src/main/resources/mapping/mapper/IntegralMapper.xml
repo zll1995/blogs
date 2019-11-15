@@ -2,4 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.jk.integral.mapper.IntegralMapper" >
 
+    <select id="querySum" resultType="int">
+        select count(*) from t_integral ti,t_user tu where ti.integralUserId = tu.userId
+    </select>
+
+    <select id="queryIntegral" resultType="java.util.Map">
+        select * from t_integral ti,t_user tu where ti.integralUserId = tu.userId
+    </select>
+
 </mapper>
