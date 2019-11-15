@@ -1,11 +1,38 @@
 ﻿<!doctype html>
+<!--
+                              _.._        ,------------.
+                           ,'      `.    ( We want you! )
+                          /  __) __` \    `-,----------'
+                         (  (`-`(-')  ) _.-'
+                         /)  \  = /  (
+                        /'    |--' .  \
+                       (  ,---|  `-.)__`
+                        )(  `-.,--'   _`-.
+                       '/,'          (  Wy",
+                        (_       ,    `/,-' )
+                        `.__,  : `-'/  /`--'
+                          |     `--'  |
+                          `   `-._   /
+                           \        (
+                           /\ .      \.  YLSAT.COM
+                          / |` \     ,-\
+                         /  \| .)   /   \
+                        ( ,'|\    ,'     :
+                        | \,`.`--"/      }
+                        `,'    \  |,'    /
+                       / "-._   `-/      |
+                       "-.   "-.,'|     ;
+                      /        _/["---'""]
+                     :        /  |"-     '
+                     '           |      /
+                                 `      |
+-->
 <html>
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>异清轩技术博客 - POWERED BY WY ALL RIGHTS RESERVED</title>
-  <script type="text/javascript" src="../js/jquery-1.9.1.min.js"></script>
 <link href="../css/bootstrap.min.css" type="text/css" rel="stylesheet">
 <link href="../css/style.css" type="text/css" rel="stylesheet">
 <link type="text/css" href="../css/nprogress.css" rel="stylesheet">
@@ -218,9 +245,9 @@ window.onload = function() {
   </div>
   <!--/内容-->
   <aside class="sidebar visible-lg"><!--右侧>992px显示-->
-    <div class="sentence" style="height: 110px"> <strong>每日一句</strong>
-      <h2><span id="dateDay"></span></h2>
-      <p id="contentDay"></p>
+    <div class="sentence"> <strong>每日一句</strong>
+      <h2>2015年11月1日 星期日</h2>
+      <p>你是我人生中唯一的主角，我却只能是你故事中的一晃而过得路人甲。</p>
     </div>
     <div id="search" class="sidebar-block search" role="search">
       <h2 class="title"><strong>搜索</strong></h2>
@@ -235,12 +262,7 @@ window.onload = function() {
     </div>
     <div class="sidebar-block recommend">
       <h2 class="title"><strong>热门推荐</strong></h2>
-      <ul>
-        <li><a target="_blank" href=""> <span class="thumb"><img src="../images/icon/icon.png" alt=""></span> <span class="text">异清轩技术博客的SHORTCUT和ICON图标 ...</span> <span class="text-muted">阅读(2165)</span></a></li>
-        <li><a target="_blank" href=""> <span class="thumb"><img src="../images/icon/icon.png" alt=""></span> <span class="text">异清轩技术博客的SHORTCUT和ICON图标 ...</span> <span class="text-muted">阅读(2165)</span></a></li>
-        <li><a target="_blank" href=""> <span class="thumb"><img src="../images/icon/icon.png" alt=""></span> <span class="text">异清轩技术博客的SHORTCUT和ICON图标 ...</span> <span class="text-muted">阅读(2165)</span></a></li>
-        <li><a target="_blank" href=""> <span class="thumb"><img src="../images/icon/icon.png" alt=""></span> <span class="text">异清轩技术博客的SHORTCUT和ICON图标 ...</span> <span class="text-muted">阅读(2165)</span></a></li>
-        <li><a target="_blank" href=""> <span class="thumb"><img src="../images/icon/icon.png" alt=""></span> <span class="text">异清轩技术博客的SHORTCUT和ICON图标 ...</span> <span class="text-muted">阅读(2165)</span></a></li>
+      <ul id="HotBlogs">
       </ul>
     </div>
     <div class="sidebar-block comment">
@@ -455,10 +477,26 @@ function DailySentence(){
     }
   })
 }
-
-
-
-
+$(function (){
+    //加载热门推荐
+  HotBlogs();
+})
+function HotBlogs(){
+  $.ajax({
+    url:"../HotBlogs",
+    type:"post",
+    success:function(data){
+        var li = "";
+        for (var i = 0 ; i <data.length ; i++){
+          li+='<li><a target="_blank" href="'+data[i].url+'"> <span class="thumb"><img src="'+data[i].blogs_img+'" alt="暂时无法显示该图片"></span> <span class="text">'+data[i].blogs_title+'</span> <span class="text-muted" >阅读'+data[i].blogs_look+'</span></a></li>';
+        }
+      $("#HotBlogs").html(li);
+    },
+    error:function(){
+      alert("加载热门推荐出错")
+    }
+  })
+}
 </script>
 </body>
 </html>
