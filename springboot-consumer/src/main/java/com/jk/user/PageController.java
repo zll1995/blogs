@@ -31,4 +31,16 @@ public class PageController {
     public String toMain(){
         return "index";
     }
+
+    //判断浏览器是否支持HTML5
+    @RequestMapping("toIe")
+    public String toIe(){
+        return "ie";
+    }
+
+    //跳转修改个人资料页面
+    @RequestMapping("toEditInfo")
+    public String toEditInfo(){
+        return "editUser";
+    }
 }
