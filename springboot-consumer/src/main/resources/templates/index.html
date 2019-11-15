@@ -87,7 +87,7 @@ window.onload = function() {
         <ul class="nav navbar-nav header-xs-nav">
           <li class="active"><a href="../page/toMain"><span class="glyphicon glyphicon-home"></span>网站首页</a></li>
           <li><a href="../page/toLogin"><span class="glyphicon glyphicon-user"></span>登录</a></li>
-          <li><a href=""><a href="javaScript:openDialog()"><span class="glyphicon glyphicon-inbox"></span>个人资料</a></li>
+          <li><a href="javaScript:openDialog()"><span class="glyphicon glyphicon-inbox">个人资料</span></a></li>
           <li><a href=""><span class="glyphicon glyphicon-globe"></span>管理系统</a></li>
           <li><a href="main/about.html"><span class="glyphicon glyphicon-user"></span>关于我们</a></li>
           <li><a href="main/friendly.html"><span class="glyphicon glyphicon-tags"></span>友情链接</a></li>
@@ -245,9 +245,9 @@ window.onload = function() {
   </div>
   <!--/内容-->
   <aside class="sidebar visible-lg"><!--右侧>992px显示-->
-    <div class="sentence"> <strong>每日一句</strong>
-      <h2>2015年11月1日 星期日</h2>
-      <p>你是我人生中唯一的主角，我却只能是你故事中的一晃而过得路人甲。</p>
+    <div class="sentence" style="height: 114px"> <strong>每日一句</strong>
+      <h2 id="DailySentenceDateId"></h2>
+      <p id="DailySentenceNoteId"></p>
     </div>
     <div id="search" class="sidebar-block search" role="search">
       <h2 class="title"><strong>搜索</strong></h2>
@@ -405,6 +405,7 @@ jQuery("#pagination a").on("click", function ()
 });
 
 $(function () {
+    //加载每日一句
   DailySentence();
 })
 //个人资料编辑
@@ -469,8 +470,8 @@ function DailySentence(){
     url:"../blogs/DailySentence",
     type:"post",
     success:function(data){
-      $("#dateDay").html(data.date);
-      $("#contentDay").html(data.note);
+      $("#DailySentenceDateId").html(data.date);
+      $("#DailySentenceNoteId").html(data.note);
     },
     error:function(){
       alert("每日一句加载出错")
@@ -483,7 +484,7 @@ $(function (){
 })
 function HotBlogs(){
   $.ajax({
-    url:"../HotBlogs",
+    url:"../blogs/HotBlogs",
     type:"post",
     success:function(data){
         var li = "";
