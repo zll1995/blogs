@@ -2,4 +2,19 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.jk.comment.mapper.CommentMapper" >
 
+    <insert id="addComment">
+        INSERT INTO t_comment
+        (blogs_id,userId,userName,headImg,commentContent,preseCount,creatTime)
+        VALUES
+        (#{blogs_id},#{userId},#{userName},#{headImg},#{commentContent},#{preseCount},#{creatTime})
+    </insert>
+
+    <insert id="addReply">
+        INSERT INTO t_comment
+        (commentedId,replyedId,userId,userName,headImg,replyuserId,replyuserName,replyContent,preseCount,creatTime)
+        VALUES
+        (#{commentedId},#{replyedId},#{userId},#{userName},#{headImg},#{replyuserId},#{replyuserName},#{replyContent},#{preseCount},#{creatTime})
+    </insert>
+
+
 </mapper>
