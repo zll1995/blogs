@@ -1,38 +1,11 @@
 ﻿<!doctype html>
-<!--
-                              _.._        ,------------.
-                           ,'      `.    ( We want you! )
-                          /  __) __` \    `-,----------'
-                         (  (`-`(-')  ) _.-'
-                         /)  \  = /  (
-                        /'    |--' .  \
-                       (  ,---|  `-.)__`
-                        )(  `-.,--'   _`-.
-                       '/,'          (  Wy",
-                        (_       ,    `/,-' )
-                        `.__,  : `-'/  /`--'
-                          |     `--'  |
-                          `   `-._   /
-                           \        (
-                           /\ .      \.  YLSAT.COM
-                          / |` \     ,-\
-                         /  \| .)   /   \
-                        ( ,'|\    ,'     :
-                        | \,`.`--"/      }
-                        `,'    \  |,'    /
-                       / "-._   `-/      |
-                       "-.   "-.,'|     ;
-                      /        _/["---'""]
-                     :        /  |"-     '
-                     '           |      /
-                                 `      |
--->
 <html>
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>异清轩技术博客 - POWERED BY WY ALL RIGHTS RESERVED</title>
+  <script type="text/javascript" src="../js/jquery-1.9.1.min.js"></script>
 <link href="../css/bootstrap.min.css" type="text/css" rel="stylesheet">
 <link href="../css/style.css" type="text/css" rel="stylesheet">
 <link type="text/css" href="../css/nprogress.css" rel="stylesheet">
@@ -43,13 +16,18 @@
   <![endif]-->
 <link rel="apple-touch-icon-precomposed" href="../images/icon/icon.png">
 <link rel="shortcut icon" href="../images/icon/favicon.ico">
-<meta name="Keywords" content="" />
+
+  <link rel="stylesheet" href="../js/bootstrap3/css/bootstrap.css"/>
+  <script type="text/javascript" src="../js/bootstrap3/js/bootstrap.js"></script>
+  <script src="../js/bootstrap-bootbox/bootbox.js"></script>
+
+  <meta name="Keywords" content="" />
 <meta name="description" content="" />
 <script type="text/javascript">
 //判断浏览器是否支持HTML5
 window.onload = function() {
 	if (!window.applicationCache) {
-		window.location.href="ie.html";
+		window.location.href="../page/toIe";
 	}
 }
 </script>
@@ -59,11 +37,13 @@ window.onload = function() {
 <section class="container user-select">
   <header>
     <div class="hidden-xs header"><!--超小屏幕不显示-->
-      <h1 class="logo"> <a href="index.html" title="异清轩技术博客 - POWERED BY WY ALL RIGHTS RESERVED"></a> </h1>
+      <h1 class="logo"> <a href="../page/toMain" title="异清轩技术博客 - POWERED BY WY ALL RIGHTS RESERVED"></a> </h1>
       <ul class="nav hidden-xs-nav">
-        <li class="active"><a href="index.html"><span class="glyphicon glyphicon-home"></span>网站首页</a></li>
-        <li><a href=""><span class="glyphicon glyphicon-erase"></span>网站前端</a></li>
-        <li><a href=""><span class="glyphicon glyphicon-inbox"></span>后端技术</a></li>
+        <li class="active"><a href="../page/toMain"><span class="glyphicon glyphicon-home"></span>网站首页</a></li>
+        <li>
+          <a href="../page/toLogin"><span class="glyphicon glyphicon-user"></span>登录</a>
+        </li>
+        <li><a href="javaScript:openDialog()"><span class="glyphicon glyphicon-inbox"></span>个人资料</a></li>
         <li><a href=""><span class="glyphicon glyphicon-globe"></span>管理系统</a></li>
         <li><a href="main/about.html"><span class="glyphicon glyphicon-user"></span>关于我们</a></li>
         <li><a href="main/friendly.html"><span class="glyphicon glyphicon-tags"></span>友情链接</a></li>
@@ -78,9 +58,9 @@ window.onload = function() {
       </div>
       <div id="header-xs-menu" class="navbar-collapse collapse">
         <ul class="nav navbar-nav header-xs-nav">
-          <li class="active"><a href="index.html"><span class="glyphicon glyphicon-home"></span>网站首页</a></li>
-          <li><a href=""><span class="glyphicon glyphicon-erase"></span>网站前端</a></li>
-          <li><a href=""><span class="glyphicon glyphicon-inbox"></span>后端技术</a></li>
+          <li class="active"><a href="../page/toMain"><span class="glyphicon glyphicon-home"></span>网站首页</a></li>
+          <li><a href="../page/toLogin"><span class="glyphicon glyphicon-user"></span>登录</a></li>
+          <li><a href=""><a href="javaScript:openDialog()"><span class="glyphicon glyphicon-inbox"></span>个人资料</a></li>
           <li><a href=""><span class="glyphicon glyphicon-globe"></span>管理系统</a></li>
           <li><a href="main/about.html"><span class="glyphicon glyphicon-user"></span>关于我们</a></li>
           <li><a href="main/friendly.html"><span class="glyphicon glyphicon-tags"></span>友情链接</a></li>
@@ -238,9 +218,9 @@ window.onload = function() {
   </div>
   <!--/内容-->
   <aside class="sidebar visible-lg"><!--右侧>992px显示-->
-    <div class="sentence"> <strong>每日一句</strong>
-      <h2>2015年11月1日 星期日</h2>
-      <p>你是我人生中唯一的主角，我却只能是你故事中的一晃而过得路人甲。</p>
+    <div class="sentence" style="height: 110px"> <strong>每日一句</strong>
+      <h2><span id="dateDay"></span></h2>
+      <p id="contentDay"></p>
     </div>
     <div id="search" class="sidebar-block search" role="search">
       <h2 class="title"><strong>搜索</strong></h2>
@@ -249,7 +229,8 @@ window.onload = function() {
           <input type="text" class="form-control" size="35" placeholder="请输入关键字">
           <span class="input-group-btn">
           <button class="btn btn-default btn-search" type="submit">搜索</button>
-          </span> </div>
+          </span>
+        </div>
       </form>
     </div>
     <div class="sidebar-block recommend">
@@ -400,6 +381,84 @@ jQuery("#pagination a").on("click", function ()
     });
     return false;
 });
+
+$(function () {
+  DailySentence();
+})
+//个人资料编辑
+var res;
+function createAddContent(url){
+  $.ajax({
+    url:url,
+    async:false,
+    success:function(data){
+      res = data;
+    }
+  });
+  return res;
+}
+function openDialog() {
+  bootbox.dialog({
+    title: "编辑个人资料",
+    message: createAddContent("../page/toEditInfo"),
+    closeButton: true,
+    buttons: {
+      "success": {
+        "label": "<i class='icon-ok'></i>保存",
+        "className": "btn btn-success",
+        "callback":function(){
+
+        }
+      },
+      "cancel": {
+        "label": "<i class='icon-info'></i>取消",
+        "className": "btn btn-warning",
+        "callback":function(){}
+      }
+    }
+  })
+  // 回显
+  /*$.ajax({
+    url: "<%=path%>/queryUserById.do",
+    type: "post",
+    data: {"id": id},
+    dataType: "json",
+    success: function(data){
+      $("#id").val(data.id);
+      $("[name='account']").val(data.account);
+      $("[name='nickname']").val(data.nickname);
+      $("[name='realname']").val(data.realname);
+      if(data.gender == 1){
+        $("[name='gender']").eq(0).attr("checked", true);
+      } else {
+        $("[name='gender']").eq(1).attr("checked", true);
+      }
+      $("[name='birthday']").val(data.birthday);
+      $("#deptId2").val(data.deptId);
+      $("#testimg").val(data.userImg);
+      editFileInput(data.userImg);
+    }
+  })*/
+}
+
+//每日一句
+function DailySentence(){
+  $.ajax({
+    url:"../blogs/DailySentence",
+    type:"post",
+    success:function(data){
+      $("#dateDay").html(data.date);
+      $("#contentDay").html(data.note);
+    },
+    error:function(){
+      alert("每日一句加载出错")
+    }
+  })
+}
+
+
+
+
 </script>
 </body>
 </html>
