@@ -129,21 +129,11 @@ window.onload = function() {
       <div class="content-block hot-content hidden-xs">
         <h2 class="title"><strong>本周热门排行</strong></h2>
         <ul>
-          <li class="large"><a href="main/content.html" target="_blank"><img src="../images/img3.jpg" alt="">
-            <h3> 欢迎来到异清轩技术博客 </h3>
-            </a></li>
-          <li><a href="main/content.html" target="_blank"><img src="../images/logo.jpg" alt="">
-            <h3> 欢迎来到异清轩技术博客,在这里可以看到网站前端和后端的技术等 </h3>
-            </a></li>
-          <li><a href="main/content.html" target="_blank"><img src="../images/img2.jpg" alt="">
-            <h3> 欢迎来到异清轩技术博客,在这里可以看到网站前端和后端的技术等 </h3>
-            </a></li>
-          <li><a href="main/content.html" target="_blank"><img src="../images/img1.jpg" alt="">
-            <h3> 欢迎来到异清轩技术博客，在这里可以看到网站前端和后端的技术等 </h3>
-            </a></li>
-          <li><a href="main/content.html" target="_blank"><img src="../images/logo.jpg" alt="">
-            <h3> 欢迎来到异清轩技术博客，在这里可以看到网站前端和后端的技术等 </h3>
-            </a></li>
+          <li class="large" id="li0"></li>
+          <li id="li1"></li>
+          <li id="li2"></li>
+          <li id="li3"></li>
+          <li id="li4"></li>
         </ul>
       </div>
       <div class="content-block new-content">
@@ -247,7 +237,7 @@ window.onload = function() {
   </div>
   <!--/内容-->
   <aside class="sidebar visible-lg"><!--右侧>992px显示-->
-    <div class="sentence" style="height: 114px"> <strong>每日一句</strong>
+    <div class="sentence" style="height: 100px"> <strong>每日一句</strong>
       <h2 id="DailySentenceDateId"></h2>
       <p id="DailySentenceNoteId"></p>
     </div>
@@ -483,6 +473,8 @@ function DailySentence(){
 $(function (){
     //加载热门推荐
   HotBlogs();
+    //加载每周推荐
+  WeekHotBlogs();
 })
 function HotBlogs(){
   $.ajax({
@@ -497,6 +489,27 @@ function HotBlogs(){
     },
     error:function(){
       alert("加载热门推荐出错")
+    }
+  })
+}
+function WeekHotBlogs(){
+  $.ajax({
+    url:"../blogs/WeekHotBlogs",
+    type:"post",
+    success:function(data){
+      var li0 = '<a href="'+data[0].blogs_url+'" target="_blank"><img src="../images/'+data[0].blogs_img+'" alt=""><h3>'+data[0].blogs_title+'</h3></a>';
+      $("#li0").html(li0);
+      var li1 = '<a href="'+data[1].blogs_url+'" target="_blank"><img src="../images/'+data[1].blogs_img+'" alt="暂时无法显示"><h3>'+data[1].blogs_title+'</h3></a>';
+      $("#li1").html(li1);
+      var li2 = '<a href="'+data[2].blogs_url+'" target="_blank"><img src="../images/'+data[2].blogs_img+'" alt="暂时无法显示"><h3>'+data[2].blogs_title+'</h3></a>';
+      $("#li2").html(li2);
+      var li3 = '<a href="'+data[3].blogs_url+'" target="_blank"><img src="../images/'+data[3].blogs_img+'" alt="暂时无法显示"><h3>'+data[3].blogs_title+'</h3></a>';
+      $("#li3").html(li3);
+      var li4 = '<a href="'+data[4].blogs_url+'" target="_blank"><img src="../images/'+data[4].blogs_img+'" alt="暂时无法显示"><h3>'+data[4].blogs_title+'</h3></a>';
+      $("#li4").html(li4);
+      },
+    error:function(){
+      alert("每周热门出错")
     }
   })
 }
