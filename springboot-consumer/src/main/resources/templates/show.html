@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- 引入JQuery -->
+
+    <link rel="stylesheet"
+          href="../EasyUI(1)/themes/gray/easyui.css" type="text/css"/>
+
+    <!-- 引入EasyUI的图标样式文件-->
+    <link rel="stylesheet"
+          href="../EasyUI(1)/themes/icon.css" type="text/css"/>
+</head>
+<body>
+<script type="text/javascript"
+        src="../EasyUI(1)/jquery.min.js"></script>
+<!-- 引入EasyUI -->
+<script type="text/javascript"
+        src="../EasyUI(1)/jquery.easyui.min.js"></script>
+
+<!-- 引入EasyUI的中文国际化js，让EasyUI支持中文 -->
+<script type="text/javascript"
+        src="../EasyUI(1)/locale/easyui-lang-zh_CN.js"></script>
+
+
+
+<table id="zhang-table"></table>
+<div id="zhang-div"></div>
+
+
+<script type="text/javascript">
+
+
+    function search(){
+
+        $('#zhang-table').datagrid({
+            url:"../queryzhangAll",
+            pagination:true,
+
+            pageNumber:1,
+            pageSize:10,
+            pageList:[2,5,8,10],
+
+            singleSelect:true,
+            checkOnSelect:false,
+            selectOnCheck:false,
+            columns:[
+                [
+
+                    {field:'id',title:'id',width:100},
+                    {field:'bName',title:'名字',width:100},
+                    {field:'bName',title:'类型',width:100},
+                    {field:'bName',title:'表述',width:100},
+                    {field:'bName',title:'时间',width:100},
+                    {field:'act',title:'操作',width:100,
+                        formatter:function(val,row,index){
+
+                            return"<input type='button' onclick='changeUserRole("+row.userid+",\""+row.username+"\")' value='设置角色'>"
+                        }
+
+                    }
+
+                ]
+            ]
+        });
+    }
+
+    $(function(){
+        search();
+    })
+</script>
+</body>
+</html>
