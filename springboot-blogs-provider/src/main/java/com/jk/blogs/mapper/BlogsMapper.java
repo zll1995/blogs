@@ -1,11 +1,24 @@
 package com.jk.blogs.mapper;
 
-import com.jk.blogs.model.Zhang;
+import com.jk.blogs.model.Blogs;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
 public interface BlogsMapper {
-    int querysum(Zhang z);
+    List<Blogs> HotBlogs();
 
-    List<Zhang> queryzhangAll(          Zhang z, int start, int rows);
+    int querysum(Blogs z);
+
+    List<Blogs> queryzhangAll(@Param("z") Blogs z, @Param("sta")int start, @Param("end")int rows);
+
+    Blogs queryblogsById(@Param("pid")Integer blogs_id);
+
+    void updateblogs(@Param("b")Blogs z);
+
+    void updateblogsautus(@Param("pid")Integer blogs_id);
+
+    int querysum1(Blogs z);
+
+    List<Blogs> queryzhanghui(@Param("z") Blogs z, @Param("sta")int start, @Param("end")int rows);
 }
