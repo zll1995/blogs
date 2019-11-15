@@ -10,15 +10,6 @@ public class UserController {
     @Reference(version = "1.0")
     private UserService userService;
 
-    //跳转到登陆页面  -----郑晋虎
-    @RequestMapping("toLogin")
-    public String toLogin(){
-        return "login";
-    }
 
-    //跳转到注册页面  ------郑晋虎
-    @RequestMapping("toRegister")
-    public String toRegister(){
-        return "register";
-    }
+
 }
