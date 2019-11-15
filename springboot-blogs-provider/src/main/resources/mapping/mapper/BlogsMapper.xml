@@ -1,9 +1,71 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.jk.blogs.mapper.BlogsMapper" >
+
     <select id="HotBlogs" resultType="com.jk.blogs.model.Blogs">
         SELECT * from t_blogs b ORDER BY b.blogs_look DESC LIMIT 0,5
     </select>
+
+    <select id="WeekHotBlogs" resultType="com.jk.blogs.model.Blogs">
+        SELECT * FROM t_blogs b
+        WHERE YEARWEEK(date_format(b.blogs_time,'%Y-%m-%d')) = YEARWEEK(now())
+        ORDER BY b.blogs_look DESC
+        LIMIT 0,5
+    </select>
+
+    <select id="querysum" resultType="int">
+  	select count(*) from  t_blogs a
+
+
+  </select>
+
+    <select id="queryzhangAll" resultType="java.util.Map">
+
+			select
+				a.*
+			from  t_blogs a  where  blogs_status=1
+
+			       LIMIT #{sta},#{end}
+   </select>
+
+
+    <update  id="updateblogs">
+    update t_blogs
+    set
+       blogs_title = #{b.blogs_title},
+       blogs_content = #{b.blogs_content},
+       blogs_time = #{b.blogs_time},
+       blogs_userid = #{b.blogs_userid},
+       blogs_like = #{b.blogs_like},
+    where blogs_id = #{b.blogs_id}
+  </update>
+
+    <select id="queryblogsById" resultType="com.jk.blogs.model.Blogs">
+  	select * from t_blogs where blogs_id = #{pid}
+
+  </select>
+
+    <update  id="updateblogsautus">
+    update t_blogs
+    set blogs_status=2
+    where blogs_id = #{pid}e
+  </update>
+
+
+    <select id="querysum1" resultType="int">
+  	select count(*) from  t_blogs a
+
+
+  </select>
+
+    <select id="queryzhanghui" resultType="java.util.Map">
+
+			select
+				a.*
+			from  t_blogs a  where  blogs_status=2
+
+			       LIMIT #{sta},#{end}
+   </select>
 
     <select id="queryBlogsNews" resultType="com.jk.blogs.model.Blogs">
         SELECT b.blogs_title,b.blogs_content,b.blogs_img,b.blogs_like,b.blogs_look,b.blogs_url,b.blogs_time,u.username AS blogs_username FROM
