@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface BlogsMapper {
     List<Blogs> HotBlogs();
+
+    List<Blogs> WeekHotBlogs();
 }

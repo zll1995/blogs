@@ -28,4 +28,10 @@ public class BlogsServiceImpl implements BlogsService{
     public Map<String, Object> DailySentence() {
         return HttpClient.DailySentence();
     }
+
+    @Override
+    public List<Blogs> WeekHotBlogs() {
+        List<Blogs> list = blogsMapper.WeekHotBlogs();
+        return list;
+    }
 }

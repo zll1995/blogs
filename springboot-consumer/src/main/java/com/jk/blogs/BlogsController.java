@@ -18,19 +18,25 @@ import java.util.Map;
 public class BlogsController {
     @Reference(version = "1.0")
     private BlogsService blogsService;
-
+    //每日一句
     @RequestMapping("DailySentence")
     @ResponseBody
     public Map<String, Object> DailySentence(){
        Map<String,Object> map =  blogsService.DailySentence();
        return map;
     }
-
-
+    //热门推荐
     @RequestMapping("HotBlogs")
     @ResponseBody
     public List<Blogs> HotBlogs(){
        List<Blogs> list =  blogsService.HotBlogs();
        return list;
+    }
+    //每周热门
+    @RequestMapping("WeekHotBlogs")
+    @ResponseBody
+    public List<Blogs> WeekHotBlogs(){
+        List<Blogs> list =  blogsService.WeekHotBlogs();
+        return list;
     }
 }

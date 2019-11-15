@@ -10,4 +10,6 @@ public interface BlogsService {
     List<Blogs> HotBlogs();
 
     Map<String, Object> DailySentence();
+
+    List<Blogs> WeekHotBlogs();
 }
