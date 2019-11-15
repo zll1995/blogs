@@ -483,7 +483,7 @@ function HotBlogs(){
           }else{
             Btitle = data[i].blogs_title;
           }
-          li+='<li><a target="_blank" href="'+data[i].url+'"> <span class="thumb"><img src="'+data[i].blogs_img+'" alt="暂时无法显示该图片"></span> <span class="text">'+Btitle+'</span> <span class="text-muted" >阅读'+data[i].blogs_look+'</span></a></li>';
+          li+='<li><a target="_blank" href="'+data[i].url+'"> <span class="thumb"><img src="../images/'+data[i].blogs_img+'" alt="暂时无法显示该图片"></span> <span class="text">'+Btitle+'</span> <span class="text-muted" >阅读'+data[i].blogs_look+'</span></a></li>';
         }
       $("#HotBlogs").html(li);
     },
