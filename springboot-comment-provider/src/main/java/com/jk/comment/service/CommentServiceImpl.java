@@ -5,8 +5,11 @@ import com.jk.comment.model.Comment;
 import com.jk.comment.model.Reply;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
+
 @Service(version = "1.0")
 public class CommentServiceImpl implements CommentService {
+
     @Autowired
     private CommentMapper  commentMapper;
     @Override
@@ -17,5 +20,27 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public void addReply(Reply reply) {
         commentMapper.addReply(reply);
+    }
+
+    @Override
+    public List<Comment> queryComment(Integer page, Integer rows, Integer blogs_id) {
+        Integer startNum=(page-1)*rows;
+        return commentMapper.queryComment(startNum,rows,blogs_id);
+    }
+
+    @Override
+    public Long queryCommentCount(Integer blogs_id) {
+        return commentMapper.queryCommentCount(blogs_id);
+    }
+
+    @Override
+    public List<Comment> queryReply(Integer page, Integer rows, Integer commentedId) {
+        Integer startNum=(page-1)*rows;
+        return commentMapper.queryReply(startNum,rows,commentedId);
+    }
+
+    @Override
+    public Long queryReplyCount(Integer commentedId) {
+        return commentMapper.queryReplyCount(commentedId);
     }
 }

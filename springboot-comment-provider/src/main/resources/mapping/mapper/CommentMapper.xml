@@ -2,19 +2,80 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.jk.comment.mapper.CommentMapper" >
 
+
+<!--新增对应博客的评论-->
     <insert id="addComment">
         INSERT INTO t_comment
-        (blogs_id,userId,userName,headImg,commentContent,preseCount,creatTime)
+          (blogs_id,userId,userName,commentContent,preseCount,creatTime)
         VALUES
-        (#{blogs_id},#{userId},#{userName},#{headImg},#{commentContent},#{preseCount},#{creatTime})
+          (#{blogs_id},#{userId},#{username},#{commentContent},#{preseCount},#{creatTime})
     </insert>
 
+
+<!--新增对应评论的回复-->
     <insert id="addReply">
-        INSERT INTO t_comment
-        (commentedId,replyedId,userId,userName,headImg,replyuserId,replyuserName,replyContent,preseCount,creatTime)
+        INSERT INTO t_reply
+          (commentedId,replyedId,userId,userName,replyuserId,replyuserName,replyContent,preseCount,creatTime)
         VALUES
-        (#{commentedId},#{replyedId},#{userId},#{userName},#{headImg},#{replyuserId},#{replyuserName},#{replyContent},#{preseCount},#{creatTime})
+          (#{commentedId},#{replyedId},#{userId},#{username},#{replyuserId},#{replyuserName},#{replyContent},#{preseCount},#{creatTime})
     </insert>
+
+
+<!--查询对应博客的评论-->
+    <select id="queryComment" resultType="com.jk.comment.model.Comment">
+        SELECT
+              c.commentId,
+              c.blogs_id,
+              c.userId,
+              c.username,
+              c.commentContent,
+              c.preseCount,
+              c.creatTime,
+              u.headImg
+        FROM t_comment c,t_user6 u
+        WHERE c.userId=u.userId
+        AND c.blogs_id=#{blogs_id}
+        ORDER BY c.commentId
+        LIMIT #{startNum},#{rows}
+    </select>
+
+
+<!--查询对应博客的评论数量-->
+    <select id="queryCommentCount" parameterType="java.lang.Integer" resultType="java.lang.Long">
+        SELECT COUNT(1)
+        FROM t_comment
+        WHERE blogs_id=#{blogs_id}
+    </select>
+
+
+<!--查询对应评论的回复-->
+    <select id="queryReply" resultType="com.jk.comment.model.Reply">
+        SELECT
+            r.replyId,
+            r.commentedId,
+            r.replyedId,
+            r.userId,
+            r.username,
+            r.replyuserId,
+            r.replyuserName,
+            r.replyContent,
+            r.preseCount,
+            r.creatTime,
+            u.headImg
+        FROM t_reply r,t_user6 u
+        WHERE r.userId=u.userId
+        AND r.commentedId=#{commentedId}
+        ORDER BY r.replyId
+        LIMIT #{startNum},#{rows}
+    </select>
+
+
+<!--查询对应回复的数量-->
+    <select id="queryReplyCount" parameterType="java.lang.Integer" resultType="java.lang.Long">
+        SELECT COUNT(1)
+        FROM t_reply
+        WHERE commentedId=#{commentedId}
+    </select>
 
 
 </mapper>
