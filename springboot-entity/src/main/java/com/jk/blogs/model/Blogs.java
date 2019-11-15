@@ -17,8 +17,7 @@ public class Blogs implements Serializable {
     private Integer blogs_like;
     private String blogs_img;
     private Integer blogs_look;
+    private String blogs_url;
 
     private Integer blogs_status;
-
-
 }

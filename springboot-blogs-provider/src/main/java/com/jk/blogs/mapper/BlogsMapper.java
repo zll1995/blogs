@@ -8,6 +8,8 @@ import java.util.List;
 public interface BlogsMapper {
     List<Blogs> HotBlogs();
 
+    List<Blogs> WeekHotBlogs();
+
     int querysum(Blogs z);
 
     List<Blogs> queryzhangAll(@Param("z") Blogs z, @Param("sta")int start, @Param("end")int rows);
