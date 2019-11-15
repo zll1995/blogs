@@ -12,4 +12,8 @@
         ORDER BY b.blogs_look DESC
         LIMIT 0,5
     </select>
+
+    <select id="slideShow" resultType="com.jk.blogs.model.SlideShow">
+        SELECT * from t_slideShow
+    </select>
 </mapper>
