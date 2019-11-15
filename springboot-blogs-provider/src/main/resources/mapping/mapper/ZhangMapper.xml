@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jk.dao.ZhangMapper" >
+  <resultMap id="BaseResultMap" type="com.jk.model.Zhang" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="b_name" property="bName" jdbcType="VARCHAR" />
+    <result column="b_type" property="bType" jdbcType="INTEGER" />
+    <result column="b_biao" property="bBiao" jdbcType="VARCHAR" />
+    <result column="b_time" property="bTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <select id="querysum" resultType="int">
+  	select count(*) from  b_zhang  a
+
+
+  </select>
+
+  <select id="queryzhangAll" resultMap="BaseResultMap">
+
+			select
+				a.*
+			from  b_zhang a  left  join b_types b on  a.b_type=b.type
+
+			       LIMIT #{sta},#{end}
+   </select>
+</mapper>
