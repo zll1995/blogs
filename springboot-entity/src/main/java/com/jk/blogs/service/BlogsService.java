@@ -1,6 +1,7 @@
 package com.jk.blogs.service;
 
 import com.jk.blogs.model.Blogs;
+import com.jk.blogs.model.SlideShow;
 
 import java.util.List;
 
@@ -13,6 +14,8 @@ public interface BlogsService {
 
     List<Blogs> WeekHotBlogs();
 
+    List<SlideShow> slideShow();
+
     Map<String, Object> queryzhangAll(Blogs z, int page, int rows);
 
     Blogs queryblogsById(Integer blogs_id);
@@ -22,4 +25,6 @@ public interface BlogsService {
     void updateblogsautus(Integer blogs_id);
 
     Map<String, Object> queryzhanghui(Blogs z, int page, int rows);
+
+    List<Blogs> queryBlogsNews();
 }

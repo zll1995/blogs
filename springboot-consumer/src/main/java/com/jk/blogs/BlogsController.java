@@ -2,6 +2,7 @@ package com.jk.blogs;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.jk.blogs.model.Blogs;
+import com.jk.blogs.model.SlideShow;
 import com.jk.blogs.service.BlogsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,6 +39,13 @@ public class BlogsController {
     @ResponseBody
     public List<Blogs> WeekHotBlogs(){
         List<Blogs> list =  blogsService.WeekHotBlogs();
+        return list;
+    }
+    //轮播图
+    @RequestMapping("slideshow")
+    @ResponseBody
+    public List<SlideShow> slideShow(){
+        List<SlideShow> list =  blogsService.slideShow();
         return list;
     }
 
@@ -93,5 +101,11 @@ public class BlogsController {
     public Map<String,Object> queryzhanghui(Blogs z, int page, int rows){
         return blogsService.queryzhanghui(z,page,rows);
 
+    }
+    @RequestMapping("queryBlogsNews")
+    @ResponseBody
+    public List<Blogs> queryBlogsNews(){
+       List<Blogs> list =  blogsService.queryBlogsNews();
+       return list;
     }
 }

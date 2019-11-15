@@ -15,7 +15,7 @@ public class Comment implements Serializable {
     private Integer     blogs_id;       //被评论博客Id
 
     private Integer     userId;         //用户Id
-    private String      userName;       //用户名称
+    private String      username;       //用户名称
     private String      headImg;        //用户Id头像
 
     private String      commentContent; //评论内容
@@ -47,12 +47,12 @@ public class Comment implements Serializable {
         this.userId = userId;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getHeadImg() {
@@ -94,7 +94,7 @@ public class Comment implements Serializable {
                 "commentId=" + commentId +
                 ", blogs_id=" + blogs_id +
                 ", userId=" + userId +
-                ", userName='" + userName + '\'' +
+                ", username='" + username + '\'' +
                 ", headImg='" + headImg + '\'' +
                 ", commentContent='" + commentContent + '\'' +
                 ", preseCount=" + preseCount +
