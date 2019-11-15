@@ -113,16 +113,8 @@ window.onload = function() {
           <li data-target="#carousel-example-generic" data-slide-to="1"></li>
           <li data-target="#carousel-example-generic" data-slide-to="2"></li>
         </ol>
-        <div class="carousel-inner" role="listbox">
-          <div class="item active"> <a href="main/content.html" target="_blank"><img src="../images/img1.jpg" alt="" /></a>
-            <div class="carousel-caption"> 欢迎来到异清轩技术博客，在这里可以看到网站前端和后端的技术等 </div>
-            <span class="carousel-bg"></span> </div>
-          <div class="item"> <a href="main/content.html" target="_blank"><img src="../images/img2.jpg" alt="" /></a>
-            <div class="carousel-caption"> 欢迎来到异清轩技术博客，在这里可以看到网站前端和后端的技术等 </div>
-            <span class="carousel-bg"></span> </div>
-          <div class="item"> <a href="main/content.html" target="_blank"><img src="../images/img3.jpg" alt="" /></a>
-            <div class="carousel-caption"> 欢迎来到异清轩技术博客，在这里可以看到网站前端和后端的技术等 </div>
-            <span class="carousel-bg"></span> </div>
+        <div class="carousel-inner" role="listbox" id="SlideShowId">
+
         </div>
         <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev"> <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> <span class="sr-only">Previous</span> </a> <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next"> <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span> <span class="sr-only">Next</span> </a> </div>
       <!--/banner-->
@@ -392,6 +384,8 @@ $(function (){
   HotBlogs();
     //加载每周推荐
   WeekHotBlogs();
+    //加载轮播图
+  slideshow();
   //加载最新文章
   queryBlogsNews();
 })
@@ -402,7 +396,13 @@ function HotBlogs(){
     success:function(data){
         var li = "";
         for (var i = 0 ; i <data.length ; i++){
-          li+='<li><a target="_blank" href="'+data[i].url+'"> <span class="thumb"><img src="'+data[i].blogs_img+'" alt="暂时无法显示该图片"></span> <span class="text">'+data[i].blogs_title+'</span> <span class="text-muted" >阅读'+data[i].blogs_look+'</span></a></li>';
+          var Btitle = "";
+          if(data[i].blogs_title.length>=10){
+            Btitle = data[i].blogs_title.substring(0,9)+"...";
+          }else{
+            Btitle = data[i].blogs_title;
+          }
+          li+='<li><a target="_blank" href="'+data[i].url+'"> <span class="thumb"><img src="../images/'+data[i].blogs_img+'" alt="暂时无法显示该图片"></span> <span class="text">'+Btitle+'</span> <span class="text-muted" >阅读'+data[i].blogs_look+'</span></a></li>';
         }
       $("#HotBlogs").html(li);
     },
@@ -429,6 +429,24 @@ function WeekHotBlogs(){
       },
     error:function(){
       alert("每周热门出错")
+    }
+  })
+}
+function slideshow(){
+  $.ajax({
+    url:"../blogs/slideshow",
+    type:"post",
+    success:function(data){
+      var one = "";
+      one = '<div class="item active"> <a href="'+data[0].slideshow_url+'" target="_blank"><img src="../images/'+data[0].slideshow_img+'" height="293px" width="293px" alt="" /></a><div class="carousel-caption">'+data[0].slideshow_title+'</div><span class="carousel-bg"></span>   </div>';
+      var dv = "";
+      for (var i = 1 ; i < data.length ; i ++){
+        one+='<div class="item"> <a href="'+data[i].slideshow_url+'" target="_blank"><img  src="../images/'+data[i].slideshow_img+'" alt="" /></a><div class="carousel-caption">'+data[i].slideshow_title+'</div><span class="carousel-bg"></span> </div>';
+      }
+      $("#SlideShowId").html(one);
+    },
+    error:function(){
+      alert("轮播图出错")
     }
   })
 }

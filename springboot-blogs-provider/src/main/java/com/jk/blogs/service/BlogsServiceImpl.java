@@ -5,6 +5,7 @@ import com.alibaba.dubbo.config.annotation.Service;
 import com.jk.HttpClient.HttpClient;
 import com.jk.blogs.mapper.BlogsMapper;
 import com.jk.blogs.model.Blogs;
+import com.jk.blogs.model.SlideShow;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Map;
@@ -32,6 +33,12 @@ public class BlogsServiceImpl implements BlogsService{
     @Override
     public List<Blogs> WeekHotBlogs() {
         List<Blogs> list = blogsMapper.WeekHotBlogs();
+        return list;
+    }
+
+    @Override
+    public List<SlideShow> slideShow() {
+        List<SlideShow> list = blogsMapper.slideShow();
         return list;
     }
 

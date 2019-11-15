@@ -13,6 +13,10 @@
         LIMIT 0,5
     </select>
 
+    <select id="slideShow" resultType="com.jk.blogs.model.SlideShow">
+        SELECT * from t_slideShow
+    </select>
+
     <select id="querysum" resultType="int">
   	select count(*) from  t_blogs a
 
