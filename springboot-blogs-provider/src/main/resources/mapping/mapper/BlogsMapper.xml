@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.jk.blogs.mapper.BlogsMapper" >
-
+    <select id="HotBlogs" resultType="com.jk.blogs.model.Blogs">
+        SELECT * from t_blogs b ORDER BY b.blogs_look DESC LIMIT 0,5
+    </select>
 </mapper>
