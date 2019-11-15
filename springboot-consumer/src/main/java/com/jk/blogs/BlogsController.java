@@ -33,4 +33,10 @@ public class BlogsController {
        List<Blogs> list =  blogsService.HotBlogs();
        return list;
     }
+    @RequestMapping("queryBlogsNews")
+    @ResponseBody
+    public List<Blogs> queryBlogsNews(){
+       List<Blogs> list =  blogsService.queryBlogsNews();
+       return list;
+    }
 }
