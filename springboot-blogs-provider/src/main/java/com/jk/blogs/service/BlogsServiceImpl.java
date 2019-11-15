@@ -15,6 +15,7 @@ public class BlogsServiceImpl implements BlogsService{
     @Autowired
     private BlogsMapper blogsMapper;
 
+    @Override
     public List<Blogs> HotBlogs(){
         List<Blogs> list = blogsMapper.HotBlogs();
         return list;
