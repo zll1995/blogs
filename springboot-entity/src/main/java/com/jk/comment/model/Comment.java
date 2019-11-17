@@ -23,6 +23,8 @@ public class Comment implements Serializable {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date        creatTime;      //评论时间
 
+    private String      dateTime;       //临时字段，转格式
+    private String      blogs_url;       //对应博客连接
     public Integer getCommentId() {
         return commentId;
     }
