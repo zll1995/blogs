@@ -109,6 +109,7 @@ public class BlogsController {
        List<Blogs> list =  blogsService.queryBlogsNews();
        return list;
     }
+    //最新评论
     @RequestMapping("NewComment")
     @ResponseBody
     public List<Comment> NewComment(){
