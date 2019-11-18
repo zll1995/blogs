@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- 表格 -->
+    <link rel="stylesheet" href="../js/bootstrap-table/bootstrap-table.css">
+    <script src="../js/bootstrap-table/bootstrap-table.js"></script>
+    <script src="../js/bootstrap-table/locale/bootstrap-table-zh-CN.js"></script>
+</head>
+<body>
+    <div class="row">
+        <div class="col-md-9">
+            <input type="text" class="form-control" id="SearchPageContentId" placeholder="请输入搜索关键字">
+        </div>
+        <div class="col-md-3">
+            <button type="submit" class="btn btn-primary" onclick="searchBlogs()">搜索</button>
+        </div>
+        </div>
+    </div>
+    <hr>
+<table class="table" id="myTable"></table>
+    <script>
+$(function (){
+    var t= $("#SearchContentId").val();
+    $("#SearchPageContentId").val(t);
+    initBlogsList();
+})
+function initBlogsList() {
+    var t = $("#SearchPageContentId").val();
+    $('#myTable').bootstrapTable({
+        url: "../blogs/SolrBlogs",
+        pagination: true,
+        sidePagination: 'server',//分页方式：client客户端分页，server服务端分页
+        pageList: [2, 5, 10, 15],
+        pageNumber: 1,
+        pageSize: 5,
+        columns: [
+            [
+             {field:'title',align:'center',width:50,
+                 formatter:function(value,row,index){
+                     var dv = "";
+                     dv='<div class="news-list">\n' +
+                         '<div class="news-img col-xs-5 col-sm-5 col-md-4"> <a target="_blank" href="../page/'+row.url+'"><img src="../images/'+row.img+'" alt=""> </a> </div>\n' +
+                         '<div class="news-info col-xs-7 col-sm-7 col-md-8">\n' +
+                         '<dl>\n' +
+                         '<dt> <a href="" target="_blank" > '+row.title+' </a> </dt>\n' +
+                         '<dd><span class="name"><a href="" title="由 '+row.nickname+' 发布" rel="author">'+row.nickname+'</a></span> <span class="identity"></span> <span class="time"> '+row.time+' </span></dd>\n' +
+                         '<dd class="text">'+row.content+'</dd>\n' +
+                         '</dl>\n' +
+                         '<div class="news_bot col-sm-7 col-md-8"> <span class="tags visible-lg visible-md"> <a href="">本站</a> <a href="">异清轩</a> </span> <span class="look"> 共 <strong>'+row.look+'</strong> 人围观，发现 <strong> 2 </strong> 个不明物体 </span> </div>\n' +
+                         '</div>\n' +
+                         '</div>';
+                     return dv;
+                 }
+             },
+        ]
+        ],
+        queryParams:function(params){
+            return {
+                page:this.pageNumber,
+                rows:this.pageSize,
+                SearchContent:t
+            }
+        }
+    })
+}
+function searchBlogs(){
+    $("#myTable").bootstrapTable("refresh", {
+        query:{
+            SearchContent:$("#SearchPageContentId").val()
+        }
+    });
+}
+</script>
+</body>
+</html>

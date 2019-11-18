@@ -146,17 +146,18 @@ window.onload = function() {
   </div>
   <!--/内容-->
   <aside class="sidebar visible-lg"><!--右侧>992px显示-->
-    <div class="sentence" style="height: 100px"> <strong>每日一句</strong>
+    <div class="sentence" style="height: 110px"> <strong>每日一句</strong>
       <h2 id="DailySentenceDateId"></h2>
       <p id="DailySentenceNoteId"></p>
     </div>
     <div id="search" class="sidebar-block search" role="search">
       <h2 class="title"><strong>搜索</strong></h2>
-      <form class="navbar-form" action="search.php" method="post">
+      <form class="navbar-form" action="javascript:searchBlogs()" method="post">
         <div class="input-group">
-          <input type="text" class="form-control" size="35" placeholder="请输入关键字">
+          <input type="hidden" id="SearchTextId">
+          <input type="text" class="form-control" size="35" id="SearchContentId" placeholder="请输入关键字">
           <span class="input-group-btn">
-          <button class="btn btn-default btn-search" type="submit">搜索</button>
+          <button class="btn btn-default btn-search" type="button" onclick="SetTextFunction()">搜索</button>
           </span>
         </div>
       </form>
@@ -393,7 +394,7 @@ function HotBlogs(){
           }else{
             Btitle = data[i].blogs_title;
           }
-          li+='<li><a target="_blank" href="'+data[i].url+'"> <span class="thumb"><img src="../images/'+data[i].blogs_img+'" alt="暂时无法显示该图片"></span> <span class="text">'+Btitle+'</span> <span class="text-muted" >阅读'+data[i].blogs_look+'</span></a></li>';
+          li+='<li><a target="_blank" href="'+data[i].blogs_url+'"> <span class="thumb"><img src="../images/'+data[i].blogs_img+'" alt="暂时无法显示该图片"></span> <span class="text">'+Btitle+'</span> <span class="text-muted" >阅读'+data[i].blogs_look+'</span></a></li>';
         }
       $("#HotBlogs").html(li);
     },
@@ -407,7 +408,7 @@ function WeekHotBlogs(){
     url:"../blogs/WeekHotBlogs",
     type:"post",
     success:function(data){
-      var li0 = '<a href="'+data[0].blogs_url+'" target="_blank"><img src="../images/'+data[0].blogs_img+'" alt=""><h3>'+data[0].blogs_title+'</h3></a>';
+      var li0 = '<a href="'+data[0].blogs_url+'" target="_blank"><img src="../images/'+data[0].blogs_img+'" alt="暂时无法显示"><h3>'+data[0].blogs_title+'</h3></a>';
       $("#li0").html(li0);
       var li1 = '<a href="'+data[1].blogs_url+'" target="_blank"><img src="../images/'+data[1].blogs_img+'" alt="暂时无法显示"><h3>'+data[1].blogs_title+'</h3></a>';
       $("#li1").html(li1);
@@ -475,7 +476,7 @@ function NewComment(){
         success:function(data){
             var li = "";
             for (var i = 0 ; i < data.length ; i ++){
-                li+='<li data-toggle="tooltip" data-placement="top" title="'+data[i].userName+'的评论"><a target="_blank" href="'+data[i].blogs_url+'"><span class="face"><img src="../images/icon/icon.png" alt=""></span> <span class="text"><strong>'+data[i].userName+'</strong> ('+data[i].dateTime.substring(0,19)+') 说：<br />'+data[i].commentContent+'</span></a></li>';
+                li+='<li data-toggle="tooltip" data-placement="top" title="'+data[i].username+'的评论"><a target="_blank" href="'+data[i].blogs_url+'"><span class="face"><img src="../images/icon/icon.png" alt=""></span> <span class="text"><strong>'+data[i].username+'</strong> ('+data[i].dateTime.substring(0,19)+') 说：<br />'+data[i].commentContent+'</span></a></li>';
             }
             $("#NewCommentId").html(li);
         },
@@ -484,6 +485,29 @@ function NewComment(){
         }
     })
 }
+function SetTextFunction(){
+  var t = $("#SearchContentId").val();
+  $("#SearchTextId").val(t);
+  OpenSearchWindow();
+  $("#SearchContentId").val("");
+}
+function OpenSearchWindow(){
+  bootbox.dialog({
+    title:'搜索结果',
+    message:createAddContent("../page/ToSearchPage"),    //需要载入的页面可以?传参
+    closeButton: true,
+    buttons: {
+      "cancel": {
+        "label": "<i class='icon-info'></i>关闭",
+        "className": "btn btn-warning",
+        "callback":function(){
+
+        }
+      }
+    }
+  })
+}
+
 </script>
 </body>
 </html>

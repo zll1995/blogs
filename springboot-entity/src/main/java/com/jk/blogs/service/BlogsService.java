@@ -30,4 +30,6 @@ public interface BlogsService {
     List<Blogs> queryBlogsNews();
 
     List<Comment> NewComment();
+
+    Map<String, Object> SolrBlogs(String searchContent,Integer page,Integer rows);
 }
