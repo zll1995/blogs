@@ -133,10 +133,6 @@ window.onload = function() {
         <div class="row" id="row">
         </div>
         </div>
-        <!--<div class="news-more" id="pagination">
-        	<a href="">查看更多</a>
-        </div>-->
-
 <!--
       <div class="quotes" style="margin-top:15px"><span class="disabled">首页</span><span class="disabled">上一页</span><span class="current">1</span><a href="">2</a><a href="">下一页</a><a href="">尾页</a></div>
 -->
@@ -146,7 +142,7 @@ window.onload = function() {
   </div>
   <!--/内容-->
   <aside class="sidebar visible-lg"><!--右侧>992px显示-->
-    <div class="sentence" style="height: 100px"> <strong>每日一句</strong>
+    <div class="sentence" style="height: 110px"> <strong>每日一句</strong>
       <h2 id="DailySentenceDateId"></h2>
       <p id="DailySentenceNoteId"></p>
     </div>
@@ -341,28 +337,7 @@ function openDialog() {
       }
     }
   })
-  // 回显
-  /*$.ajax({
-    url: "<%=path%>/queryUserById.do",
-    type: "post",
-    data: {"id": id},
-    dataType: "json",
-    success: function(data){
-      $("#id").val(data.id);
-      $("[name='account']").val(data.account);
-      $("[name='nickname']").val(data.nickname);
-      $("[name='realname']").val(data.realname);
-      if(data.gender == 1){
-        $("[name='gender']").eq(0).attr("checked", true);
-      } else {
-        $("[name='gender']").eq(1).attr("checked", true);
-      }
-      $("[name='birthday']").val(data.birthday);
-      $("#deptId2").val(data.deptId);
-      $("#testimg").val(data.userImg);
-      editFileInput(data.userImg);
-    }
-  })*/
+
 }
 
 //每日一句
