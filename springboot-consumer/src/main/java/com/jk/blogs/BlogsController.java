@@ -116,4 +116,10 @@ public class BlogsController {
         List<Comment> list =blogsService.NewComment();
         return list;
     }
+    @RequestMapping("SolrBlogs")
+    @ResponseBody
+    public Map<String,Object> SolrBlogs(String SearchContent,Integer page,Integer rows){
+        Map<String, Object> stringObjectMap = blogsService.SolrBlogs(SearchContent, page, rows);
+        return stringObjectMap;
+    }
 }

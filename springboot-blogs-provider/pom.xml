@@ -39,6 +39,12 @@
             <classifier>jdk15</classifier>
         </dependency>
         <!-- JSON结束 -->
+        <!-- solr搜索 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-solr</artifactId>
+        </dependency>
+        <!-- solr结束 -->
         <dependency>
             <groupId>com.jk</groupId>
             <artifactId>springboot-entity</artifactId>
