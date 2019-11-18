@@ -7,7 +7,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 @MapperScan("com.jk.*.mapper")
 public class SpringbootUserProviderApplication {
-
     public static void main(String[] args) {
         SpringApplication.run(SpringbootUserProviderApplication.class, args);
     }

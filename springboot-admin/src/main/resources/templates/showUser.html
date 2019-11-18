@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="../js/jquery-1.9.1.min.js"></script>
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="../js/bootstrap3/css/bootstrap.css"/>
+    <script type="text/javascript" src="../js/bootstrap3/js/bootstrap.js"></script>
+    <!-- bootstrap 表格 -->
+    <link rel="stylesheet" href="../js/bootstrap-table/bootstrap-table.css" />
+    <script src="../js/bootstrap-table/bootstrap-table.js"></script>
+    <script src="../js/bootstrap-table/locale/bootstrap-table-zh-CN.js"></script>
+    <!-- bootstrap treeview -->
+    <link rel="stylesheet" href="../js/bootstrap-treeview/bootstrap-treeview.min.css" />
+    <script src="../js/bootstrap-treeview/bootstrap-treeview.min.js"></script>
+    <!-- bootstrap 选项卡 -->
+    <link rel="stylesheet" href="../js/bootStrap-addTabs/bootstrap.addtabs.css">
+    <script src="../js/bootStrap-addTabs/bootstrap.addtabs.min.js"></script>
+    <!-- bootstrap日期插件 -->
+    <script src="../js/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js"></script>
+    <script src="../js/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+    <link rel="stylesheet" href="../js/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css">
+    <!-- bootstrap 弹框 -->
+    <script src="../js/bootstrap-bootbox/bootbox.js"></script>
+    <!-- bootstrap上传插件 -->
+    <script src="../js/bootstrap-fileinput/js/fileinput.js"></script>
+    <script src="../js/bootstrap-fileinput/js/locales/zh.js"></script>
+    <link rel="stylesheet" href="../js/bootstrap-fileinput/css/fileinput.css">
+</head>
+<body>
+
+<table class="table" id="myTable"></table>
+
+<script>
+
+    $(function () {
+        queryUser();
+    })
+    function queryUser(){
+        $('#myTable').bootstrapTable({
+            url:'../user/queryUserList',//获取数据地址     
+            pagination:true, //是否展示分页    
+            pageList:[5,10,15,20,25],//分页组件    
+            pageNumber:1,
+            pageSize:5,//默认每页条数  
+            search:true,//是否显示搜索框
+            showColumns:false,//是否显示 内容列下拉框    
+            showToggle:false,//是否显示 切换试图（table/card）按钮    
+            showPaginationSwitch:false,//是否显示 数据条数选择框    
+            showRefresh:false,//是否显示刷新按钮    
+            detailView:false,//设置为 true 可以显示详细页面模式。    
+            showFooter:false,//是否显示列脚
+            clickToSelect: true, //是否启用点击选中行    
+            sidePagination:'client',//分页方式：client客户端分页，server服务端分页   
+            striped:true,
+            columns:[
+                {checkbox:true},
+                {field:'userId',title:'ID',align:'center',width:100},
+                {field:'username',title:'账号',align:'center',width:150},
+                {field:'name',title:'昵称',align:'center',width:150},
+                {field:'phone',title:'手机号',align:'center',width:150},
+                {field:'userSex',title:'性别',align:'center',width:100,
+                    formatter:function(value){
+                        if (value==1){
+                            return '男';
+                        }else if(value==2){
+                            return '女';
+                        }else{
+                            return '保密';
+                        }
+                    }
+                },
+                {field:'userImg',title:'头像',formatter:function(value,row,index){
+                        return '<img width="100px" src="'+value+'"/>'
+                    }},
+                {field:'birthday',title:'生日',width:150}
+            ]
+        });
+    }
+    //日期插件
+    $('.date').datetimepicker({
+        language: 'zh-CN',//显示中文
+//		  format: 'yyyy-mm-dd hh:ii:ss',//显示格式
+        format: 'yyyy-mm-dd',//显示格式
+        minView: "month",//设置只显示到月份
+        initialDate: new Date(),//初始化当前日期
+        autoclose: true,//选中自动关闭
+        todayBtn: true//显示今日按钮
+    });
+</script>
+</body>
+</html>
