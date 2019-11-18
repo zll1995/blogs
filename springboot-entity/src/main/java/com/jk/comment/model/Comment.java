@@ -15,7 +15,7 @@ public class Comment implements Serializable {
     private Integer     blogs_id;       //被评论博客Id
 
     private Integer     userId;         //用户Id
-    private String      userName;       //用户名称
+    private String      username;       //用户名称
     private String      headImg;        //用户Id头像
 
     private String      commentContent; //评论内容
@@ -23,6 +23,8 @@ public class Comment implements Serializable {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date        creatTime;      //评论时间
 
+    private String      dateTime;       //临时字段，转格式
+    private String      blogs_url;       //对应博客连接
     public Integer getCommentId() {
         return commentId;
     }
@@ -47,12 +49,12 @@ public class Comment implements Serializable {
         this.userId = userId;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getHeadImg() {
@@ -94,7 +96,7 @@ public class Comment implements Serializable {
                 "commentId=" + commentId +
                 ", blogs_id=" + blogs_id +
                 ", userId=" + userId +
-                ", userName='" + userName + '\'' +
+                ", username='" + username + '\'' +
                 ", headImg='" + headImg + '\'' +
                 ", commentContent='" + commentContent + '\'' +
                 ", preseCount=" + preseCount +
