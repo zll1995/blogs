@@ -26,6 +26,7 @@ public class BlogsServiceImpl implements BlogsService{
 
     @Override
     public Map<String, Object> DailySentence() {
+
         return HttpClient.DailySentence();
     }
 }

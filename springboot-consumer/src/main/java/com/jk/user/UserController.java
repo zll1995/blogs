@@ -9,7 +9,4 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class UserController {
     @Reference(version = "1.0")
     private UserService userService;
-
-
-
 }
