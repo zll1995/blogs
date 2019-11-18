@@ -4,10 +4,20 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <!--bootstrap图片上传-->
+    <script src="../js/bootstrap-fileinput/js/fileinput.js"></script>
+    <script src="../js/bootstrap-fileinput/js/locales/zh.js"></script>
+    <link rel="stylesheet" href="../js/bootstrap-fileinput/css/fileinput.css">
 </head>
 <body>
 <form id="editUserForm" class="form-horizontal">
     <input type="hidden" name="userId" id="userId" />
+    <div class="form-group">
+        <label for="name" class="col-sm-2 control-label">昵称</label>
+        <div class="col-sm-8">
+            <input type="text" class="form-control" id="name" name="name" placeholder="昵称" style="width: 350px">
+        </div>
+    </div>
     <div class="form-group">
         <label for="userName" class="col-sm-2 control-label">博客账号</label>
         <div class="col-sm-8">
@@ -35,21 +45,57 @@
             <a>充值积分</a>
         </div>
     </div>
-    <div class="btn-group" role="group" aria-label="...">
-        <button type="button" class="btn btn-default">1</button>
-        <button type="button" class="btn btn-default">2</button>
-
-        <div class="btn-group" role="group">
-            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Dropdown
-                <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu">
-                <li><a href="#">Dropdown link</a></li>
-                <li><a href="#">Dropdown link</a></li>
-            </ul>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">头像</label>
+        <div class="col-sm-10" style="width: 500px">
+            <input type="file" class="projectfile" accept="image/*" id="headImgId" name="file" >
+            <input type="text" id="headImg" name="headImg">
         </div>
     </div>
 </form>
+
+
+<script>
+    // 修改回显图片使用，不能用于新增
+    function editFileInput(url){
+        $('#headImgId').fileinput({
+            initialPreview:url,//回显地址url
+            initialPreviewConfig: [
+                {key: 1, showDelete: false}
+            ],
+            initialPreviewAsData: true,
+            language: 'zh', //设置语言
+            uploadUrl: '', //上传的地址
+            allowedFileExtensions: ['jpg', 'gif', 'png'],//接收的文件后缀
+            showUpload: true, //是否显示上传按钮
+            showCaption: false,//是否显示标题
+            browseClass: "btn btn-primary", //按钮样式
+            //dropZoneEnabled: false,//是否显示拖拽区域
+            //minImageWidth: 50, //图片的最小宽度
+            //minImageHeight: 50,//图片的最小高度
+            //maxImageWidth: 1000,//图片的最大宽度
+            //maxImageHeight: 1000,//图片的最大高度
+            //maxFileSize: 0,//单位为kb，如果为0表示不限制文件大小
+            //minFileCount: 0,
+            maxFileCount: 2, //表示允许同时上传的最大文件个数
+            enctype: 'multipart/form-data',
+            validateInitialCount:true,
+            previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
+            msgFilesTooMany: "选择上传的文件数量({n}) 超过允许的最大数值{m}！",
+
+        }).on('fileuploaded', function(event, data, previewId, index) {
+            var imgval = ""; //$('#testimg').val();
+            if(imgval == null || imgval == "" || imgval == undefined){
+//	 				console.log(data.response.img);
+                imgval = "http://<%= request.getServerName()%>:<%=request.getServerPort()%><%=request.getContextPath()%>/"+data.response;
+            }else{
+                //imgval += ","+"http://<%= request.getServerName()%>:<%=request.getServerPort()%><%=request.getContextPath()%>/"+data.response;
+                imgval = "http://<%= request.getServerName()%>:<%=request.getServerPort()%><%=request.getContextPath()%>/"+data.response;
+            }
+
+            $('#headImg').val(imgval);
+        });
+    }
+</script>
 </body>
 </html>

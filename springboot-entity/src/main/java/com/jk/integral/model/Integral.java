@@ -12,7 +12,15 @@ public class Integral implements Serializable {
 
     private Integer amount;             //积分数量
 
+    private Integer integralStatus;     //积分状态(0:正常,1:禁用)
+
     private Integer integralUserId;     //用户id
 
     private String  integralUserName;   //用户名
+
+    private String  integralPhone;       //用户手机号
+
+    private Integer startAmount;        //最小积分数
+
+    private Integer endAmount;          //最大积分数
 }
