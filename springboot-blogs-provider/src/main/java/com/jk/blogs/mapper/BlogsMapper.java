@@ -2,6 +2,7 @@ package com.jk.blogs.mapper;
 
 import com.jk.blogs.model.Blogs;
 import com.jk.blogs.model.SlideShow;
+import com.jk.comment.model.Comment;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -28,4 +29,6 @@ public interface BlogsMapper {
     List<Blogs> queryzhanghui(@Param("z") Blogs z, @Param("sta")int start, @Param("end")int rows);
 
     List<Blogs> queryBlogsNews();
+
+    List<Comment> NewComment();
 }

@@ -2,6 +2,7 @@ package com.jk.blogs.service;
 
 import com.jk.blogs.model.Blogs;
 import com.jk.blogs.model.SlideShow;
+import com.jk.comment.model.Comment;
 
 import java.util.List;
 
@@ -27,4 +28,6 @@ public interface BlogsService {
     Map<String, Object> queryzhanghui(Blogs z, int page, int rows);
 
     List<Blogs> queryBlogsNews();
+
+    List<Comment> NewComment();
 }

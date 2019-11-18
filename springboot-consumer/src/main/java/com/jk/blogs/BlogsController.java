@@ -4,6 +4,7 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.jk.blogs.model.Blogs;
 import com.jk.blogs.model.SlideShow;
 import com.jk.blogs.service.BlogsService;
+import com.jk.comment.model.Comment;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -107,5 +108,12 @@ public class BlogsController {
     public List<Blogs> queryBlogsNews(){
        List<Blogs> list =  blogsService.queryBlogsNews();
        return list;
+    }
+    //最新评论
+    @RequestMapping("NewComment")
+    @ResponseBody
+    public List<Comment> NewComment(){
+        List<Comment> list =blogsService.NewComment();
+        return list;
     }
 }
