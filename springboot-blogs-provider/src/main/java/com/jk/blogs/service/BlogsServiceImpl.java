@@ -6,6 +6,7 @@ import com.jk.HttpClient.HttpClient;
 import com.jk.blogs.mapper.BlogsMapper;
 import com.jk.blogs.model.Blogs;
 import com.jk.blogs.model.SlideShow;
+import com.jk.comment.model.Comment;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Map;
@@ -27,6 +28,7 @@ public class BlogsServiceImpl implements BlogsService{
 
     @Override
     public Map<String, Object> DailySentence() {
+
         return HttpClient.DailySentence();
     }
 
@@ -84,5 +86,10 @@ public class BlogsServiceImpl implements BlogsService{
     @Override
     public List<Blogs> queryBlogsNews() {
         return blogsMapper.queryBlogsNews();
+    }
+
+    @Override
+    public List<Comment> NewComment() {
+        return blogsMapper.NewComment();
     }
 }

@@ -32,7 +32,7 @@
                 <img src="../boot/images/img-01.png" alt="IMG">
             </div>
 
-            <form class="login100-form validate-form" id="loginForm" method="post" action="../login">
+            <form class="login100-form validate-form" action="../login" method="post" >
 					<span class="login100-form-title">
 						异清轩博客
 					</span>
@@ -54,8 +54,8 @@
                 </div>
 
                 <div class="container-login100-form-btn">
-                    <button type="button"  class="login100-form-btn" onclick="login()">
-                        Login
+                    <button type="submit"  class="login100-form-btn" >
+                    Login
                     </button>
                 </div>
 
@@ -64,7 +64,7 @@
 							忘记
 						</span>
                     <a class="txt2" href="#">
-                         密码?
+                        密码?
                     </a>
                 </div>
 
@@ -95,34 +95,8 @@
     })
 </script>
 <!--===============================================================================================-->
-<script src="../js/main.js"></script>
-<script>
+<script ></script>
 
-    function login() {
-        var form = $("#loginForm").serialize();
-        $.ajax({
-            url: "../user/login",
-            type: "post",
-            data: form,
-            success: function (data) {
-
-                if (data == "success") {
-                    location.href = "../toMain"
-                } else if (data == "userError") {
-                    alert("账号不存在！");
-                } else if (data == "pwError") {
-                    alert("密码错误！");
-                }
-
-            }
-
-        })
-    }
-
-
-
-
-</script>
 </body>
 </html>
 

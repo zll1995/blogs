@@ -13,6 +13,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ *
+ */
 @Controller
 public class CommentController {
     @Reference(version = "1.0")
@@ -33,12 +36,15 @@ public class CommentController {
             commentService.addComment(comment);
 
             readdCommentmap.put("flag","评论成功");
+            readdCommentmap.put("status","success");
             return readdCommentmap;
         }catch (Exception e){
             e.printStackTrace();
+            readdCommentmap.put("flag","评论失败");
+            readdCommentmap.put("status","false");
+            return readdCommentmap;
         }
-        readdCommentmap.put("flag","评论失败");
-        return readdCommentmap;
+
     }
 
     /**
@@ -57,12 +63,15 @@ public class CommentController {
             commentService.addReply(reply);
 
             readdReplymap.put("flag","回复成功");
+            readdReplymap.put("status","success");
             return readdReplymap;
         }catch (Exception e){
             e.printStackTrace();
+            readdReplymap.put("flag","回复失败");
+            readdReplymap.put("status","false");
+            return readdReplymap;
         }
-        readdReplymap.put("flag","回复失败");
-        return readdReplymap;
+
     }
 
     /**

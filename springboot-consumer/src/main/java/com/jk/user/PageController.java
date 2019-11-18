@@ -1,5 +1,6 @@
 package com.jk.user;
 
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -43,4 +44,11 @@ public class PageController {
     public String toEditInfo(){
         return "editUser";
     }
+
+    //跳转403页面
+    @RequestMapping("noLogin")
+    public String noLogin(){
+        return "403";
+    }
+
 }
