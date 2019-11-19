@@ -22,7 +22,6 @@ public class UserServiceImpl implements UserService{
     /*
     * 登录根据用户名查看用户是否存在
     * */
-    @Override
     public User queryUserByName(String username) {
         return userMapper.queryUserByName(username);
     }

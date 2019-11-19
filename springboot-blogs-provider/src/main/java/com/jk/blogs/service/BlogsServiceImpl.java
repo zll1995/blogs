@@ -15,10 +15,8 @@ import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.HashMap;
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 
 @Service(version = "1.0")
@@ -145,6 +143,7 @@ public class BlogsServiceImpl implements BlogsService{
             //获取高亮显示的结果, 高亮显示的结果和查询结果是分开放的
             Map<String, Map<String, List<String>>> highlight = queryResponse.getHighlighting();
             List<SolrShow> list = new ArrayList<SolrShow>();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             for (SolrDocument result : results){
                 SolrShow ss = new  SolrShow();
                 String highFile="";
@@ -159,7 +158,8 @@ public class BlogsServiceImpl implements BlogsService{
                 ss.setTitle(highFile);
                 ss.setContent(result.get("content").toString());
                 ss.setNickname(result.get("nickname").toString());
-                ss.setTime(result.get("time").toString());
+                Date time = sdf.parse(result.get("time").toString());
+                ss.setTime(sdf.format(time));
                 ss.setLook(Integer.parseInt(result.get("look").toString()));
                 ss.setUrl(result.get("url").toString());
                 ss.setImg(result.get("img").toString());
