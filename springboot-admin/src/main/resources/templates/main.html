@@ -25,9 +25,9 @@
     <font  size="7"><shiro:principal property="userName" /></font>
     <a href="../logout" class="btn btn-info ">注销</a><br>
 </div>
-<div style="margin-top:0;margin-left:800px;height:100px">
-    <marquee width="1000" onMouseOver="this.stop()" onMouseOut="this.start()" behavior="scroll" scrollamount="10">
-        <font size="4" color="#1e90ff">今日天气：<span id="type"></span>，最<span id="high"></span>，最<span id="low"></span>。温馨提示：<span id="notice"></span></font>
+<div style="margin-top:0;margin-left:1100px;height:100px">
+    <marquee width="300" onMouseOver="this.stop()" onMouseOut="this.start()" behavior="scroll" scrollamount="10">
+        <font size="4" id="Showweather" color="#1e90ff"></font>
     </marquee>
 </div>
 <div class="container-fluid" style="margin-top: 30px;">
@@ -59,6 +59,7 @@
 
     $(function(){
         initTree();
+        weather();
     })
     function initTree(){
         $.ajax({
@@ -80,6 +81,19 @@
             }
         })
     }
-
+function weather() {
+    $.ajax({
+        url:"../user/weather",
+        type:"post",
+        dataType:"json",
+        success:function(data){
+            var weather = data.today+'    '+data.city+'当前天气：<span id="type">'+data.weather+'</span>，温度：<span id="temp">'+data.temp+'</span>，'+data.wd+data.wdforce+',湿度：<span id="humidity">'+data.humidity+'</span>';
+        $("#Showweather").html(weather);
+            },
+        error:function(){
+            alert("tianqi")
+        }
+    })
+}
 </script>
 </html>
