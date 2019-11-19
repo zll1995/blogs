@@ -158,7 +158,7 @@ public class BlogsServiceImpl implements BlogsService{
                 ss.setTitle(highFile);
                 ss.setContent(result.get("content").toString());
                 ss.setNickname(result.get("nickname").toString());
-                Date time = sdf.parse(result.get("time").toString());
+                Date time = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.US).parse(result.get("time").toString());
                 ss.setTime(sdf.format(time));
                 ss.setLook(Integer.parseInt(result.get("look").toString()));
                 ss.setUrl(result.get("url").toString());

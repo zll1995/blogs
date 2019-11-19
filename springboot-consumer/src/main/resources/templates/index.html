@@ -414,10 +414,10 @@ function slideshow(){
     type:"post",
     success:function(data){
       var one = "";
-      one = '<div class="item active"> <a href="'+data[0].slideshow_url+'" target="_blank"><img src="../images/'+data[0].slideshow_img+'" height="293px" width="293px" alt="" /></a><div class="carousel-caption">'+data[0].slideshow_title+'</div><span class="carousel-bg"></span>   </div>';
+      one = '<div class="item active"> <a href="'+data[0].slideshow_url+'" target="_blank"><img src="'+data[0].slideshow_img+'" height="293px" width="293px" alt="" /></a><div class="carousel-caption">'+data[0].slideshow_title+'</div><span class="carousel-bg"></span>   </div>';
       var dv = "";
       for (var i = 1 ; i < data.length ; i ++){
-        one+='<div class="item"> <a href="'+data[i].slideshow_url+'" target="_blank"><img  src="../images/'+data[i].slideshow_img+'" alt="" /></a><div class="carousel-caption">'+data[i].slideshow_title+'</div><span class="carousel-bg"></span> </div>';
+        one+='<div class="item"> <a href="'+data[i].slideshow_url+'" target="_blank"><img  src="'+data[i].slideshow_img+'" alt="" /></a><div class="carousel-caption">'+data[i].slideshow_title+'</div><span class="carousel-bg"></span> </div>';
       }
       $("#SlideShowId").html(one);
     },
