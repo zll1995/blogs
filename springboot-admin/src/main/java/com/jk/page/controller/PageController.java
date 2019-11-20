@@ -48,4 +48,9 @@ public class PageController {
     public String toTrade(){
         return "ShowTrade";
     }
+
+    @RequestMapping("toViewAnalysis")
+    public String toViewAnalysis(){
+        return "TradeView";
+    }
 }

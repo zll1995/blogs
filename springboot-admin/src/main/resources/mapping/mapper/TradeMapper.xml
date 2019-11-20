@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jk.trade.mapper.TradeMapper" >
+
+	<select id="queryTradeSum" parameterType="com.jk.trade.model.Trade" resultType="int">
+		select count(*) from t_trade
+		<where>
+			<if test="start_time != null and start_time != ''">
+				create_time &gt;= #{start_time}
+			</if>
+			<if test="end_time != null and end_time !=''">
+				create_time &lt;= #{end_time}
+			</if>
+		</where>
+	</select>
+
+	<select id="queryTrade" resultType="com.jk.trade.model.Trade">
+        select t.out_trade_no out_trade_no,trade_no trade_no,total_amount total_amount,
+        body body,user_id user_id,create_time create_time,buy_count buy_count,pt.pay_type_name pay_type_name,
+        u.username user_name
+        from t_trade t
+        LEFT JOIN t_pay_type pt ON t.pay_type = pt.pay_type_id
+        LEFT JOIN t_user6 u ON t.user_id = u.userId
+		<where>
+			<if test="trade.start_time != null and trade.start_time != ''">
+				t.create_time &gt;= #{trade.start_time}
+			</if>
+			<if test="trade.end_time != null and trade.end_time !=''">
+				t.create_time &lt;= #{trade.end_time}
+			</if>
+		</where>
+		LIMIT #{s},#{r}
+	</select>
+</mapper>
