@@ -21,4 +21,8 @@
         SET vip_endtime = date_add(DATE_FORMAT(vip_endtime,'%Y-%m-%d'),interval ${count} MONTH)
         where user_id = #{id}
     </update>
+
+    <delete id="deleteExpireVip">
+        delete from t_vip where vip_endtime &lt;= NOW()
+    </delete>
 </mapper>

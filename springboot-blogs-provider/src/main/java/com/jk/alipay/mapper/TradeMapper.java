@@ -19,4 +19,6 @@ public interface TradeMapper {
     void addVIP(@Param("id") Integer user_id,@Param("count") Integer buy_count);
 
     void updateVIPEndTime(@Param("id") Integer user_id,@Param("count") Integer buy_count);
+
+    void deleteExpireVip();
 }
