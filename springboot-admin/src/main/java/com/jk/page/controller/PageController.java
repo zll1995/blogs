@@ -23,4 +23,9 @@ public class PageController {
     public String toShowUser(){
         return "showUser";
     }
+
+    @RequestMapping("toTrade")
+    public String toTrade(){
+        return "ShowTrade";
+    }
 }

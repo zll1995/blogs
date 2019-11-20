@@ -3,7 +3,7 @@
 <mapper namespace="com.jk.alipay.mapper.TradeMapper" >
     <insert id="saveTrade" parameterType="com.jk.alipay.model.Trade">
         insert into t_trade(subject,out_trade_no,trade_no,total_amount,body,user_id,pay_type,create_time,buy_count)
-        values (#{subject},#{out_trade_no},#{trade_no},#{total_amount},#{body},#{user_id},#{pay_type},#{create_time},#{buy_count})
+        values (#{subject},#{out_trade_no},#{trade_no},#{total_amount},#{body},#{user_id},#{pay_type},sysdate(),#{buy_count})
     </insert>
 
     <select id="queryVIPById" resultType="int">
