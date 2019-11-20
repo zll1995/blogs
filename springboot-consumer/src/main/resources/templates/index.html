@@ -67,12 +67,6 @@ window.onload = function() {
 
 <body>
 <section class="container user-select">
-  <div  class="form-group" style="margin-top: 5px;margin-left:210px;width: 80%;height: 66px">
-    <div class="col-sm-2" style="float: left;margin-left:800px;line-height: 60px;width: 100px;">
-      <img src="../images/img1.jpg" alt="..." class="img-circle" style="width: 50px;height: 50px">
-      <span class="caret" style="margin-top: 25px"></span>
-    </div>
-  </div>
   <header>
     <div class="hidden-xs header" style="margin-top: 5px"><!--超小屏幕不显示-->
       <h1 class="logo"> <a href="../page/toMain" title="异清轩技术博客 - POWERED BY WY ALL RIGHTS RESERVED"></a> </h1>
@@ -83,6 +77,7 @@ window.onload = function() {
         </li>
         <li><a href="javaScript:openDialog()"><span class="glyphicon glyphicon-inbox"></span>个人资料</a></li>
         <li><a href=""><span class="glyphicon glyphicon-globe"></span>发表文章</a></li>
+        <li><a href="../page/toIntegralStore"><span class="glyphicon glyphicon-shopping-cart"></span>积分商城</a></li>
         <li><a href="main/about.html"><span class="glyphicon glyphicon-user"></span>关于我们</a></li>
         <li><a href="main/friendly.html"><span class="glyphicon glyphicon-tags"></span>友情链接</a></li>
       </ul>
@@ -100,6 +95,7 @@ window.onload = function() {
           <li><a href="../page/toLogin"><span class="glyphicon glyphicon-user"></span>登录</a></li>
           <li><a href="javaScript:openDialog()"><span class="glyphicon glyphicon-inbox">个人资料</span></a></li>
           <li><a href=""><span class="glyphicon glyphicon-globe"></span>发表文章</a></li>
+          <li><a href=""><span class="glyphicon glyphicon-shopping-cart"></span>积分商城</a></li>
           <li><a href="main/about.html"><span class="glyphicon glyphicon-user"></span>关于我们</a></li>
           <li><a href="main/friendly.html"><span class="glyphicon glyphicon-tags"></span>友情链接</a></li>
         </ul>
@@ -414,10 +410,10 @@ function slideshow(){
     type:"post",
     success:function(data){
       var one = "";
-      one = '<div class="item active"> <a href="'+data[0].slideshow_url+'" target="_blank"><img src="../images/'+data[0].slideshow_img+'" height="293px" width="293px" alt="" /></a><div class="carousel-caption">'+data[0].slideshow_title+'</div><span class="carousel-bg"></span>   </div>';
+      one = '<div class="item active"> <a href="'+data[0].slideshow_url+'" target="_blank"><img src="'+data[0].slideshow_img+'" height="293px" width="293px" alt="" /></a><div class="carousel-caption">'+data[0].slideshow_title+'</div><span class="carousel-bg"></span>   </div>';
       var dv = "";
       for (var i = 1 ; i < data.length ; i ++){
-        one+='<div class="item"> <a href="'+data[i].slideshow_url+'" target="_blank"><img  src="../images/'+data[i].slideshow_img+'" alt="" /></a><div class="carousel-caption">'+data[i].slideshow_title+'</div><span class="carousel-bg"></span> </div>';
+        one+='<div class="item"> <a href="'+data[i].slideshow_url+'" target="_blank"><img  src="'+data[i].slideshow_img+'" alt="" /></a><div class="carousel-caption">'+data[i].slideshow_title+'</div><span class="carousel-bg"></span> </div>';
       }
       $("#SlideShowId").html(one);
     },

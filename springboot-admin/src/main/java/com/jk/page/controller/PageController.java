@@ -23,4 +23,24 @@ public class PageController {
     public String toShowUser(){
         return "showUser";
     }
+
+    @RequestMapping("toShowIntegral")
+    public String toShowIntegral(){
+        return "showIntegral";
+    }
+
+    @RequestMapping("toShowStore")
+    public String toShowStore(){
+        return "showStore";
+    }
+
+    @RequestMapping("toEditStore")
+    public String toEditStore(){
+        return "editStore";
+    }
+
+    @RequestMapping("toAddStore")
+    public String toAddStore(){
+        return "addStore";
+    }
 }

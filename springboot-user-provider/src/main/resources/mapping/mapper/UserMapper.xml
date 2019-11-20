@@ -7,7 +7,7 @@
 	</select>
 
 
-    <select id="queryUserById" parameterType="int" resultType="com.jk.user.model">
+    <select id="queryUserById" parameterType="int" resultType="com.jk.user.model.User">
         select * from t_user6 where userId = #{userId}
     </select>
 </mapper>
