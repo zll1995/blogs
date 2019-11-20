@@ -2,70 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.jk.integral.mapper.IntegralMapper" >
 
-    <select id="querySum" resultType="int">
-        select count(*) from t_integral ti,t_user6 tu where ti.integralUserId = tu.userId
-        <include refid="searchIntegral"></include>
+    <select id="queryCar" resultType="com.jk.integral.model.Store">
+        select * from t_store where commType = 5
     </select>
 
-    <select id="queryIntegral" resultType="java.util.Map">
-        select ti.*,tu.userName as integralUserName,tu.phone as integralPhone from t_integral ti,t_user6 tu where ti.integralUserId = tu.userId
-        <include refid="searchIntegral"></include>
-        limit #{s},#{e}
+    <select id="queryBoutique" resultType="com.jk.integral.model.Store">
+        select * from t_store where commType = 1
     </select>
-    
-    <sql id="searchIntegral">
-        <if test="i.integralUserName!=null and i.integralUserName!=''">
-            and ti.integralUserName like '%${i.integralUserName}%'
-        </if>
-        <if test="i.startAmount!=null and i.startAmount!=''">
-            and ti.amount &gt;= #{i.startAmount}
-        </if>
-        <if test="i.endAmount!=null and i.endAmount!=''">
-            and ti.amount &lt;= #{i.endAmount}
-        </if>
-    </sql>
-
-    <select id="queryStoreSum" resultType="int">
-        select count(*) from t_store
-    </select>
-
-    <select id="queryStore" resultType="java.util.Map">
-        select * from t_store limit #{start},#{end}
-    </select>
-
-    <insert id="addStore" parameterType="com.jk.integral.model.Store">
-        insert into t_store(commName,commIntegral,commImg,commCount,issuer,commDate) values (#{commName},#{commIntegral},#{commImg},#{commCount},#{issuer},sysdate())
-    </insert>
-
-    <delete id="delStore" parameterType="int">
-        delete from t_store where commId = #{commId}
-    </delete>
-    
-    <select id="queryStoreById" resultType="com.jk.integral.model.Store">
-        select * from t_store where commId = #{commId}
-    </select>
-    
-    <update id="updStore" parameterType="com.jk.integral.model.Store">
-        update t_store
-        <set>
-            <if test="commName!=null and commName!=''">
-                commName = #{commName}
-            </if>
-            <if test="commIntegral!=null and commIntegral!=''">
-                commIntegral = #{commIntegral}
-            </if>
-            <if test="commImg!=null and commImg!=''">
-                commImg = #{commImg}
-            </if>
-            <if test="commCount!=null and commCount!=''">
-                commCount = #{commCount}
-            </if>
-        </set>
-    </update>
-
-    <update id="updIntegralStatus" parameterType="int">
-        update t_integral set integralStatus = #{f} where integralUserId = #{userId}
-    </update>
 
     <select id="queryIntegralById" resultType="com.jk.integral.model.Integral">
         select * from t_integral where integralUserId = #{userId}

@@ -5,4 +5,6 @@ import com.jk.user.model.User;
 public interface UserService {
 
     User queryUserById(Integer userId);
+
+    User queryUserByName(String username);
 }

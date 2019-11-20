@@ -17,57 +17,6 @@ public class IntegralController {
     @Reference(version = "1.0")
     private IntegralService integraService;
 
-    //查询用户积分列表      -----段王峰
-    @RequestMapping("queryIntegral")
-    @ResponseBody
-    public Map<String,Object> queryIntegral(Integral integral,Integer page,Integer rows){
-
-        return integraService.queryIntegral(integral,page,rows);
-    }
-
-    //查询积分商城列表      -----段王峰
-    @RequestMapping("queryStore")
-    @ResponseBody
-    public Map<String,Object> queryStore(Store store,Integer page,Integer rows){
-
-        return integraService.queryStore(store,page,rows);
-    }
-
-    //添加积分商品信息      -----段王峰
-    @RequestMapping("addStore")
-    @ResponseBody
-    public void addStore(Store store){
-        integraService.addStore(store);
-    }
-
-    //删除积分商品信息      -----段王峰
-    @RequestMapping("delStore")
-    @ResponseBody
-    public void delStore(Integer commId){
-        integraService.delStore(commId);
-    }
-
-    //根据商品ID查询回显        -----段王峰
-    @RequestMapping("queryStoreById")
-    @ResponseBody
-    public Store queryStoreById(Integer commId){
-        return integraService.queryStoreById(commId);
-    }
-
-    //修改积分商品信息      -----段王峰
-    @RequestMapping("updStore")
-    @ResponseBody
-    public void updStore(Store store){
-        integraService.updStore(store);
-    }
-
-    //禁用用户积分/解除禁用状态     -----段王峰
-    @RequestMapping("updIntegralStatus")
-    @ResponseBody
-    public void updIntegralStatus(Integer integralUserId,Integer flag){
-        integraService.updIntegralStatus(integralUserId,flag);
-    }
-
     //查询用户剩余积分
     @RequestMapping("queryIntegralById")
     @ResponseBody
@@ -86,5 +35,21 @@ public class IntegralController {
             integraService.exchange(userId,commIntegral);
             return "success";
         }
+    }
+
+    //查询汽车周边商城      -----段王峰
+    @RequestMapping("queryCar")
+    @ResponseBody
+    public List<Store> queryCar(){
+
+        return integraService.queryCar();
+    }
+
+    //查询
+    @RequestMapping("queryBoutique")
+    @ResponseBody
+    public List<Store> queryBoutique(){
+
+        return integraService.queryBoutique();
     }
 }

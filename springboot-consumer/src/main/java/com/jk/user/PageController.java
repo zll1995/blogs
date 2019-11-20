@@ -56,6 +56,12 @@ public class PageController {
         return "403";
     }
 
+    //跳转积分商城页面
+    @RequestMapping("toIntegralStore")
+    public String toIntegralStore(){
+        return "integralStore";
+    }
+
     //跳转会员充值页面
     @RequestMapping("toVip")
     public String toVip(){
