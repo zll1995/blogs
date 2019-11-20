@@ -56,4 +56,10 @@ public class PageController {
         return "403";
     }
 
+    //跳转会员充值页面
+    @RequestMapping("toVip")
+    public String toVip(){
+        return "ShowVip";
+    }
+
 }
