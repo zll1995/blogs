@@ -72,7 +72,7 @@
    </select>
 
     <select id="queryBlogsNews" resultType="com.jk.blogs.model.Blogs">
-        SELECT b.blogs_title,b.blogs_content,b.blogs_img,b.blogs_like,b.blogs_look,b.blogs_url,b.blogs_time,u.username AS blogs_username FROM
+        SELECT blogs_id,b.blogs_title,b.blogs_content,b.blogs_img,b.blogs_like,b.blogs_look,b.blogs_url,b.blogs_time,u.username AS blogs_username FROM
         t_blogs b,t_user6 u where b.blogs_userid=u.userId  ORDER BY b.blogs_time desc LIMIT 0,5
     </select>
 
@@ -84,5 +84,17 @@
         LEFT JOIN t_blogs b ON c.blogs_id = b.blogs_id
         ORDER BY c.creatTime DESC
         LIMIT 0,5
+    </select>
+    
+    <select id="queryBlogsById" resultType="com.jk.blogs.model.Blogs">
+        select blogs_id,blogs_title,blogs_content,blogs_time,blogs_userid,blogs_like,blogs_img,
+        blogs_look,blogs_url,blogs_status,u.named blogs_username
+        from t_blogs b
+        LEFT JOIN t_user6 u ON b.blogs_userid = u.userId
+        where blogs_id = #{id}
+    </select>
+
+    <select id="queryUserById" resultType="com.jk.user.model.User">
+        select  * from t_user6 where userId = #{id}
     </select>
 </mapper>

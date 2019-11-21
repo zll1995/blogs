@@ -3,6 +3,7 @@ package com.jk.blogs.service;
 import com.jk.blogs.model.Blogs;
 import com.jk.blogs.model.SlideShow;
 import com.jk.comment.model.Comment;
+import com.jk.user.model.User;
 
 import java.util.List;
 
@@ -32,4 +33,8 @@ public interface BlogsService {
     List<Comment> NewComment();
 
     Map<String, Object> SolrBlogs(String searchContent,Integer page,Integer rows);
+
+    Blogs queryBlogsById(String id);
+
+    User queryUserById(String id);
 }

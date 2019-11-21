@@ -8,6 +8,7 @@ import com.jk.blogs.model.Blogs;
 import com.jk.blogs.model.SlideShow;
 import com.jk.blogs.model.SolrShow;
 import com.jk.comment.model.Comment;
+import com.jk.user.model.User;
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.response.QueryResponse;
@@ -172,5 +173,16 @@ public class BlogsServiceImpl implements BlogsService{
             e.printStackTrace();
         }
         return null;
+    }
+
+    @Override
+    public Blogs queryBlogsById(String id) {
+        Blogs b = blogsMapper.queryBlogsById(id);
+        return b;
+    }
+
+    @Override
+    public User queryUserById(String id) {
+        return blogsMapper.queryUserById(id);
     }
 }

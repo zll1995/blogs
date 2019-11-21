@@ -5,6 +5,7 @@ import com.jk.blogs.model.Blogs;
 import com.jk.blogs.model.SlideShow;
 import com.jk.blogs.service.BlogsService;
 import com.jk.comment.model.Comment;
+import com.jk.user.model.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -116,10 +117,25 @@ public class BlogsController {
         List<Comment> list =blogsService.NewComment();
         return list;
     }
+    //博客搜索
     @RequestMapping("SolrBlogs")
     @ResponseBody
     public Map<String,Object> SolrBlogs(String SearchContent,Integer page,Integer rows){
         Map<String, Object> stringObjectMap = blogsService.SolrBlogs(SearchContent, page, rows);
         return stringObjectMap;
+    }
+    //按ID查询博客
+    @RequestMapping("queryBlogsById")
+    @ResponseBody
+    public Blogs queryBlogsById(String id){
+        Blogs b = blogsService.queryBlogsById(id);
+        return b;
+    }
+    //按ID查用户
+    @RequestMapping("queryUserById")
+    @ResponseBody
+    public User queryUserById(String id){
+        User u = blogsService.queryUserById(id);
+        return u;
     }
 }

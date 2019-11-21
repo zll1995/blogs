@@ -1,6 +1,7 @@
 package com.jk.user;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
@@ -68,4 +69,16 @@ public class PageController {
         return "ShowVip";
     }
 
+    //跳转展示博客页面
+    @RequestMapping("toShowInfoPage")
+    public String toShowInfoPage(String id, Model model){
+        model.addAttribute("id",id);
+            return "ShowBlogsPage";
+    }
+
+    //跳转展示用户信息页面
+    @RequestMapping("toShowUserInfo")
+    public String toShowUserInfo(String id){
+        return "ShowUserInfo";
+    }
 }

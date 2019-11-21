@@ -3,6 +3,7 @@ package com.jk.blogs.mapper;
 import com.jk.blogs.model.Blogs;
 import com.jk.blogs.model.SlideShow;
 import com.jk.comment.model.Comment;
+import com.jk.user.model.User;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -31,4 +32,8 @@ public interface BlogsMapper {
     List<Blogs> queryBlogsNews();
 
     List<Comment> NewComment();
+
+    Blogs queryBlogsById(String id);
+
+    User queryUserById(String id);
 }

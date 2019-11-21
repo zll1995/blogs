@@ -41,10 +41,10 @@ function initBlogsList() {
                  formatter:function(value,row,index){
                      var dv = "";
                      dv='<div class="news-list">\n' +
-                         '<div class="news-img col-xs-5 col-sm-5 col-md-4"> <a target="_blank" href="../page/'+row.url+'"><img src="../images/'+row.img+'" alt=""> </a> </div>\n' +
+                         '<div class="news-img col-xs-5 col-sm-5 col-md-4"> <a target="_blank" href="../page/toShowInfoPage?id='+row.id+'"><img src="../images/'+row.img+'" alt=""> </a> </div>\n' +
                          '<div class="news-info col-xs-7 col-sm-7 col-md-8">\n' +
                          '<dl>\n' +
-                         '<dt> <a href="" target="_blank" > '+row.title+' </a> </dt>\n' +
+                         '<dt> <a href="../page/toShowInfoPage?id='+row.id+'" target="_blank" > '+row.title+' </a> </dt>\n' +
                          '<dd><span class="name"><a href="" title="由 '+row.nickname+' 发布" rel="author">'+row.nickname+'</a></span> <span class="identity"></span> <span class="time"> '+row.time+' </span></dd>\n' +
                          '<dd class="text">'+row.content+'</dd>\n' +
                          '</dl>\n' +
