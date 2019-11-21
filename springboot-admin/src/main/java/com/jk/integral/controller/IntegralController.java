@@ -2,6 +2,7 @@ package com.jk.integral.controller;
 
 import com.jk.integral.model.Integral;
 import com.jk.integral.model.Store;
+import com.jk.integral.model.StoreType;
 import com.jk.integral.service.IntegralService;
 import com.jk.util.OSSClientUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -27,6 +29,7 @@ public class IntegralController {
     @Autowired
     private IntegralService integralService;
 
+    //OSS上传图片
     @RequestMapping("uploadCommImg")
     @ResponseBody
     public Map uploadImg(MultipartFile image)throws IOException {
@@ -88,17 +91,24 @@ public class IntegralController {
         integralService.updStore(store);
     }
 
-    //禁用用户积分    -----段王峰
-    @RequestMapping("stopIntegral")
+    //查询商品类型
+    @RequestMapping("queryCommType")
     @ResponseBody
-    public void stopIntegral(Integer integralUserId){
-        integralService.stopIntegral(integralUserId);
+    public List<StoreType> queryCommType(){
+        return integralService.queryCommType();
     }
 
-    //解除禁用状态    -----段王峰
-    @RequestMapping("recoverIntegral")
+    //上架
+    @RequestMapping("upComm")
     @ResponseBody
-    public void recoverIntegral(Integer integralUserId){
-        integralService.recoverIntegral(integralUserId);
+    public void upComm(Integer commId){
+        integralService.upComm(commId);
+    }
+
+    //下架
+    @RequestMapping("downComm")
+    @ResponseBody
+    public void downComm(Integer commId){
+        integralService.downComm(commId);
     }
 }

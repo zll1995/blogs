@@ -1,6 +1,7 @@
 package com.jk.user;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
@@ -60,6 +61,13 @@ public class PageController {
     @RequestMapping("toIntegralStore")
     public String toIntegralStore(){
         return "integralStore";
+    }
+
+    //跳转商品详情页面
+    @RequestMapping("toStoreInfo")
+    public String toStoreInfo(Integer commId, Model model){
+        model.addAttribute("commId",commId);
+        return "storeInfo";
     }
 
 }

@@ -34,16 +34,47 @@
         </div>
     </div>
     <div class="form-group">
-        <label for="issuer" class="col-sm-3 control-label">发布者：</label>
+        <label for="commType" class="col-sm-3 control-label">商品类型：</label>
         <div class="col-sm-8">
-            <select class="form-control" id="issuer">
+            <select class="form-control" name="commType" id="commType">
                 <option value="">请选择</option>
             </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="commStatus" class="col-sm-3 control-label">是否上架：</label>
+        <div class="col-sm-8">
+            <label class="radio-inline">
+                <input type="radio" name="commStatus" value="1">是
+            </label>
+            <label class="radio-inline">
+                <input type="radio" name="commStatus" id="commStatus" value="2">否
+            </label>
         </div>
     </div>
 </form>
 
 <script>
+    $(function () {
+        queryCommType();
+    })
+
+    function queryCommType(){
+        $.ajax({
+            url:"../integral/queryCommType",
+            success:function (data) {
+                var commType = "<option value='-1'>请选择";
+                for(var i=0;i<data.length;i++){
+                    commType += '<option value="'+data[i].typeId+'">'+data[i].typeName+'</option>';
+                }
+                $("#commType").html(commType);
+            },
+            error:function () {
+                alert("程序出错了！");
+            }
+        })
+    }
+
     $('#commImgId').fileinput({
         language: 'zh', //设置语言
         uploadUrl: '../integral/uploadCommImg', //上传的地址

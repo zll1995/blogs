@@ -2,6 +2,7 @@ package com.jk.integral.mapper;
 
 import com.jk.integral.model.Integral;
 import com.jk.integral.model.Store;
+import com.jk.integral.model.StoreType;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -43,4 +44,11 @@ public interface IntegralMapper {
 
     //解除禁用状态    -----段王峰
     void recoverIntegral(Integer integralUserId);
+
+    //查询商品类型
+    List<StoreType> queryCommType();
+
+    void upComm(Integer commId);
+
+    void downComm(Integer commId);
 }

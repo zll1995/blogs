@@ -13,7 +13,7 @@
 	</select>
 
 	<select id="queryIntegral" resultType="java.util.Map">
-		select ti.*,tu.name as integralName,tu.phone as integralPhone,tu.userName as integralUserName,tu.userSex as integralUserSex from t_integral ti,t_user6 tu where ti.integralUserId = tu.userId
+		select ti.*,tu.named as integralName,tu.phone as integralPhone,tu.userName as integralUserName,tu.userSex as integralUserSex from t_integral ti,t_user6 tu where ti.integralUserId = tu.userId
 		<if test="i.integralName!=null and i.integralName!=''">
 			and (tu.userName like '%${i.integralName}%' or tu.name like '%${i.integralName}%' or tu.phone = #{i.integralName})
 		</if>
@@ -24,8 +24,7 @@
 	</select>
 
 	<select id="queryStoreSum" resultType="int">
-        select count(*) from t_store
-		<where>
+        select count(*) from t_store ts,store_type st where ts.commType = st.typeId
 			<if test="commName!=null and commName!=''">
 				and commName like '%${commName}%'
 			</if>
@@ -35,12 +34,13 @@
 			<if test="endDate!=null and endDate!=''">
 				and commDate &lt;= #{endDate}
 			</if>
-		</where>
+		<if test="commType!=null and commType!=-1">
+			and commType = #{commType}
+		</if>
     </select>
 
 	<select id="queryStore" resultType="java.util.Map">
-        select * from t_store
-        <where>
+        select ts.*,st.typeName as commTypeName from t_store ts,store_type st where ts.commType = st.typeId
 			<if test="store.commName!=null and store.commName!=''">
 				and commName like '%${store.commName}%'
 			</if>
@@ -50,12 +50,14 @@
 			<if test="store.endDate!=null and store.endDate!=''">
 				and commDate &lt;= #{store.endDate}
 			</if>
-		</where>
+			<if test="store.commType!=null and store.commType!=-1">
+				and commType = #{store.commType}
+			</if>
 		limit #{start},#{end}
     </select>
 
 	<insert id="addStore" parameterType="com.jk.integral.model.Store">
-        insert into t_store(commName,commIntegral,commImg,commCount,issuer,commDate) values (#{commName},#{commIntegral},#{commImg},#{commCount},#{issuer},sysdate())
+        insert into t_store(commName,commIntegral,commImg,commCount,commDate,commType,commStatus) values (#{commName},#{commIntegral},#{commImg},#{commCount},sysdate(),#{commType},#{commStatus})
     </insert>
 
 	<delete id="delStore" parameterType="int">
@@ -71,13 +73,15 @@
 		commImg=#{commImg} where commId = #{commId}
 	</update>
 
-	<update id="stopIntegral" parameterType="int">
-        update t_integral set integralStatus = 1 where integralUserId = #{integralUserId}
-    </update>
+	<select id="queryCommType" resultType="com.jk.integral.model.StoreType">
+		select * from store_type
+	</select>
 
-	<update id="recoverIntegral" parameterType="int">
-        update t_integral set integralStatus = 0 where integralUserId = #{integralUserId}
-    </update>
+	<update id="upComm" parameterType="int">
+		update t_store set commStatus = 1 where commId = #{commId}
+	</update>
 
-
+	<update id="downComm" parameterType="int">
+		update t_store set commStatus = 2 where commId = #{commId}
+	</update>
 </mapper>

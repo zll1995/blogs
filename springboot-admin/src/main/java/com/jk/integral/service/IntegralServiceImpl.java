@@ -3,6 +3,7 @@ package com.jk.integral.service;
 import com.jk.integral.mapper.IntegralMapper;
 import com.jk.integral.model.Integral;
 import com.jk.integral.model.Store;
+import com.jk.integral.model.StoreType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -72,15 +73,19 @@ public class IntegralServiceImpl implements IntegralService{
         integralMapper.updStore(store);
     }
 
-    //禁用用户积分    -----段王峰
+    //查询商品类型
     @Override
-    public void stopIntegral(Integer integralUserId) {
-        integralMapper.stopIntegral(integralUserId);
+    public List<StoreType> queryCommType() {
+        return integralMapper.queryCommType();
     }
 
-    //解除禁用状态    -----段王峰
     @Override
-    public void recoverIntegral(Integer integralUserId) {
-        integralMapper.recoverIntegral(integralUserId);
+    public void upComm(Integer commId) {
+        integralMapper.upComm(commId);
+    }
+
+    @Override
+    public void downComm(Integer commId) {
+        integralMapper.downComm(commId);
     }
 }
