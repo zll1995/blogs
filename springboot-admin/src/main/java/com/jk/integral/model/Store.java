@@ -28,10 +28,12 @@ public class Store implements Serializable {
 
     private Integer commCount;      //商品剩余库存
 
-    private String  issuer;         //商品发布者
-
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date    commDate;       //商品上传时间
+
+    private Integer commType;       //商品类型
+
+    private Integer commStatus;     //商品上下架
 
     private String  startDate;
 

@@ -104,82 +104,9 @@
                 },
                 {field:'integralUserName',title:'用户账号',align:'center',width:150},
                 {field:'integralPhone',title:'手机号',align:'center',width:200},
-                {field:'amount',title:'剩余积分',align:'center',width:200},
-                {field:'integralStatus',title:'积分状态',align:'center',width:150,
-                    formatter:function(value,row,index){
-                        return value==0?"正常":"禁用";
-                    }
-                },
-                {field:'1',title:'操作',align:'center',
-                    formatter:function(value,row,index){
-                        if (row.integralStatus==0){
-                            return '<button type="button" onclick="stopIntegral('+row.integralUserId+',\''+row.integralName+'\')" class="btn btn-warning glyphicon glyphicon-exclamation-sign">禁用积分</button>';
-                        }
-                        if (row.integralStatus==1){
-                            return '<button type="button" onclick="recoverIntegral('+row.integralUserId+',\''+row.integralName+'\')" class="btn btn-success glyphicon glyphicon-repeat">恢复积分</button>';
-                        }
-                    }
-                },
+                {field:'amount',title:'剩余积分',align:'center',width:200}
             ]
         });
-    }
-
-    function stopIntegral(integralUserId, name) {
-        bootbox.confirm({
-            size: "small",
-            message: "你确定要禁用"+name+"的积分吗?",
-            buttons: {
-                confirm: {
-                    "label": "确认",
-                    "class": "btn-success",
-                },
-                cancel: {
-                    "label": "取消",
-                    "class": "btn-danger",
-                }
-            },
-            callback: function (result) {
-                if (result) {
-                    $.ajax({
-                        url: "../integral/stopIntegral",
-                        type: "post",
-                        data: {"integralUserId": integralUserId},
-                        success: function () {
-                            $('#showIntegralId').bootstrapTable('refresh');
-                        }
-                    })
-                }
-            }
-        })
-    }
-
-    function recoverIntegral(integralUserId, name) {
-        bootbox.confirm({
-            size: "small",
-            message: "你确定要恢复"+name+"的积分吗?",
-            buttons: {
-                confirm: {
-                    "label": "确认",
-                    "class": "btn-success",
-                },
-                cancel: {
-                    "label": "取消",
-                    "class": "btn-danger",
-                }
-            },
-            callback: function (result) {
-                if (result) {
-                    $.ajax({
-                        url: "../integral/recoverIntegral",
-                        type: "post",
-                        data: {"integralUserId": integralUserId},
-                        success: function () {
-                            $('#showIntegralId').bootstrapTable('refresh');
-                        }
-                    })
-                }
-            }
-        })
     }
 </script>
 </body>

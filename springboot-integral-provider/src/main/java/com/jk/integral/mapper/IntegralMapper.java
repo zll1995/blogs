@@ -18,4 +18,12 @@ public interface IntegralMapper {
     List<Store> queryCar();
 
     List<Store> queryBoutique();
+
+    List<Store> queryHouseHome();
+
+    List<Store> queryNumerical();
+
+    List<Store> queryAppliance();
+
+    Store queryCommById(Integer commId);
 }

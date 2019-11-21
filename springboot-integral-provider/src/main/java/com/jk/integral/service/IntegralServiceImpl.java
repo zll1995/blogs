@@ -36,4 +36,24 @@ public class IntegralServiceImpl implements IntegralService{
     public List<Store> queryBoutique() {
         return integralMapper.queryBoutique();
     }
+
+    @Override
+    public List<Store> queryHouseHome() {
+        return integralMapper.queryHouseHome();
+    }
+
+    @Override
+    public List<Store> queryNumerical() {
+        return integralMapper.queryNumerical();
+    }
+
+    @Override
+    public List<Store> queryAppliance() {
+        return integralMapper.queryAppliance();
+    }
+
+    @Override
+    public Store queryCommById(Integer commId) {
+        return integralMapper.queryCommById(commId);
+    }
 }

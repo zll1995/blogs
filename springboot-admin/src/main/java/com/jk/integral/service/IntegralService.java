@@ -2,7 +2,9 @@ package com.jk.integral.service;
 
 import com.jk.integral.model.Integral;
 import com.jk.integral.model.Store;
+import com.jk.integral.model.StoreType;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -31,9 +33,10 @@ public interface IntegralService {
     //修改积分商品信息      -----段王峰
     void updStore(Store store);
 
-    //禁用用户积分    -----段王峰
-    void stopIntegral(Integer integralUserId);
+    //查询商品类型
+    List<StoreType> queryCommType();
 
-    //解除禁用状态    -----段王峰
-    void recoverIntegral(Integer integralUserId);
+    void upComm(Integer commId);
+
+    void downComm(Integer commId);
 }

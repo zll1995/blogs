@@ -5,9 +5,12 @@ import com.jk.integral.model.Integral;
 import com.jk.integral.model.Store;
 import com.jk.integral.service.IntegralService;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 
@@ -25,16 +28,11 @@ public class IntegralController {
     }
 
     //积分兑换
-    @RequestMapping("exchange")
+    @RequestMapping("buyComm")
     @ResponseBody
-    public String exchange(Integer userId,Integer amount,Integer commIntegral){
-        //判断用户积分是否够兑换商品
-        if(amount<commIntegral){
-            return "Lack of integral";
-        }else {
-            integraService.exchange(userId,commIntegral);
-            return "success";
-        }
+    public void buyComm(Integer spjf, Integer goodsCount, HttpServletRequest request){
+        request.getSession().getAttribute("login");
+
     }
 
     //查询汽车周边商城      -----段王峰
@@ -45,11 +43,43 @@ public class IntegralController {
         return integraService.queryCar();
     }
 
-    //查询
+    //查询精品推荐
     @RequestMapping("queryBoutique")
     @ResponseBody
     public List<Store> queryBoutique(){
 
         return integraService.queryBoutique();
+    }
+
+    //查询家居用品
+    @RequestMapping("queryHouseHome")
+    @ResponseBody
+    public List<Store> queryHouseHome(){
+
+        return integraService.queryHouseHome();
+    }
+
+    //查询手机数码
+    @RequestMapping("queryNumerical")
+    @ResponseBody
+    public List<Store> queryNumerical(){
+
+        return integraService.queryNumerical();
+    }
+
+    //查询家用电器
+    @RequestMapping("queryAppliance")
+    @ResponseBody
+    public List<Store> queryAppliance(){
+
+        return integraService.queryAppliance();
+    }
+
+    @RequestMapping("queryCommById")
+    @ResponseBody
+    public Store queryCommById(Integer commId){
+        Store store = integraService.queryCommById(commId);
+
+        return store;
     }
 }
