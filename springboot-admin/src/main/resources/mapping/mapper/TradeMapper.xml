@@ -31,4 +31,20 @@
 		</where>
 		LIMIT #{s},#{r}
 	</select>
+
+    <select id="TypeShow" resultType="java.util.Map">
+        SELECT pt.pay_type_name name,count(*) y from t_trade t
+        LEFT JOIN t_pay_type pt ON t.pay_type = pt.pay_type_id
+        GROUP BY pt.pay_type_id
+    </select>
+
+    <select id="WeetMoneyByOne" resultType="java.util.Map">
+        SELECT pt.pay_type_name name,count(*) y,DATE_FORMAT(t.create_time,'%Y-%m-%d') time,
+		t.pay_type type
+		from t_trade t
+		LEFT JOIN t_pay_type pt ON t.pay_type = pt.pay_type_id
+		where DATE_FORMAT(t.create_time,'%Y-%m-%d') = DATE_SUB(curdate(),INTERVAL ${i} day)
+		GROUP BY DATE_FORMAT(t.create_time,'%Y-%m-%d'),pt.pay_type_name
+		ORDER BY t.create_time
+    </select>
 </mapper>

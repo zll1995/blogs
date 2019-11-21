@@ -31,4 +31,14 @@ public class TradeServiceImpl implements TradeService {
         map.put("total",sum);
         return map;
     }
+
+    @Override
+    public List<Map<String, Object>> TypeShow() {
+        return tradeMapper.TypeShow();
+    }
+
+    @Override
+    public List<Map<String, Object>> WeetMoneyByOne(Integer i) {
+        return tradeMapper.WeetMoneyByOne(i);
+    }
 }

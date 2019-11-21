@@ -15,4 +15,8 @@ import java.util.Map;
 public interface TradeService {
 
     Map<String,Object> queryTrade(Trade trade, Integer page, Integer rows);
+
+    List<Map<String, Object>> TypeShow();
+
+    List<Map<String, Object>> WeetMoneyByOne(Integer i);
 }

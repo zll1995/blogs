@@ -18,4 +18,8 @@ public interface TradeMapper {
     Integer queryTradeSum(Trade t);
 
     List<Trade> queryTrade(@Param("trade") Trade trade, @Param("s")Integer start, @Param("r")Integer rows);
+
+    List<Map<String, Object>> TypeShow();
+
+    List<Map<String, Object>> WeetMoneyByOne(Integer i);
 }

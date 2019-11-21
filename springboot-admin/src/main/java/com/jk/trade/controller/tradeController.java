@@ -7,6 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -27,5 +29,17 @@ public class tradeController {
     public Map<String,Object> queryTrade(Trade trade,Integer page,Integer rows){
         Map<String, Object> map = tradeService.queryTrade(trade, page, rows);
         return map;
+    }
+    @RequestMapping("TypeShow")
+    @ResponseBody
+    public List<Map<String, Object>> TypeShow(){
+        List<Map<String, Object>> map = tradeService.TypeShow();
+        return map;
+    }
+    @RequestMapping("WeetMoney")
+    @ResponseBody
+    public void WeetMoney(){
+        List<Map<String, Object>> map = tradeService.WeetMoneyByOne(1);
+
     }
 }
