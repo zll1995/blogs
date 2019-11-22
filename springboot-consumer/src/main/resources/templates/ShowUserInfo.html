@@ -56,7 +56,6 @@ function SetFansState(state){
         data:{id:id,state:state},
         type:"post",
         success:function(data){
-            alert(data)
             if(data == 3){
                 $("#FansButtonId").html('<button type="button" onclick="SetFansState(1)" class="btn btn-primary">关注</button>');
             }else if(data == 0){

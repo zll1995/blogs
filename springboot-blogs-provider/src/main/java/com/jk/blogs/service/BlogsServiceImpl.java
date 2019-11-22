@@ -228,4 +228,30 @@ public class BlogsServiceImpl implements BlogsService{
         }
         return 1;
     }
+
+    @Override
+    public Integer queryBlogsLikeButtonState(String blogsid) {
+        Integer userid = 1;
+        Integer count = blogsMapper.queryBlogsLikeButtonState(userid,blogsid);
+        return count;
+    }
+
+    @Override
+    public void updateLikeButtonState(String blogsid, String state) {
+        Integer userid = 1;
+        if("1".equals(state)){
+            Integer count = blogsMapper.queryBlogsLikeButtonState(userid,blogsid);
+            if(count ==0){
+                blogsMapper.addLikeTableLike(blogsid,userid);
+                blogsMapper.updateBlogsTableLike(blogsid,"+1");
+            }
+        }else if("2".equals(state)){
+            blogsMapper.deleteLikeTableLike(blogsid,userid);
+            blogsMapper.updateBlogsTableLike(blogsid,"-1");
+        }
+    }
+
+
+
+
 }

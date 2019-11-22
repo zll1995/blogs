@@ -150,4 +150,16 @@ public class BlogsController {
     public Integer SetFansState(String id,String state){
         return blogsService.SetFansState(id,state);
     }
+    //查询该博客是否已被登陆用户点赞
+    @RequestMapping("queryBlogsLikeButtonState")
+    @ResponseBody
+    public Integer queryBlogsLikeButtonState(String blogsid){
+        return blogsService.queryBlogsLikeButtonState(blogsid);
+    }
+    //当前登录用户修改对当前博客的点赞状态
+    @RequestMapping("updateLikeButtonState")
+    @ResponseBody
+    public void updateLikeButtonState(String blogsid,String state){
+        blogsService.updateLikeButtonState(blogsid,state);
+    }
 }

@@ -49,4 +49,12 @@ public interface BlogsMapper {
     void SetFansState(@Param("fansid")Integer userid,@Param("starid")String id,@Param("andid")Integer andid);
 
     void updateHeAndId(@Param("starid")Integer userid,@Param("fansid")String id,@Param("sta") int sta);
+
+    Integer queryBlogsLikeButtonState(@Param("u")Integer userid,@Param("b")String blogsid);
+
+    void updateBlogsTableLike(@Param("blogsid")String blogsid,@Param("s")String s);
+
+    void addLikeTableLike(@Param("blogsid")String blogsid,@Param("userid")Integer userid);
+
+    void deleteLikeTableLike(@Param("blogsid")String blogsid,@Param("userid")Integer userid);
 }

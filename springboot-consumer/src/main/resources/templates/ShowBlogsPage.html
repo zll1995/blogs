@@ -9,7 +9,7 @@
     <script type="text/javascript" src="../js/bootstrap3/js/bootstrap.js"></script>
     <script src="../js/bootstrap-bootbox/bootbox.js"></script>
 </head>
-<body bgcolor="f0f1f4">4
+<body bgcolor="f0f1f4">
 <input type="hidden" th:value="${id}" id="BlogsId">
 <input type="hidden" id="userIdId">
 <div class="row">
@@ -21,6 +21,10 @@
     <a href="javascript:OpenShowUserInfo()"><font color="#6495ed" id="BlogsUserId"></font></a>
     &nbsp;&nbsp;
     <font color="#696969" id="BlogsLookId"></font>
+    &nbsp;&nbsp;
+    <font color="#696969" id="BlogsLikeId"></font>
+    <br><br>
+    <span id="ShowLikeButtonId"></span>
     <br><br>
     <div style="background-color: black;height: 3px"></div>
     <div id="BlogsContentId">
@@ -35,6 +39,7 @@
 <script>
     $(function () {
         initBlogsInfo();
+        initLikeButton();
     })
 function initBlogsInfo(){
         var id = $("#BlogsId").val();
@@ -48,6 +53,7 @@ $.ajax({
         $("#BlogsDateId").html(data.blogs_time);
         $("#BlogsUserId").html(data.blogs_username);
         $("#BlogsLookId").html("阅读数："+data.blogs_look);
+        $("#BlogsLikeId").html("点赞数:"+data.blogs_like);
         $("#BlogsContentId").html(data.blogs_content);
     },
     error:function(){
@@ -107,6 +113,39 @@ function queryUserById(){
             alert("查询用户出错");
         }
     })
+}
+function initLikeButton(){
+   var id = $("#BlogsId").val();
+$.ajax({
+    url:"../blogs/queryBlogsLikeButtonState",
+    type:"post",
+    data:{blogsid:id},
+    success:function(data){
+        if(data >= 1){
+            $("#ShowLikeButtonId").html('<button type="button" onclick="updateLikeButtonState(2)" class="btn btn-warning">取消点赞</button>');
+        }else if(data < 1){
+            $("#ShowLikeButtonId").html('<button type="button" onclick="updateLikeButtonState(1)" class="btn btn-success">点赞</button>');
+        }
+    },
+    error:function(){
+        alert("加载点赞按钮出错");
+    }
+})
+}
+function updateLikeButtonState(state){
+    var id = $("#BlogsId").val();
+$.ajax({
+    url:"../blogs/updateLikeButtonState",
+    data:{blogsid:id,state:state},
+    type:"post",
+    success:function(){
+        initLikeButton();
+        initBlogsInfo();
+    },
+    error:function(){
+        alert("点赞/取消点赞出错")
+    }
+})
 }
 </script>
 </body>

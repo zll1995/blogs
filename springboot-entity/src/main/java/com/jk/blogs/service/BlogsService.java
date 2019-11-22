@@ -41,4 +41,8 @@ public interface BlogsService {
     Integer queryFansState(String id);
 
     Integer SetFansState(String id,String state);
+
+    Integer queryBlogsLikeButtonState(String blogsid);
+
+    void updateLikeButtonState(String blogsid, String state);
 }

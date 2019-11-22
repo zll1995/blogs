@@ -124,4 +124,21 @@
         update t_fans set and_id = #{sta}
         where fans_id = #{fansid} and star_id = #{starid}
     </update>
+
+    <select id="queryBlogsLikeButtonState" resultType="int">
+        SELECT count(*) FROM t_blogs_like b WHERE b.like_user_id = #{u} AND b.like_blogs_id = #{b}
+    </select>
+
+    <update id="updateBlogsTableLike">
+        UPDATE t_blogs SET blogs_like = blogs_like ${s} where blogs_id = #{blogsid}
+    </update>
+
+    <insert id="addLikeTableLike">
+        INSERT INTO t_blogs_like(like_blogs_id,like_user_id)
+        VALUES(#{blogsid},#{userid})
+    </insert>
+
+    <delete id="deleteLikeTableLike">
+        DELETE FROM t_blogs_like WHERE like_blogs_id = #{blogsid} and like_user_id = #{userid}
+    </delete>
 </mapper>
