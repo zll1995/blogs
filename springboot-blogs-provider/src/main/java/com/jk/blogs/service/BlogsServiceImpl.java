@@ -5,6 +5,7 @@ import com.alibaba.dubbo.config.annotation.Service;
 import com.jk.HttpClient.HttpClient;
 import com.jk.blogs.mapper.BlogsMapper;
 import com.jk.blogs.model.Blogs;
+import com.jk.blogs.model.Fans;
 import com.jk.blogs.model.SlideShow;
 import com.jk.blogs.model.SolrShow;
 import com.jk.comment.model.Comment;
@@ -184,5 +185,47 @@ public class BlogsServiceImpl implements BlogsService{
     @Override
     public User queryUserById(String id) {
         return blogsMapper.queryUserById(id);
+    }
+
+    @Override
+    public Integer queryFansState(String id) {
+        Integer state = 0;
+        Integer userid = 1;
+        Fans f =  blogsMapper.queryFansState(userid,id);
+        if(f != null && f.getAnd_id() == 1){
+            state = 2;
+        }else if (f != null && f.getAnd_id() == 0){
+            state = 1;
+        }else if(f == null){
+            state = 0;
+        }
+        return state;
+    }
+
+    @Override
+    public Integer SetFansState(String id,String state) {
+        Integer userid = 1;
+        Integer andid = 0;
+        if("2".equals(state)){
+            blogsMapper.deleteFans(userid,id);
+            blogsMapper.updateHeAndId(userid,id,0);
+            return 3;
+        }else if("1".equals(state)){
+            //查询对方是否关注了自己
+            Fans fans = blogsMapper.queryFansAndState(userid,id);
+            //根据andid设置是否相互关注   0.未相互关注，1.相互关注
+            if(fans != null){
+                andid= 1 ;
+                //修改要明星对当前用户的关注状态
+                blogsMapper.updateFansState(userid,id,andid);
+            }
+            //将关注信息加入表中
+            blogsMapper.SetFansState(userid,id,andid);
+        }
+        Fans f =  blogsMapper.queryFansState(userid,id);
+        if(f.getAnd_id() == 0){
+            return 0;
+        }
+        return 1;
     }
 }

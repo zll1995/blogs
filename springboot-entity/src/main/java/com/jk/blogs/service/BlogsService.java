@@ -37,4 +37,8 @@ public interface BlogsService {
     Blogs queryBlogsById(String id);
 
     User queryUserById(String id);
+
+    Integer queryFansState(String id);
+
+    Integer SetFansState(String id,String state);
 }

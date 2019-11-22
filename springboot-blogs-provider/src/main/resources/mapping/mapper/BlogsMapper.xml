@@ -97,4 +97,31 @@
     <select id="queryUserById" resultType="com.jk.user.model.User">
         select  * from t_user6 where userId = #{id}
     </select>
+
+    <select id="queryFansState" resultType="com.jk.blogs.model.Fans">
+        select * from t_fans where fans_id = ${fansid} and star_id = #{starid}
+    </select>
+
+    <delete id="deleteFans">
+        delete from t_fans where fans_id = ${fansid} and star_id = #{starid}
+    </delete>
+
+    <select id="queryFansAndState" resultType="com.jk.blogs.model.Fans">
+        select * from t_fans where fans_id = #{fansid} and star_id = #{starid}
+    </select>
+
+    <update id="updateFansState">
+        update t_fans set and_id = #{andid}
+        where fans_id = #{fansid} and star_id = #{starid}
+    </update>
+
+    <insert id="SetFansState">
+        insert into t_fans(fans_id,star_id,and_id)
+        values(#{fansid},#{starid},#{andid})
+    </insert>
+
+    <update id="updateHeAndId">
+        update t_fans set and_id = #{sta}
+        where fans_id = #{fansid} and star_id = #{starid}
+    </update>
 </mapper>

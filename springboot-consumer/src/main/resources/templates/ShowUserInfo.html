@@ -6,8 +6,9 @@
 </head>
 <body>
 <table>
+    <input type="hidden" id="UIID">
     <tr>
-        <td rowspan="3">
+        <td rowspan="4">
             <img id="userImgId" src="" class="img-circle">
         </td>
         <td>昵称：</td>
@@ -21,6 +22,54 @@
         <td>联系方式：</td>
         <td id="PhoneId"></td>
     </tr>
+    <tr>
+        <td colspan="2">
+            <span id="FansButtonId"></span>
+        </td>
+    </tr>
 </table>
+<script>
+    function queryFansState(){
+        var id = $("#UIID").val();
+        $.ajax({
+            url:"../blogs/queryFansState",
+            data:{id:id},
+            type:"post",
+            success:function(data){
+                if(data==0){
+                    $("#FansButtonId").html('<button type="button" onclick="SetFansState(1)" class="btn btn-primary">关注</button>');
+                }else if(data == 1){
+                    $("#FansButtonId").html('<button type="button" onclick="SetFansState(2)" class="btn btn-primary">已关注</button>');
+                }else if(data == 2){
+                    $("#FansButtonId").html('<button type="button" onclick="SetFansState(2)" class="btn btn-primary">互相关注</button>');
+                }
+            },
+            error:function(){
+                alert("查询关注状态出错");
+            }
+        })
+    }
+function SetFansState(state){
+    var id = $("#UIID").val();
+    $.ajax({
+        url:"../blogs/SetFansState",
+        data:{id:id,state:state},
+        type:"post",
+        success:function(data){
+            alert(data)
+            if(data == 3){
+                $("#FansButtonId").html('<button type="button" onclick="SetFansState(1)" class="btn btn-primary">关注</button>');
+            }else if(data == 0){
+                $("#FansButtonId").html('<button type="button" onclick="SetFansState(2)" class="btn btn-primary">已关注</button>');
+            }else if(data == 1){
+                $("#FansButtonId").html('<button type="button" onclick="SetFansState(2)" class="btn btn-primary">互相关注</button>');
+            }
+        },
+        error:function(){
+            alert("错误")
+        }
+    })
+}
+</script>
 </body>
 </html>

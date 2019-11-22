@@ -138,4 +138,16 @@ public class BlogsController {
         User u = blogsService.queryUserById(id);
         return u;
     }
+    //查询关注状态
+    @RequestMapping("queryFansState")
+    @ResponseBody
+    public Integer queryFansState(String id){
+        return blogsService.queryFansState(id);
+    }
+    //设置关注状态
+    @RequestMapping("SetFansState")
+    @ResponseBody
+    public Integer SetFansState(String id,String state){
+        return blogsService.SetFansState(id,state);
+    }
 }

@@ -521,6 +521,8 @@ function queryUserById(id){
         $("#genderId").html("未知");
       }
       $("#PhoneId").html(data.phone);
+      $("#UIID").val(id);
+      queryFansState();
     },
     error:function(){
       alert("查询用户出错");

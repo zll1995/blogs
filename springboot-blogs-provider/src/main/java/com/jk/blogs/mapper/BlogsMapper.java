@@ -1,6 +1,7 @@
 package com.jk.blogs.mapper;
 
 import com.jk.blogs.model.Blogs;
+import com.jk.blogs.model.Fans;
 import com.jk.blogs.model.SlideShow;
 import com.jk.comment.model.Comment;
 import com.jk.user.model.User;
@@ -36,4 +37,16 @@ public interface BlogsMapper {
     Blogs queryBlogsById(String id);
 
     User queryUserById(String id);
+
+    Fans queryFansState(@Param("fansid")Integer userid,@Param("starid")String id);
+
+    void deleteFans(@Param("fansid")Integer userid,@Param("starid")String id);
+
+    Fans queryFansAndState(@Param("starid")Integer userid,@Param("fansid")String id);
+
+    void updateFansState(@Param("starid")Integer userid,@Param("fansid")String id,@Param("andid") Integer andid);
+
+    void SetFansState(@Param("fansid")Integer userid,@Param("starid")String id,@Param("andid")Integer andid);
+
+    void updateHeAndId(@Param("starid")Integer userid,@Param("fansid")String id,@Param("sta") int sta);
 }
