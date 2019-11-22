@@ -290,7 +290,10 @@ public class BlogsServiceImpl implements BlogsService{
         }
     }
 
-
+    @Override
+    public Integer queryBlogsLikeByBlogsId(String id) {
+        return blogsMapper.queryBlogsLikeByBlogsId(id);
+    }
 
 
 }

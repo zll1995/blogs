@@ -140,10 +140,23 @@ $.ajax({
     type:"post",
     success:function(){
         initLikeButton();
-        initBlogsInfo();
+        queryBlogsLikeByBlogsId();
     },
     error:function(){
         alert("点赞/取消点赞出错")
+    }
+})
+}
+function queryBlogsLikeByBlogsId(){
+    var id = $("#BlogsId").val();
+$.ajax({
+    url:"../blogs/queryBlogsLikeByBlogsId",
+    data:{id:id},
+    success:function(data){
+        $("#BlogsLikeId").html("点赞数:"+data);
+    },
+    error:function(){
+        alert("重新查询点赞数量出错")
     }
 })
 }

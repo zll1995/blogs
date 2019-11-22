@@ -45,4 +45,6 @@ public interface BlogsService {
     Integer queryBlogsLikeButtonState(String blogsid);
 
     void updateLikeButtonState(String blogsid, String state);
+
+    Integer queryBlogsLikeByBlogsId(String id);
 }

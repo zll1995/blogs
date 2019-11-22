@@ -145,4 +145,8 @@
     <update id="addBlogsLookById">
         update t_blogs set blogs_look = blogs_look+1 where blogs_id = #{id}
     </update>
+
+    <select id="queryBlogsLikeByBlogsId" resultType="int">
+        select blogs_like from t_blogs where blogs_id = #{id}
+    </select>
 </mapper>

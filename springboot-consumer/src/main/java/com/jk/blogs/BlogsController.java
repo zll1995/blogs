@@ -162,4 +162,10 @@ public class BlogsController {
     public void updateLikeButtonState(String blogsid,String state){
         blogsService.updateLikeButtonState(blogsid,state);
     }
+    //重新查询该博客点赞数
+    @RequestMapping("queryBlogsLikeByBlogsId")
+    @ResponseBody
+    public Integer queryBlogsLikeByBlogsId(String id){
+        return blogsService.queryBlogsLikeByBlogsId(id);
+    }
 }

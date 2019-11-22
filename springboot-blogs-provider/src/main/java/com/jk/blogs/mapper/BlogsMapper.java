@@ -59,4 +59,6 @@ public interface BlogsMapper {
     void deleteLikeTableLike(@Param("blogsid")String blogsid,@Param("userid")Integer userid);
 
     void addBlogsLookById(String id);
+
+    Integer queryBlogsLikeByBlogsId(String id);
 }
