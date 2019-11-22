@@ -61,4 +61,8 @@ public interface BlogsMapper {
     void addBlogsLookById(String id);
 
     Integer queryBlogsLikeByBlogsId(String id);
+
+    Integer queryUserBlogsCount(String id);
+
+    Integer queryUserFansCount(String id);
 }

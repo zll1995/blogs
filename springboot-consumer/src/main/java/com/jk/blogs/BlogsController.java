@@ -168,4 +168,22 @@ public class BlogsController {
     public Integer queryBlogsLikeByBlogsId(String id){
         return blogsService.queryBlogsLikeByBlogsId(id);
     }
+    //查询该用户发布的博客数
+    @RequestMapping("queryUserBlogsCount")
+    @ResponseBody
+    public Integer queryUserBlogsCount(String id){
+        if(id == null || id == ""){
+            id = "1";
+        }
+        return blogsService.queryUserBlogsCount(id);
+    }
+    //查询该用户的粉丝数
+    @RequestMapping("queryUserFansCount")
+    @ResponseBody
+    public Integer queryUserFansCount(String id){
+        if(id == null || id == ""){
+            id = "1";
+        }
+        return blogsService.queryUserFansCount(id);
+    }
 }

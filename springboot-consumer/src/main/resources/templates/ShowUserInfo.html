@@ -23,7 +23,11 @@
         <td id="PhoneId"></td>
     </tr>
     <tr>
-        <td colspan="2">
+        <td>发布博客数：<span id="ShowUserBlogsCount"></span>&nbsp;&nbsp;&nbsp;</td>
+        <td>粉丝数：<span id="ShowUserFansCount"></span></td>
+    </tr>
+    <tr>
+        <td colspan="3" align="right">
             <span id="FansButtonId"></span>
         </td>
     </tr>
@@ -66,6 +70,32 @@ function SetFansState(state){
         },
         error:function(){
             alert("错误")
+        }
+    })
+}
+function queryUserBlogsCount(){
+    var id = $("#UIID").val();
+$.ajax({
+    url:"../blogs/queryUserBlogsCount",
+    data:{id:id},
+    success:function(data){
+        $("#ShowUserBlogsCount").html(data);
+    },
+    error:function(){
+        alert("加载博客数量出错")
+    }
+})
+}
+function queryUserFansCount(){
+    var id = $("#UIID").val();
+    $.ajax({
+        url:"../blogs/queryUserFansCount",
+        data:{id:id},
+        success:function(data){
+            $("#ShowUserFansCount").html(data);
+        },
+        error:function(){
+            alert("加载博客数量出错")
         }
     })
 }

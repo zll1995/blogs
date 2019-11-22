@@ -149,4 +149,12 @@
     <select id="queryBlogsLikeByBlogsId" resultType="int">
         select blogs_like from t_blogs where blogs_id = #{id}
     </select>
+    
+    <select id="queryUserBlogsCount" resultType="int">
+        SELECT count(*) FROM t_blogs where blogs_userid = #{id}
+    </select>
+
+    <select id="queryUserFansCount" resultType="int">
+        SELECT count(*) FROM t_fans where star_id = #{id}
+    </select>
 </mapper>

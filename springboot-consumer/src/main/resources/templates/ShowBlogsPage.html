@@ -108,6 +108,8 @@ function queryUserById(){
             $("#PhoneId").html(data.phone);
             $("#UIID").val(id);
             queryFansState();
+            queryUserBlogsCount();
+            queryUserFansCount();
         },
         error:function(){
             alert("查询用户出错");

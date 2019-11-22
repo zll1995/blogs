@@ -295,5 +295,15 @@ public class BlogsServiceImpl implements BlogsService{
         return blogsMapper.queryBlogsLikeByBlogsId(id);
     }
 
+    @Override
+    public Integer queryUserBlogsCount(String id) {
+        return  blogsMapper.queryUserBlogsCount(id);
+    }
+
+    @Override
+    public Integer queryUserFansCount(String id) {
+        return  blogsMapper.queryUserFansCount(id);
+    }
+
 
 }
