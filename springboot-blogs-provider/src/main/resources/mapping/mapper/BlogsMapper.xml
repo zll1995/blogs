@@ -72,7 +72,7 @@
    </select>
 
     <select id="queryBlogsNews" resultType="com.jk.blogs.model.Blogs">
-        SELECT blogs_id,b.blogs_title,b.blogs_content,b.blogs_img,b.blogs_like,b.blogs_look,b.blogs_url,b.blogs_time,u.username AS blogs_username FROM
+        SELECT blogs_id,b.blogs_title,b.blogs_content,b.blogs_img,b.blogs_like,b.blogs_look,b.blogs_url,b.blogs_time,u.named AS blogs_username,blogs_userid FROM
         t_blogs b,t_user6 u where b.blogs_userid=u.userId  ORDER BY b.blogs_time desc LIMIT 0,5
     </select>
 

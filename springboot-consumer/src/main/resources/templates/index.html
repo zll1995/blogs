@@ -374,7 +374,7 @@ function HotBlogs(){
           }else{
             Btitle = data[i].blogs_title;
           }
-          li+='<li><a target="_blank" href="'+data[i].blogs_url+'"> <span class="thumb"><img src="../images/'+data[i].blogs_img+'" alt="暂时无法显示该图片"></span> <span class="text">'+Btitle+'</span> <span class="text-muted" >阅读'+data[i].blogs_look+'</span></a></li>';
+          li+='<li><a target="_blank" href="../page/toShowInfoPage?id='+data[i].blogs_id+'"> <span class="thumb"><img src="../images/'+data[i].blogs_img+'" alt="暂时无法显示该图片"></span> <span class="text">'+Btitle+'</span> <span class="text-muted" >阅读'+data[i].blogs_look+'</span></a></li>';
         }
       $("#HotBlogs").html(li);
     },
@@ -388,15 +388,15 @@ function WeekHotBlogs(){
     url:"../blogs/WeekHotBlogs",
     type:"post",
     success:function(data){
-      var li0 = '<a href="'+data[0].blogs_url+'" target="_blank"><img src="../images/'+data[0].blogs_img+'" alt="暂时无法显示"><h3>'+data[0].blogs_title+'</h3></a>';
+      var li0 = '<a href="../page/toShowInfoPage?id='+data[0].blogs_id+'" target="_blank"><img src="../images/'+data[0].blogs_img+'" alt="暂时无法显示"><h3>'+data[0].blogs_title+'</h3></a>';
       $("#li0").html(li0);
-      var li1 = '<a href="'+data[1].blogs_url+'" target="_blank"><img src="../images/'+data[1].blogs_img+'" alt="暂时无法显示"><h3>'+data[1].blogs_title+'</h3></a>';
+      var li1 = '<a href="../page/toShowInfoPage?id='+data[1].blogs_id+'" target="_blank"><img src="../images/'+data[1].blogs_img+'" alt="暂时无法显示"><h3>'+data[1].blogs_title+'</h3></a>';
       $("#li1").html(li1);
-      var li2 = '<a href="'+data[2].blogs_url+'" target="_blank"><img src="../images/'+data[2].blogs_img+'" alt="暂时无法显示"><h3>'+data[2].blogs_title+'</h3></a>';
+      var li2 = '<a href="../page/toShowInfoPage?id='+data[2].blogs_id+'" target="_blank"><img src="../images/'+data[2].blogs_img+'" alt="暂时无法显示"><h3>'+data[2].blogs_title+'</h3></a>';
       $("#li2").html(li2);
-      var li3 = '<a href="'+data[3].blogs_url+'" target="_blank"><img src="../images/'+data[3].blogs_img+'" alt="暂时无法显示"><h3>'+data[3].blogs_title+'</h3></a>';
+      var li3 = '<a href="../page/toShowInfoPage?id='+data[3].blogs_id+'" target="_blank"><img src="../images/'+data[3].blogs_img+'" alt="暂时无法显示"><h3>'+data[3].blogs_title+'</h3></a>';
       $("#li3").html(li3);
-      var li4 = '<a href="'+data[4].blogs_url+'" target="_blank"><img src="../images/'+data[4].blogs_img+'" alt="暂时无法显示"><h3>'+data[4].blogs_title+'</h3></a>';
+      var li4 = '<a href="../page/toShowInfoPage?id='+data[4].blogs_id+'" target="_blank"><img src="../images/'+data[4].blogs_img+'" alt="暂时无法显示"><h3>'+data[4].blogs_title+'</h3></a>';
       $("#li4").html(li4);
       },
     error:function(){
@@ -435,7 +435,7 @@ function queryBlogsNews() {
                   '<div class="news-info col-xs-7 col-sm-7 col-md-8">\n' +
                   '<dl>\n' +
                   '<dt> <a href="../page/toShowInfoPage?id='+data[i].blogs_id+'" target="_blank" > '+data[i].blogs_title+' </a> </dt>\n' +
-                  '<dd><span class="name"><a href="" title="由 '+data[i].blogs_username+' 发布" rel="author">'+data[i].blogs_username+'</a></span> <span class="identity"></span> <span class="time"> '+data[i].blogs_time+' </span></dd>\n' +
+                  '<dd><span class="name"><a href="javascript:OpenShowUserInfo('+data[i].blogs_userid+')" title="由 '+data[i].blogs_username+' 发布" rel="author">'+data[i].blogs_username+'</a></span> <span class="identity"></span> <span class="time"> '+data[i].blogs_time+' </span></dd>\n' +
                   '<dd class="text">'+data[i].blogs_content+'</dd>\n' +
                   '</dl>\n' +
                   '<div class="news_bot col-sm-7 col-md-8"> <span class="tags visible-lg visible-md"> <a href="">本站</a> <a href="">异清轩</a> </span> <span class="look"> 共 <strong>'+data[i].blogs_look+'</strong> 人围观，发现 <strong> '+data[i].blogs_like+' </strong> 个不明物体 </span> </div>\n' +
@@ -487,7 +487,46 @@ function OpenSearchWindow(){
     }
   })
 }
+function OpenShowUserInfo(id){
+  bootbox.dialog({
+    title:'用户信息',
+    message:createAddContent("toShowUserInfo"),    //需要载入的页面可以?传参
+    closeButton: true,
+    async:false,
+    buttons: {
+      "cancel": {
+        "label": "<i class='icon-info'></i>关闭",
+        "className": "btn btn-warning",
+        "callback":function(){
 
+        }
+      }
+    }
+  })
+  queryUserById(id);
+}
+function queryUserById(id){
+  $.ajax({
+    url:"../blogs/queryUserById",
+    type:"post",
+    data:{id:id},
+    success:function(data){
+      $("#userImgId").attr("src",data.headImg);
+      $("#nicknameId").html(data.named);
+      if(data.userSex ==1){
+        $("#genderId").html("男");
+      }else if(data.userSex ==2){
+        $("#genderId").html("女");
+      }else{
+        $("#genderId").html("未知");
+      }
+      $("#PhoneId").html(data.phone);
+    },
+    error:function(){
+      alert("查询用户出错");
+    }
+  })
+}
 </script>
 </body>
 </html>
