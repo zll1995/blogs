@@ -19,7 +19,7 @@ public class User implements Serializable {
 
     private String phone; //用户手机号
 
-    private String name; //博客昵称
+    private String named; //博客昵称
 
     private String blogName; //博客标题
 
@@ -27,75 +27,6 @@ public class User implements Serializable {
 
     private String email;  //电子邮箱
 
-    public Integer getUserId() {
-        return userId;
-    }
+    private Integer userSex;
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getHeadImg() {
-        return headImg;
-    }
-
-    public void setHeadImg(String headImg) {
-        this.headImg = headImg;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getBlogName() {
-        return blogName;
-    }
-
-    public void setBlogName(String blogName) {
-        this.blogName = blogName;
-    }
-
-    public String getBlogUrl() {
-        return blogUrl;
-    }
-
-    public void setBlogUrl(String blogUrl) {
-        this.blogUrl = blogUrl;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
 }

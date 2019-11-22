@@ -9,7 +9,7 @@
     <script type="text/javascript" src="../js/bootstrap3/js/bootstrap.js"></script>
     <script src="../js/bootstrap-bootbox/bootbox.js"></script>
 </head>
-<body bgcolor="f0f1f4">
+<body bgcolor="f0f1f4">4
 <input type="hidden" th:value="${id}" id="BlogsId">
 <input type="hidden" id="userIdId">
 <div class="row">
@@ -91,6 +91,15 @@ function queryUserById(){
         data:{id:id},
         success:function(data){
             $("#userImgId").attr("src",data.headImg);
+            $("#nicknameId").html(data.named);
+            if(data.userSex ==1){
+                $("#genderId").html("男");
+            }else if(data.userSex ==2){
+                $("#genderId").html("女");
+            }else{
+                $("#genderId").html("未知");
+            }
+            $("#PhoneId").html(data.phone);
         },
         error:function(){
             alert("查询用户出错");
