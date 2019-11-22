@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:shiro="http://www.pollix.at/thymeleaf/shiro"
+                xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8" >
+    <title>Title</title>
+    <!-- jquery -->
+    <script type="text/javascript" src="../js/jquery-1.9.1.min.js"></script>
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="../js/bootstrap3/css/bootstrap.css"/>
+    <script type="text/javascript" src="../js/bootstrap3/js/bootstrap.js"></script>
+    <!-- bootstrap treeview -->
+    <link rel="stylesheet" href="../js/bootstrap-treeview/bootstrap-treeview.min.css" />
+    <script src="../js/bootstrap-treeview/bootstrap-treeview.min.js"></script>
+    <!-- bootstrap 选项卡 -->
+    <link rel="stylesheet" href="../js/bootStrap-addTabs/bootstrap.addtabs.css">
+    <script src="../js/bootStrap-addTabs/bootstrap.addtabs.min.js"></script>
+</head>
+<body>
+<div style="margin-left:50px;margin-top:0;height:50px">
+    <br>&nbsp;&nbsp;&nbsp;&nbsp;
+    <p id="imgPId" style="display: none"><shiro:principal property='userImage'/></p>
+    <img width="140px" height="100px" id="imageId"/>
+    <font  size="7"><shiro:principal property="userName" /></font>
+    <a href="../logout" class="btn btn-info ">注销</a><br>
+</div>
+<div style="margin-top:0;margin-left:1100px;height:100px">
+    <marquee width="300" onMouseOver="this.stop()" onMouseOut="this.start()" behavior="scroll" scrollamount="10">
+        <font size="4" id="Showweather" color="#1e90ff"></font>
+    </marquee>
+</div>
+<div class="container-fluid" style="margin-top: 30px;">
+    <div class="row">
+        <div class="col-md-2">
+            <div id="myTree"></div>
+        </div>
+        <div class="col-md-10">
+            <div id="myTabs">
+                <!-- 新选项卡 -->
+                <ul class="nav nav-tabs" id="tablist">
+                    <li role="presentation" class="active">
+                        <a href="#home" role="tab" data-toggle="tab">主页</a>
+                    </li>
+                </ul>
+                <!-- 选项卡下内容 -->
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane active" id="home">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+<script type="text/javascript">
+
+    $(function(){
+        initTree();
+        weather();
+    })
+    function initTree(){
+        $.ajax({
+            url:"../tree/queryTree",
+            type: "post",
+            dataType: "json",
+            success:function(data){
+                $("#myTree").treeview({
+                    data:data,
+                    onNodeSelected:function(event, node) {
+                        $.addtabs({iframeHeight: 700});
+                        $.addtabs.add({
+                            id:node.id,
+                            title:node.text,
+                            url:node.href
+                        });
+                    }
+                })
+            }
+        })
+    }
+function weather() {
+    $.ajax({
+        url:"../user/weather",
+        type:"post",
+        dataType:"json",
+        success:function(data){
+            var weather = data.today+'    '+data.city+'当前天气：<span id="type">'+data.weather+'</span>，温度：<span id="temp">'+data.temp+'</span>，'+data.wd+data.wdforce+',湿度：<span id="humidity">'+data.humidity+'</span>';
+        $("#Showweather").html(weather);
+            },
+        error:function(){
+            alert("tianqi")
+        }
+    })
+}
+</script>
+</html>

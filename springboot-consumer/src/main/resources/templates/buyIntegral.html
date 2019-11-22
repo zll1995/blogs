@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="../images/icon/icon.png" rel="shortcut icon" type="image/x-icon" />
+    <script src="../js/bootstrap/jquery-1.9.1.min.js"></script>
+    <link rel="stylesheet" href="../css/bootstrap.min.css" />
+
+    <style>
+        .divcss5{margin-left: 100px;line-height:60px;font-family: "KaiTi",Georgia,Serif;}
+    </style>
+
+    <style>
+        /*  .ShaShiDi{
+              width: 100%;
+
+              display:flex;
+              align-items:center;
+              justify-content:center;
+              !*为了效果明显，可以将如下边框打开，看一下效果*!
+              !* border:1px solid black; *!
+          }
+
+          .ShaShiDi img{
+              width:100%;
+          }*/
+
+        .liebiao {
+            background: url() no-repeat;
+            background-size:100% 100%;
+        }
+
+        .yemian {
+            background: url() no-repeat;
+            background-size:100% 100%;
+        }
+        /* .yemian{
+             width: 100%;
+             height: auto;
+             display:flex;
+             align-items:center;
+             justify-content:center;
+
+         }
+
+         .yemian img{
+
+
+             width:100%;
+             height: auto;
+         }
+ */
+
+    </style>
+
+</head>
+<body>
+
+<div  class="form-group" style="margin-top: 50px;margin-left:10%;background-color: royalblue;width: 80%;height: 66px">
+    <label for="tohome" class="col-sm-10 control-label">
+        <div style="margin-left: 50px;float: left;width: 150px"  class="divcss5">
+            <font color="#f0f8ff"   size="5">充值中心</font>
+        </div>
+    </label>
+    <div class="col-sm-2" style="float: left;line-height: 60px;width: 100px;">
+        <button type="button" id="tohome" onclick="toMain()" class="btn btn-success glyphicon glyphicon-home">主页</button>
+    </div>
+</div>
+
+<div  class="form-group" style="margin-top: 50px;margin-left: 200px;height: 100px;width: 75%;background-color:#e1f5ff">
+    <label for="tohome" class="col-sm-10 control-label">
+        <div style="margin-left: 50px;float: left;width: 80px;margin-top: 10px"  class="divcss5">
+            <img id="userImgId" src="#" width="70px" height="70px">
+        </div>
+        <div style="margin-left: 1px;float: left;width: 150px;margin-top: 20px"  class="divcss5">
+            <font   size="4">充值账号:</font>
+            <font color="red"><span id="zhanghaoId"></span></font>
+        </div>
+    </label>
+    <div class="col-sm-2" style="float: left;width: 200px;margin-top: 30px">
+        <font   size="4">当前积分:</font>
+        <font color="red"><span id="jifenId"></span></font>
+    </div>
+</div>
+
+
+    <div  class="yemian" style="margin-left: 200px;height: 800px;width: auto" >
+        <div style="float: left;margin-left: 50px;margin-top: 70px;">
+            <font color="#7fffd4" size="4">请选择充值金额</font><br><br>
+            <font color="black" size="4">目前本网站仅支持支付宝充值</font><br><br>
+            <img src="../images/timgjj.jpg" width="80px" height="80px">
+            <img src="../images/timg11.jpg" width="80px" height="80px">
+
+            <br><br>
+            <form name=alipayment action='../alipay/goAlipay' method=post target="_blank">
+                <input type="radio" name="orderType" value="1">10元(110积分)
+                <input type="radio" name="orderType" value="2">20元(230积分)
+                <input type="radio" name="orderType" value="3">50元(600积分)
+                <input type="radio" name="orderType" value="4">100元(1300积分)
+                <input type="radio" name="orderType" value="5"> 500元(8000积分)<br><br>
+                <input id="WIDout_trade_no" type="hidden" name="id" />
+                <div>
+                    <button type="submit"  class="btn btn-primary glyphicon glyphicon-plus">充值</button>
+                </div>
+            </form>
+            <h1></h1>
+
+            <font color="#00008b">
+                <table>
+                    <tr>
+                        <td>  <font color="#483d8b" size="5">   充值说明： </font></td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp&nbsp&nbsp&nbsp以上充值方式(支付宝、微信支付、网上银行)充值后，积分将实时到达您账户。</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp&nbsp&nbsp&nbsp对于充值不方便的用户,也可通过手机QQ、网银转账、手机支付宝等方式支付，
+                            支付方式详见:<a href="javaScript:topupHelp()"><font color="#c71585">充值帮助</font></a></td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp&nbsp&nbsp&nbsp积分充值的费用将主要用于数据的存储以及服务器带宽费用,再次感谢您的支持！<br></td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp&nbsp&nbsp&nbspVIP的费用将主要用于服务器的存储以及带宽费用,再次感谢您的支持！</td>
+                    </tr>
+                </table>
+
+            </font>
+        </div>
+
+
+    </div>
+
+
+<script>
+
+    /*$(function(){
+        GetDateNow();
+        initUserImg();
+    })
+
+    function initUserImg(){
+        $.ajax({
+            url: "/userData/findUserInFor",
+            type: "post",
+            success:function(data){
+                $("#userImgId").attr("src",data.userImg);
+
+                $("#zhanghaoId").html(data.account);
+
+                $("#jifenId").html(data.jifen);
+            }
+        })
+    }*/
+
+    function toMain(){
+            location.href="../page/toMain";
+    }
+
+    /*function GetDateNow() {
+        var vNow = new Date();
+        var sNow = "";
+        sNow += String(vNow.getFullYear());
+        sNow += String(vNow.getMonth() + 1);
+        sNow += String(vNow.getDate());
+        sNow += String(vNow.getHours());
+        sNow += String(vNow.getMinutes());
+        sNow += String(vNow.getSeconds());
+        sNow += String(vNow.getMilliseconds());
+        document.getElementById("WIDout_trade_no").value =  sNow;
+
+    }
+
+
+
+    function creditsExchange() {
+        location.href="toShowcreditsExchange";
+    }
+    function upgradeMembership() {
+        location.href="toShowupgradeMembership";
+    }
+
+
+    function topupHelp() {
+        location.href="toShowTopupHelp";
+    }*/
+</script>
+</body>
+</html>

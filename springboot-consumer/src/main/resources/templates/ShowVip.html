@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>会员充值页面</title>
+    <script src="../js/jquery-1.9.1.min.js"></script>、
+    <link rel="stylesheet" href="../js/bootstrap3/css/bootstrap.css"/>
+    <script type="text/javascript" src="../js/bootstrap3/js/bootstrap.js"></script>
+    <script src="../js/bootstrap-bootbox/bootbox.js"></script>
+</head>
+<body>
+<div class="row">
+    <div class="col-md-4">
+        <p class="text-center">
+            <img src="../images/123456789.jpg" class="img-rounded" style="width: 350px" onclick="SetVip(1)">
+            <br><br>
+            <button type="button" class="btn btn-success" onclick="jiesuan(1)">一个月大会员！（10￥/月）</button>
+        </p>
+    </div>
+    <div class="col-md-4">
+        <p class="text-center">
+            <img src="../images/123456789.jpg" class="img-rounded" style="width: 350px" onclick="SetVip(3)">
+            <br><br>
+            <button type="button" class="btn btn-warning" onclick="jiesuan(3)">三个月大会员！（9.5￥/月,仅需28.5RMB！）</button>
+        </p>
+    </div>
+    <div class="col-md-4">
+        <p class="text-center">
+            <img src="../images/123456789.jpg" class="img-rounded" style="width: 350px" onclick="SetVip(6)">
+            <br><br>
+            <button type="button" class="btn btn-danger" onclick="jiesuan(6)">六个月大会员！（9￥/月,仅需54RMB！）</button>
+        </p>
+    </div>
+</div>
+<script>
+    function  jiesuan(num) {
+        location.href="/goAlipay?count="+num+"&type=vip";
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <title>商品详情页</title>
+    <link rel="stylesheet" href="https://m.jf.10010.com/cms/jf-res/web/css/goodsDetail-shiwu.css?resVer=20191107210439"/>
+    <link rel="stylesheet" href="https://m.jf.10010.com/cms/jf-res/web/css/normalize.css?resVer=20191107210439"/>
+
+    <script charset="utf-8" type="text/javascript" src="../js/jquery-1.9.1.min.js"></script>
+    <script charset="utf-8" type="text/javascript" src="https://m.jf.10010.com/cms/jf-res/web/js/jquery.cookie.js?resVer=20191107210439"></script>
+    <script charset="utf-8" type="text/javascript" src="https://m.jf.10010.com/cms/jf-res/web/js/jquery.json-2.2.min.js?resVer=20191107210439"></script>
+    <script charset="utf-8" type="text/javascript" src="https://m.jf.10010.com/cms/jf-res/web/js/common.js?resVer=20191107210439"></script>
+    <script charset="utf-8" type="text/javascript" src="https://m.jf.10010.com/cms/jf-res/web/js/position.js?resVer=20191107210439"></script>
+
+    <link rel="stylesheet" href="https://m.jf.10010.com/cms/jf-res/web/css/normalize.css?resVer=20191107210439"/>
+    <link rel="stylesheet" href="https://m.jf.10010.com/cms/jf-res/web/css/tipsLayer.css?resVer=20191107210439"/>
+    <link rel="stylesheet" href="https://m.jf.10010.com/cms/jf-res/web/css/Popupwindow.css?resVer=20191107210439"/>
+
+    <script>
+        if (!this.Esf) {
+            this.Esf = {};
+        }
+    </script>
+
+    <script charset="utf-8" type="text/javascript" src="https://m.jf.10010.com/cms/jf-res/web/js/goodsDetail-shiwu.js?resVer=20191107210439"></script>
+    <script type="text/javascript" src="https://m.jf.10010.com/cms/jf-res/web/js/areaData.js?resVer=20191107210439"></script>
+    <script type="text/javascript" src="https://m.jf.10010.com/cms/jf-res/web/js/areaUtil.js?resVer=20191107210439"></script>
+
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="../js/bootstrap3/css/bootstrap.css"/>
+    <script type="text/javascript" src="../js/bootstrap3/js/bootstrap.js"></script>
+    <!-- bootstrap 弹框 -->
+    <script src="../js/bootstrap-bootbox/bootbox.js"></script>
+
+    <script>
+        var goodsId = "319082645070";
+        var goodsType="";
+        var buyMax = 99;
+    </script>
+    <script language='javascript' type='text/javascript' src='https://m.jf.10010.com/cms/nps/lib/ma.js?v=201910102128' charset='utf-8'></script></head>
+<body>
+<link href="https://m.jf.10010.com/cms/jf-res/web/css/tipsLayer.css?resVer=20191107210439" rel="stylesheet" type="text/css" />
+<link href="https://m.jf.10010.com/cms/jf-res/web/css/message.css?resVer=20191107210439" rel="stylesheet" type="text/css" />
+<link href="https://m.jf.10010.com/cms/jf-res/web/css/Popupwindow.css?resVer=20191107210439" rel="stylesheet" type="text/css" />
+
+<script language="javascript" type="text/javascript" src="https://m.jf.10010.com/cms/jf-res/web/js/phw.cmn.fn.js?resVer=20191107210439" charset="UTF-8"></script>
+<script language="javascript" type="text/javascript" src="https://m.jf.10010.com/cms/jf-res/web/js/position.js?resVer=20191107210439"></script>
+
+<input type="hidden" id="buyCommId" th:value="${commId}">
+
+<div id="content" class="center1200" style="margin-left: 20%">
+    <div class="contentLeft">
+        <div class="imageEnlarge">
+            <!-- 大图begin -->
+            <div id="preview" class="spec-preview">
+        <span class="jqzoom" id="commImg">
+        </span>
+            </div>
+            <!-- 大图end -->
+        </div>
+        <script src="https://m.jf.10010.com/cms/jf-res/web/js/jquery.jqzoom.js?resVer=20191107210439"></script>
+    </div>
+    <div class="contentMiddle">
+        <div class="m-top">
+            <span id="commName"></span>
+        </div>
+        <div class="m-middle">
+            <dl>
+                <dt>价&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;格：</dt>
+                <dd class="jifen">
+                    <span id="commIntegral"></span>积分
+                    <div class="myCollection noColl">
+                    </div>
+                </dd>
+            </dl>
+            <dl>
+                <dt>服&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;务：</dt>
+                <dd>由第三方合作商提供服务</dd>
+            </dl>
+            <dl>
+                <dt>剩余&nbsp;数量：</dt>
+                <dd><span id="goodsNum"></span></dd>
+            </dl>
+            <dl class="dlBottom">
+                <dt>数&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;量：</dt>
+                <dd class="count">
+                    <div><span class="msCount" id="subCount">-</span><input class="inputCount jdPositiveInt"
+                                                                            id="goodsCount" type="text" value="1" maxlength="2"/><span class="psCount" id="addCount">+</span>
+                    </div>
+                </dd>
+            </dl>
+            <dl>
+                <dt>支付&nbsp;方式：</dt>
+                <dd class="payWay">
+                    <ul>
+                        <li><img src="https://m.jf.10010.com/cms/jf-res/web/images/checkedJfAndCash.jpg?resVer=20191107210439" alt=""> 积分</li>
+                    </ul>
+                </dd>
+            </dl>
+
+        </div>
+        <div class="m-bottom">
+            <div class="btn">
+                <a href="javaScript:buyComm()"><span class="nowBuy">立即兑换</span></a>
+            </div>
+            <p><span></span></p>
+        </div>
+    </div>
+</div>
+<input type="hidden" id="spjf">
+<input type="hidden" id="userIntegral">
+
+<script>
+    $(function () {
+        queryCommById();
+        judge();
+    })
+
+    function queryCommById() {
+        $.ajax({
+            url:"../integral/queryCommById",
+            data:{commId:$("#buyCommId").val()},
+            type:"post",
+            success:function (data) {
+                $("#spjf").val(data.commIntegral);
+                $("#goodsNum").html(data.commCount);
+                $("#imgUl").html('<li><img src="'+data.commImg+'" bimg="'+data.commImg+'"></li>');
+                $("#commName").html(data.commName);
+                $("#commIntegral").html(data.commIntegral);
+                $("#commImg").html('<img width="320" height="320" src="'+data.commImg+'">')
+            }
+        })
+    }
+    
+    function judge() {
+        $.ajax({
+            url:"../integral/queryIntegralById",
+            success:function (data) {
+                $("#userIntegral").val(data.integralAmount);
+            }
+        })
+    }
+
+    function buyComm() {
+        var goodsCount = $("#goodsCount").val();
+        var spjf = $("#spjf").val();
+        var userIntegral = $("#userIntegral").val();
+        var nowJf = spjf*goodsCount;
+        if(userIntegral<nowJf){
+            bootbox.alert({
+                size: "small",
+                title: "提示信息",
+                message: "您的积分不足,请到"+"<a href='../page/toBuyIntegral' target='_blank'>充值中心</a>"+"充值积分",
+                callback: function () {
+                }
+            })
+        }else {
+            var goodsNum = $("#goodsNum").text();
+            if (goodsNum - goodsCount < 0) {
+                bootbox.alert({
+                    size: "small",
+                    title: "提示信息",
+                    message: "<font color='red'><b>库存不足</b></font>",
+                    callback: function () {
+                    }
+                })
+            } else if (goodsNum - goodsCount >= 0) {
+                bootbox.confirm({
+                    size: "small",
+                    message: "你确定要兑换该商品吗",
+                    buttons: {
+                        confirm: {
+                            "label": "确认",
+                            "class": "btn-success",
+                        },
+                        cancel: {
+                            "label": "取消",
+                            "class": "btn-danger",
+                        }
+                    },
+                    callback: function (result) {
+                        if (result) {
+
+                        }
+                    }
+                })
+                /*$.ajax({
+                url:"../integral/buyComm",
+                data:{spjf:spjf,goodsCount:goodsCount},
+                type:"post",
+                success:function () {
+
+                },
+                error:function () {
+                    alert("程序出错了！");
+                }
+            })*/
+            }
+        }
+    }
+</script>
+</body>
+<script charset="utf-8" type="text/javascript" src="https://m.jf.10010.com/cms/jf-res/web/js/WSPGoods.js"></script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+</html>

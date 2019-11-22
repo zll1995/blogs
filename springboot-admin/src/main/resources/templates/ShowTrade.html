@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- jquery -->
+    <script type="text/javascript" src="../js/jquery-1.9.1.min.js"></script>
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="../js/bootstrap3/css/bootstrap.css"/>
+    <script type="text/javascript" src="../js/bootstrap3/js/bootstrap.js"></script>
+    <!-- 表格 -->
+    <link rel="stylesheet" href="../js/bootstrap-table/bootstrap-table.css">
+    <script src="../js/bootstrap-table/bootstrap-table.js"></script>
+    <script src="../js/bootstrap-table/locale/bootstrap-table-zh-CN.js"></script>
+
+</head>
+<body>
+<table class="table" id="ShowTradeList"></table>
+<script>
+    $(function(){
+        initTradeList();
+    })
+    function initTradeList(){
+        $('#ShowTradeList').bootstrapTable({
+            url: "../trade/queryTrade",
+            pagination: true,
+            sidePagination: 'server',//分页方式：client客户端分页，server服务端分页
+            pageList: [2, 5, 10, 15],
+            pageNumber: 1,
+            pageSize: 10,
+            columns: [
+                [
+                    {field:'out_trade_no',title:'商户订单号',align:'center',width:50},
+                    {field:'trade_no',title:'支付宝交易号',align:'center',width:50},
+                    {field:'body',title:'订单描述',align:'center',width:50},
+                    {field:'pay_type_name',title:'购买类型',align:'center',width:50},
+                    {field:'buy_count',title:'购买数量',align:'center',width:50},
+                    {field:'total_amount',title:'支付金额/￥',align:'center',width:50},
+                    {field:'user_id',title:'支付用户ID',align:'center',width:50},
+                    {field:'user_name',title:'支付用户账号',align:'center',width:50},
+                    {field:'create_time',title:'账单创建时间',align:'center',width:50},
+                ]
+            ],
+            queryParams:function(params){
+                return {
+                    page:this.pageNumber,
+                    rows:this.pageSize
+                }
+            }
+        })
+    }
+</script>
+</body>
+</html>

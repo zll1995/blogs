@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form class="form-horizontal" id="addStoreForm">
+    <div class="form-group">
+        <label for="commName" class="col-sm-3 control-label">商品名称：</label>
+        <div class="col-sm-8">
+            <input type="text" name="commName" id="commName" class="form-control" placeholder="商品名称" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="commIntegral" class="col-sm-3 control-label">所需积分：</label>
+        <div class="col-sm-8">
+            <input type="text" name="commIntegral" id="commIntegral" class="form-control" placeholder="所需积分" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="commImgId" class="col-sm-3 control-label">商品图片：</label>
+        <div class="col-sm-8">
+            <!-- 后台传参使用 -->
+            <input type="hidden" id="testimg" name="commImg" />
+            <!-- projectfile -->
+            <input type="file" multiple class="projectfile" name="image" id="commImgId">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="commCount" class="col-sm-3 control-label">上传数量：</label>
+        <div class="col-sm-8">
+            <input type="text" name="commCount" id="commCount" class="form-control" placeholder="上传数量" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="commType" class="col-sm-3 control-label">商品类型：</label>
+        <div class="col-sm-8">
+            <select class="form-control" name="commType" id="commType">
+                <option value="">请选择</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="commStatus" class="col-sm-3 control-label">是否上架：</label>
+        <div class="col-sm-8">
+            <label class="radio-inline">
+                <input type="radio" name="commStatus" value="1">是
+            </label>
+            <label class="radio-inline">
+                <input type="radio" name="commStatus" id="commStatus" value="2">否
+            </label>
+        </div>
+    </div>
+</form>
+
+<script>
+    $(function () {
+        queryCommType();
+    })
+
+    function queryCommType(){
+        $.ajax({
+            url:"../integral/queryCommType",
+            success:function (data) {
+                var commType = "<option value='-1'>请选择";
+                for(var i=0;i<data.length;i++){
+                    commType += '<option value="'+data[i].typeId+'">'+data[i].typeName+'</option>';
+                }
+                $("#commType").html(commType);
+            },
+            error:function () {
+                alert("程序出错了！");
+            }
+        })
+    }
+
+    $('#commImgId').fileinput({
+        language: 'zh', //设置语言
+        uploadUrl: '../integral/uploadCommImg', //上传的地址
+        allowedFileExtensions: ['jpg', 'png', 'jpeg', 'gif', 'bmp'],//接收的文件后缀
+        showUpload: true, //是否显示上传按钮
+        showCaption: false,//是否显示标题
+        browseClass: "btn btn-primary", //按钮样式
+        //dropZoneEnabled: false,//是否显示拖拽区域
+        //minImageWidth: 50, //图片的最小宽度
+        //minImageHeight: 50,//图片的最小高度
+        //maxImageWidth: 1000,//图片的最大宽度
+        //maxImageHeight: 1000,//图片的最大高度
+        //maxFileSize: 0,//单位为kb，如果为0表示不限制文件大小
+        //minFileCount: 0,
+        maxFileCount: 2, //表示允许同时上传的最大文件个数
+        enctype: 'multipart/form-data',
+        validateInitialCount:true,
+        previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
+        msgFilesTooMany: "选择上传的文件数量({n}) 超过允许的最大数值{m}！",
+    }).on('fileuploaded', function(event, data, previewId, index) {
+        var imgval = $('#testimg').val();
+        if(imgval == null || imgval == "" || imgval == undefined){
+            imgval = data.response.imgUrl;
+        }else{
+            imgval += ","+data.response.imgUrl;
+        }
+        $('#testimg').val(imgval);
+    });
+</script>
+</body>
+</html>

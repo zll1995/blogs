@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="../js/jquery-1.9.1.min.js"></script>
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="../js/bootstrap3/css/bootstrap.css"/>
+    <script type="text/javascript" src="../js/bootstrap3/js/bootstrap.js"></script>
+    <!-- bootstrap 表格 -->
+    <link rel="stylesheet" href="../js/bootstrap-table/bootstrap-table.css" />
+    <script src="../js/bootstrap-table/bootstrap-table.js"></script>
+    <script src="../js/bootstrap-table/locale/bootstrap-table-zh-CN.js"></script>
+    <!-- bootstrap treeview -->
+    <link rel="stylesheet" href="../js/bootstrap-treeview/bootstrap-treeview.min.css" />
+    <script src="../js/bootstrap-treeview/bootstrap-treeview.min.js"></script>
+    <!-- bootstrap 选项卡 -->
+    <link rel="stylesheet" href="../js/bootStrap-addTabs/bootstrap.addtabs.css">
+    <script src="../js/bootStrap-addTabs/bootstrap.addtabs.min.js"></script>
+    <!-- bootstrap日期插件 -->
+    <script src="../js/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js"></script>
+    <script src="../js/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+    <link rel="stylesheet" href="../js/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css">
+    <!-- bootstrap 弹框 -->
+    <script src="../js/bootstrap-bootbox/bootbox.js"></script>
+    <!-- bootstrap上传插件 -->
+    <script src="../js/bootstrap-fileinput/js/fileinput.js"></script>
+    <script src="../js/bootstrap-fileinput/js/locales/zh.js"></script>
+    <link rel="stylesheet" href="../js/bootstrap-fileinput/css/fileinput.css">
+</head>
+<body>  <br>
+<div id="toolbar" class="container">
+    <div class="form-inline">
+        <div class="form-group">
+            <label for="commName">商品名称</label>
+            <input type="text" id="commName" class="form-control" placeholder="商品名称" />
+        </div>
+        <div class="form-group" style="margin-left: 20px">
+            <label for="startDate">发布时间</label>
+            <input type="text" id="startDate" class="form-control date" placeholder="开始日期" style="width: 150px" />——
+            <input type="text" id="endDate" class="form-control date" placeholder="结束日期"  style="width: 150px" />
+        </div>
+        <div class="form-group" style="margin-left: 20px">
+            <label for="commType2">商品类型：</label>
+                <select class="form-control" id="commType2">
+                    <option value="">请选择</option>
+                </select>
+        </div>
+        <div class="form-group" style="margin-left: 20px">
+            <button onclick="searchStore()" class="btn btn-primary glyphicon glyphicon-search">搜索</button>
+        </div>
+    </div>
+    <button onclick="openDialog()" class="btn btn-success glyphicon glyphicon-file">上传商品</button>
+</div>
+<br>
+
+<table class="table" id="showStoreId"></table>
+
+<script>
+    $(function () {
+        queryStore();
+        queryCommType();
+    })
+
+    function queryCommType(){
+        $.ajax({
+            url:"../integral/queryCommType",
+            success:function (data) {
+                var commType = "<option value='-1'>请选择";
+                for(var i=0;i<data.length;i++){
+                    commType += '<option value="'+data[i].typeId+'">'+data[i].typeName+'</option>';
+                }
+                $("#commType2").html(commType);
+            },
+            error:function () {
+                alert("程序出错了！");
+            }
+        })
+    }
+
+    function openDialog() {
+        bootbox.dialog({
+            title: "上传商品",
+            message: createAddContent("../page/toAddStore"),
+            closeButton: true,
+            buttons: {
+                "success": {
+                    "label": "<i class='icon-ok'></i>保存",
+                    "className": "btn btn-success",
+                    "callback":function(){
+                        $.ajax({
+                            url: "../integral/addStore",
+                            type: "post",
+                            data: $("#addStoreForm").serialize(),
+                            success:function(){
+                                bootbox.alert({
+                                    size: "small",
+                                    title: "提示信息",
+                                    message: "上传商品成功",
+                                    callback: function(){
+
+                                    }
+                                })
+                                $('#showStoreId').bootstrapTable('refresh');
+                            }
+                        })
+                    }
+                },
+                "cancel": {
+                    "label": "<i class='icon-info'></i>取消",
+                    "className": "btn btn-warning",
+                    "callback":function(){
+
+                    }
+                }
+            }
+        })
+    }
+
+    function searchStore() {
+        $('#showStoreId').bootstrapTable('refresh');
+    }
+
+    function queryStore(){
+        $('#showStoreId').bootstrapTable({
+            url:'../integral/queryStore',//获取数据地址     
+            pagination:true, //是否展示分页    
+            pageList:[5,10,15,20,25],//分页组件    
+            pageNumber:1,
+            pageSize:5,//默认每页条数  
+            search:false,//是否显示搜索框
+            showColumns:false,//是否显示 内容列下拉框    
+            showToggle:false,//是否显示 切换试图（table/card）按钮    
+            showPaginationSwitch:false,//是否显示 数据条数选择框    
+            showRefresh:false,//是否显示刷新按钮    
+            detailView:false,//设置为 true 可以显示详细页面模式。    
+            showFooter:false,//是否显示列脚
+            clickToSelect: true, //是否启用点击选中行    
+            sidePagination:'server',//分页方式：client客户端分页，server服务端分页   
+            striped:true,
+            queryParams:function(){
+                return {
+                    page: this.pageNumber,
+                    rows: this.pageSize,
+                    commName:$("#commName").val(),
+                    startDate:$("#startDate").val(),
+                    endDate:$("#endDate").val(),
+                    commType:$("#commType2").val()
+                };
+            },
+            columns:[
+                {field:'commId',title:'编号',align:'center',width:100},
+                {field:'commName',title:'商品名称',align:'center',width:150},
+                {field:'commTypeName',title:'商品类型',align:'center',width:150},
+                {field:'commImg',title:'商品图片',align:'center',width:150,
+                    formatter:function(value,row,index){
+                        return '<img src="'+value+'" width="70px" height="70px">';
+                    }
+                },
+                {field:'commIntegral',title:'所需积分',align:'center',width:150},
+                {field:'commCount',title:'剩余库存',align:'center',width:120},
+                {field:'commDate',title:'发布时间',align:'center',width:150,
+                    formatter:function(value,row,index){
+                        var date =new Date(value);
+                        var tol=date.toLocaleDateString(date);
+                        return tol;
+                    }
+                },
+                {field:'2',title:'操作',align:'center',
+                    formatter:function(value,row,index){
+                        if(row.commStatus==1){
+                            return '<button type="button" onclick="downComm('+row.commId+')" class="btn btn-warning glyphicon glyphicon-download">下架</button> '+
+                                   '<button type="button" onclick="queryStoreById('+row.commId+')" class="btn btn-info glyphicon glyphicon-pencil">修改</button> '+
+                                   ' <button type="button" onclick="delStore('+row.commId+',\''+row.commName+'\')" class="btn btn-danger glyphicon glyphicon-trash">删除</button>';
+                        }
+                        if(row.commStatus==2){
+                            return '<button type="button" onclick="upComm('+row.commId+')" class="btn btn-success glyphicon glyphicon-upload">上架</button> '+
+                                   '<button type="button" onclick="queryStoreById('+row.commId+')" class="btn btn-info glyphicon glyphicon-pencil">修改</button> '+
+                                   ' <button type="button" onclick="delStore('+row.commId+',\''+row.commName+'\')" class="btn btn-danger glyphicon glyphicon-trash">删除</button>';
+                        }
+                    }
+                },
+            ]
+        });
+    }
+
+    function downComm(commId) {
+        bootbox.confirm({
+            size: "small",
+            message: "你确定要下架此商品吗?",
+            buttons: {
+                confirm: {
+                    "label": "确认",
+                    "class": "btn-success",
+                },
+                cancel: {
+                    "label": "取消",
+                    "class": "btn-danger",
+                }
+            },
+            callback: function (result) {
+                if (result) {
+                    $.ajax({
+                        url:"../integral/downComm",
+                        data:{commId:commId},
+                        type:"post",
+                        success:function () {
+                            bootbox.alert({
+                                size: "small",
+                                title: "提示信息",
+                                message: "下架成功",
+                                callback: function(){
+
+                                }
+                            })
+                            $('#showStoreId').bootstrapTable('refresh');
+                        },
+                        error:function () {
+                            alert('程序出错了！');
+                        }
+                    })
+                }
+            }
+        })
+    }
+
+    function upComm(commId) {
+        bootbox.confirm({
+            size: "small",
+            message: "你确定要上架此商品吗?",
+            buttons: {
+                confirm: {
+                    "label": "确认",
+                    "class": "btn-success",
+                },
+                cancel: {
+                    "label": "取消",
+                    "class": "btn-danger",
+                }
+            },
+            callback: function (result) {
+                if (result) {
+                    $.ajax({
+                        url:"../integral/upComm",
+                        data:{commId:commId},
+                        type:"post",
+                        success:function () {
+                            bootbox.alert({
+                                size: "small",
+                                title: "提示信息",
+                                message: "上架成功",
+                                callback: function(){
+
+                                }
+                            })
+                            $('#showStoreId').bootstrapTable('refresh');
+                        },
+                        error:function () {
+                            alert('程序出错了！');
+                        }
+                    })
+                }
+            }
+        })
+    }
+
+    function queryStoreById(commId) {
+        bootbox.dialog({
+            title: "修改商品信息",
+            message: createAddContent("../page/toEditStore"),
+            closeButton: true,
+            buttons: {
+                "success": {
+                    "label": "<i class='icon-ok'></i>保存",
+                    "className": "btn btn-success",
+                    "callback":function(){
+                        $.ajax({
+                            url: "../integral/updStore",
+                            type: "post",
+                            data: $("#editStoreForm").serialize(),
+                            success:function(){
+                                bootbox.alert({
+                                    size: "small",
+                                    title: "提示信息",
+                                    message: "修改商品成功",
+                                    callback: function(){
+
+                                    }
+                                })
+                                $('#showStoreId').bootstrapTable('refresh');
+                            }
+                        })
+                    }
+                },
+                "cancel": {
+                    "label": "<i class='icon-info'></i>取消",
+                    "className": "btn btn-warning",
+                    "callback":function(){
+
+                    }
+                }
+            }
+        })
+        // 回显
+        if (commId != -1) {
+            $.ajax({
+                url: "../integral/queryStoreById",
+                type: "post",
+                data: {"commId":commId},
+                dataType: "json",
+                success: function(data){
+                    $("#commId").val(data.commId);
+                    $("#updCommName").val(data.commName);
+                    $("#commIntegral").val(data.commIntegral);
+                    $("#commCount").val(data.commCount);
+                    $("#testimg").val(data.commImg);
+                    editFileInput(data.commImg);
+                }
+            })
+        }
+    }
+
+    // 修改回显图片使用，不能用于新增
+    function editFileInput(url){
+        $('#commImgId').fileinput({
+            initialPreview:url,//回显地址url
+            initialPreviewConfig: [
+                {key: 1, showDelete: false}
+            ],
+            initialPreviewAsData: true,
+            language: 'zh', //设置语言
+            uploadUrl: '../integral/uploadCommImg', //上传的地址
+            allowedFileExtensions: ['jpg', 'gif', 'png'],//接收的文件后缀
+            showUpload: true, //是否显示上传按钮
+            showCaption: false,//是否显示标题
+            browseClass: "btn btn-primary", //按钮样式
+            //dropZoneEnabled: false,//是否显示拖拽区域
+            //minImageWidth: 50, //图片的最小宽度
+            //minImageHeight: 50,//图片的最小高度
+            //maxImageWidth: 1000,//图片的最大宽度
+            //maxImageHeight: 1000,//图片的最大高度
+            //maxFileSize: 0,//单位为kb，如果为0表示不限制文件大小
+            //minFileCount: 0,
+            maxFileCount: 2, //表示允许同时上传的最大文件个数
+            enctype: 'multipart/form-data',
+            validateInitialCount:true,
+            previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
+            msgFilesTooMany: "选择上传的文件数量({n}) 超过允许的最大数值{m}！",
+
+        }).on('fileuploaded', function(event, data, previewId, index) {
+            var imgval = ""; //$('#testimg').val();
+            if(imgval == null || imgval == "" || imgval == undefined){
+                imgval = data.response.imgUrl;
+            }else{
+                imgval += ","+data.response.imgUrl;
+            }
+            $('#testimg').val(imgval);
+        });
+    }
+
+    var res;
+    function createAddContent(url){
+        $.ajax({
+            url:url,
+            async:false,
+            success:function(data){
+                res = data;
+            }
+        });
+        return res;
+    }
+
+    function delStore(commId,commName) {
+        bootbox.confirm({
+            size: "small",
+            message: "你确定要删除"+commName+"吗?",
+            buttons: {
+                confirm: {
+                    "label": "确认",
+                    "class": "btn-success",
+                },
+                cancel: {
+                    "label": "取消",
+                    "class": "btn-danger",
+                }
+            },
+            callback: function (result) {
+                if (result) {
+                    $.ajax({
+                        url:"../integral/delStore",
+                        data:{commId:commId},
+                        type:"post",
+                        success:function () {
+                            $('#showStoreId').bootstrapTable('refresh');
+                        },
+                        error:function () {
+                            alert('程序出错了！');
+                        }
+                    })
+                }
+            }
+        })
+    }
+
+    $('.date').datetimepicker({
+        language: 'zh-CN',//显示中文
+        //format: 'yyyy-mm-dd hh:ii:ss',//显示格式
+        format: 'yyyy-mm-dd',//显示格式
+        minView: "month",//设置只显示到月份
+        initialDate: new Date(),//初始化当前日期
+        autoclose: true,//选中自动关闭
+        todayBtn: true//显示今日按钮
+    });
+</script>
+</body>
+</html>
