@@ -12,13 +12,36 @@
     <link rel="stylesheet" href="../js/bootstrap-table/bootstrap-table.css">
     <script src="../js/bootstrap-table/bootstrap-table.js"></script>
     <script src="../js/bootstrap-table/locale/bootstrap-table-zh-CN.js"></script>
+    <!-- 日期 -->
+    <script src="../js/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js"></script>
+    <script src="../js/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+    <link rel="stylesheet" href="../js/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css">
 
 </head>
 <body>
+<div class="form-inline">
+    <div class="form-group">
+        <label class="sr-only">Title</label>
+        <p class="form-control-static">账单创建日期区间查询：</p>
+    </div>
+    <div class="form-group">
+        <label for="startTimeId" class="sr-only">startTime</label>
+        <input type="text" name="birthday" id="startTimeId" class="form-control date" placeholder="开始日期" />
+    </div>
+    <div class="form-group">
+        -----
+    </div>
+    <div class="form-group">
+        <label for="endTimeId" class="sr-only">endTime</label>
+        <input type="text" name="birthday" id="endTimeId" class="form-control date" placeholder="结束日期" />
+    </div>
+    <button type="button" class="btn btn-default" onclick="queryTrade()">搜索</button>
+</div>
 <table class="table" id="ShowTradeList"></table>
 <script>
     $(function(){
         initTradeList();
+        initDate();
     })
     function initTradeList(){
         $('#ShowTradeList').bootstrapTable({
@@ -44,11 +67,32 @@
             queryParams:function(params){
                 return {
                     page:this.pageNumber,
-                    rows:this.pageSize
+                    rows:this.pageSize,
+                    start_time:$("#startTimeId").val(),
+                    end_time:$("#endTimeId").val()
                 }
             }
         })
     }
+function queryTrade(){
+    $("#ShowTradeList").bootstrapTable("refresh", {
+        query:{
+            start_time:$("#startTimeId").val(),
+            end_time:$("#endTimeId").val()
+        }
+    });
+}
+function initDate(){
+    $('.date').datetimepicker({
+        language: 'zh-CN',//显示中文
+        //format: 'yyyy-mm-dd hh:ii:ss',//显示格式
+        format: 'yyyy-mm-dd',//显示格式
+        minView: "month",//设置只显示到月份
+        initialDate: new Date(),//初始化当前日期
+        autoclose: true,//选中自动关闭
+        todayBtn: true//显示今日按钮
+    });
+}
 </script>
 </body>
 </html>
