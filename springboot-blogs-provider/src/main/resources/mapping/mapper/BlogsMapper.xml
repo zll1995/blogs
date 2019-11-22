@@ -3,12 +3,12 @@
 <mapper namespace="com.jk.blogs.mapper.BlogsMapper" >
 
     <select id="HotBlogs" resultType="com.jk.blogs.model.Blogs">
-        SELECT * from t_blogs b ORDER BY b.blogs_look DESC LIMIT 0,5
+        SELECT * from t_blogs b ORDER BY b.blogs_like DESC LIMIT 0,5
     </select>
 
     <select id="WeekHotBlogs" resultType="com.jk.blogs.model.Blogs">
         SELECT * FROM t_blogs b
-        WHERE YEARWEEK(date_format(b.blogs_time,'%Y-%m-%d')) = YEARWEEK(now())
+        WHERE DATE_SUB(CURDATE(), INTERVAL 7 DAY) &lt;= date(blogs_time)
         ORDER BY b.blogs_look DESC
         LIMIT 0,5
     </select>
@@ -141,4 +141,8 @@
     <delete id="deleteLikeTableLike">
         DELETE FROM t_blogs_like WHERE like_blogs_id = #{blogsid} and like_user_id = #{userid}
     </delete>
+
+    <update id="addBlogsLookById">
+        update t_blogs set blogs_look = blogs_look+1 where blogs_id = #{id}
+    </update>
 </mapper>

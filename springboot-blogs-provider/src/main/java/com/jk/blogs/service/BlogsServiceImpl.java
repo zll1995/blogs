@@ -2,6 +2,8 @@ package com.jk.blogs.service;
 
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.jk.HttpClient.HttpClient;
 import com.jk.blogs.mapper.BlogsMapper;
 import com.jk.blogs.model.Blogs;
@@ -16,9 +18,11 @@ import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 
 @Service(version = "1.0")
@@ -28,22 +32,56 @@ public class BlogsServiceImpl implements BlogsService{
     private BlogsMapper blogsMapper;
     @Autowired
     private SolrClient solrClient;
+    @Autowired
+    private RedisTemplate<String,String> redisTemplate;
 
     @Override
     public List<Blogs> HotBlogs(){
-        List<Blogs> list = blogsMapper.HotBlogs();
+        String Key = "HotBlogs";
+        List<Blogs> list = new ArrayList<Blogs>();
+        Boolean aBoolean = redisTemplate.hasKey(Key);
+        if(aBoolean){
+            String s = redisTemplate.opsForValue().get(Key);
+            list = JSON.parseArray(s, Blogs.class);
+        }else{
+            list = blogsMapper.HotBlogs();
+            redisTemplate.opsForValue().set(Key,JSON.toJSONString(list));
+            redisTemplate.expire(Key,2, TimeUnit.DAYS);
+        }
         return list;
     }
 
     @Override
     public Map<String, Object> DailySentence() {
-
-        return HttpClient.DailySentence();
+        String Key = "DailySentence";
+        Map<String, Object> result = new HashMap<>();
+        Boolean aBoolean = redisTemplate.hasKey(Key);
+        if(aBoolean){
+            Map<Object, Object> entries = redisTemplate.opsForHash().entries(Key);
+            for (Map.Entry<Object, Object> entry : entries.entrySet()) {
+                result.put(entry.getKey().toString(), entry.getValue().toString());
+            }
+        }else{
+            result = HttpClient.DailySentence();
+            redisTemplate.opsForHash().putAll(Key,result);
+            redisTemplate.expire(Key,30, TimeUnit.MINUTES);
+        }
+        return result;
     }
 
     @Override
     public List<Blogs> WeekHotBlogs() {
-        List<Blogs> list = blogsMapper.WeekHotBlogs();
+        String Key = "WeekHotBlogs";
+        List<Blogs> list = new ArrayList<Blogs>();
+        Boolean aBoolean = redisTemplate.hasKey(Key);
+        if(aBoolean){
+            String s = redisTemplate.opsForValue().get(Key);
+            list = JSON.parseArray(s, Blogs.class);
+        }else{
+            list = blogsMapper.WeekHotBlogs();
+            redisTemplate.opsForValue().set(Key,JSON.toJSONString(list));
+            redisTemplate.expire(Key,1, TimeUnit.DAYS);
+        }
         return list;
     }
 
@@ -178,6 +216,7 @@ public class BlogsServiceImpl implements BlogsService{
 
     @Override
     public Blogs queryBlogsById(String id) {
+        blogsMapper.addBlogsLookById(id);
         Blogs b = blogsMapper.queryBlogsById(id);
         return b;
     }

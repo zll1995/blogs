@@ -45,6 +45,12 @@
             <artifactId>spring-boot-starter-data-solr</artifactId>
         </dependency>
         <!-- solr结束 -->
+        <!-- springboot redis 整合 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
+        <!-- redis结束 -->
         <dependency>
             <groupId>com.jk</groupId>
             <artifactId>springboot-entity</artifactId>
