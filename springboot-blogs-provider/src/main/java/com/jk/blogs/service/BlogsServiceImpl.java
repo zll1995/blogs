@@ -305,5 +305,10 @@ public class BlogsServiceImpl implements BlogsService{
         return  blogsMapper.queryUserFansCount(id);
     }
 
+    @Override
+    public List<Blogs> queryNewsBlogsDemo() {
+        return blogsMapper.queryNewsBlogsDemo();
+    }
+
 
 }

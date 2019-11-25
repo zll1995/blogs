@@ -51,4 +51,6 @@ public interface BlogsService {
     Integer queryUserBlogsCount(String id);
 
     Integer queryUserFansCount(String id);
+
+    List<Blogs> queryNewsBlogsDemo();
 }

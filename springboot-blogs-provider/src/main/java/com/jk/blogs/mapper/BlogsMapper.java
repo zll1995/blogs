@@ -65,4 +65,6 @@ public interface BlogsMapper {
     Integer queryUserBlogsCount(String id);
 
     Integer queryUserFansCount(String id);
+
+    List<Blogs> queryNewsBlogsDemo();
 }

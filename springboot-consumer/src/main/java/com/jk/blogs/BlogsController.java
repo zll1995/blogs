@@ -186,4 +186,10 @@ public class BlogsController {
         }
         return blogsService.queryUserFansCount(id);
     }
+    //博客展示页面的查询最新文章
+    @RequestMapping("queryNewsBlogsDemo")
+    @ResponseBody
+    public List<Blogs> queryNewsBlogsDemo(){
+        return blogsService.queryNewsBlogsDemo();
+    }
 }

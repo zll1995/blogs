@@ -157,4 +157,8 @@
     <select id="queryUserFansCount" resultType="int">
         SELECT count(*) FROM t_fans where star_id = #{id}
     </select>
+
+    <select id="queryNewsBlogsDemo" resultType="com.jk.blogs.model.Blogs">
+        select * from t_blogs order by blogs_time DESC LIMIT 0,9
+    </select>
 </mapper>

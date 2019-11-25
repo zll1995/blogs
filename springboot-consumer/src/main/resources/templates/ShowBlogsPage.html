@@ -8,13 +8,26 @@
     <link rel="stylesheet" href="../js/bootstrap3/css/bootstrap.css"/>
     <script type="text/javascript" src="../js/bootstrap3/js/bootstrap.js"></script>
     <script src="../js/bootstrap-bootbox/bootbox.js"></script>
+    <!-- 表格 -->
+    <link rel="stylesheet" href="../js/bootstrap-table/bootstrap-table.css">
+    <script src="../js/bootstrap-table/bootstrap-table.js"></script>
+    <script src="../js/bootstrap-table/locale/bootstrap-table-zh-CN.js"></script>
 </head>
 <body bgcolor="f0f1f4">
 <input type="hidden" th:value="${id}" id="BlogsId">
 <input type="hidden" id="userIdId">
 <div class="row">
     <div class="col-md-1"></div>
-    <div class="col-md-10" style="background-color: #f0f1f4;height: 500px">
+    <div class="col-md-2">
+        <div class="col-md-13" style="background-color: #f0f1f4;height: 400px">
+            <div style="background-color: #919191;height: 30px;text-align: center">
+                <b><font size="5px">最新文章</font></b>
+            </div>
+            <table class="table" id="ShowNewBolgsId"></table>
+        </div>
+
+    </div>
+    <div class="col-md-8" style="background-color: #f0f1f4;height: 500px">
     <h2 id="BlogTitleId">标题</h2>
     <font color="#696969" id="BlogsDateId"></font>
     &nbsp;&nbsp;
@@ -40,6 +53,7 @@
     $(function () {
         initBlogsInfo();
         initLikeButton();
+        initNewsBlogs();
     })
 function initBlogsInfo(){
         var id = $("#BlogsId").val();
@@ -161,6 +175,20 @@ $.ajax({
         alert("重新查询点赞数量出错")
     }
 })
+}
+function initNewsBlogs(){
+    $('#ShowNewBolgsId').bootstrapTable({
+        url:"../blogs/queryNewsBlogsDemo",
+        columns: [
+            [
+                {field:'blogs_title',align:'center',width:50,
+                    formatter:function(value,row,index){
+                        return "<a href='../page/toShowInfoPage?id="+row.blogs_id+"' target='_blank'>"+value+"</a>";
+                    }
+                }
+        ]
+        ],
+    });
 }
 </script>
 </body>
