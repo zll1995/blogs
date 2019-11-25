@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../js/jquery-1.9.1.min.js"></script>、
+    <link rel="stylesheet" href="../js/bootstrap3/css/bootstrap.css"/>
+    <script type="text/javascript" src="../js/bootstrap3/js/bootstrap.js"></script>
+    <script src="../js/bootstrap-bootbox/bootbox.js"></script>
+</head>
+<body bgcolor="f0f1f4">4
+<input type="hidden" th:value="${id}" id="BlogsId">
+<input type="hidden" id="userIdId">
+<div class="row">
+    <div class="col-md-1"></div>
+    <div class="col-md-10" style="background-color: #f0f1f4;height: 500px">
+    <h2 id="BlogTitleId">标题</h2>
+    <font color="#696969" id="BlogsDateId"></font>
+    &nbsp;&nbsp;
+    <a href="javascript:OpenShowUserInfo()"><font color="#6495ed" id="BlogsUserId"></font></a>
+    &nbsp;&nbsp;
+    <font color="#696969" id="BlogsLookId"></font>
+    <br><br>
+    <div style="background-color: black;height: 3px"></div>
+    <div id="BlogsContentId">
+
+    </div>
+
+
+    </div>
+    <div class="col-md-1"></div>
+</div>
+
+<script>
+    $(function () {
+        initBlogsInfo();
+    })
+function initBlogsInfo(){
+        var id = $("#BlogsId").val();
+$.ajax({
+    url:"../blogs/queryBlogsById",
+    data:{id:id},
+    type:"post",
+    success:function(data){
+        $("#userIdId").val(data.blogs_userid);
+        $("#BlogTitleId").html(data.blogs_title);
+        $("#BlogsDateId").html(data.blogs_time);
+        $("#BlogsUserId").html(data.blogs_username);
+        $("#BlogsLookId").html("阅读数："+data.blogs_look);
+        $("#BlogsContentId").html(data.blogs_content);
+    },
+    error:function(){
+        alert("错误")
+    }
+})
+}
+    var res;
+    function createAddContent(url){
+        $.ajax({
+            url:url,
+            async:false,   //同步
+            success:function(data){
+                res = data;
+            }
+        });
+        return res;
+    }
+function OpenShowUserInfo(){
+    bootbox.dialog({
+        title:'用户信息',
+        message:createAddContent("toShowUserInfo"),    //需要载入的页面可以?传参
+        closeButton: true,
+        buttons: {
+            "cancel": {
+                "label": "<i class='icon-info'></i>关闭",
+                "className": "btn btn-warning",
+                "callback":function(){
+
+                }
+            }
+        }
+    })
+    queryUserById();
+}
+function queryUserById(){
+        var id = $("#userIdId").val();
+    $.ajax({
+        url:"../blogs/queryUserById",
+        type:"post",
+        data:{id:id},
+        success:function(data){
+            $("#userImgId").attr("src",data.headImg);
+            $("#nicknameId").html(data.named);
+            if(data.userSex ==1){
+                $("#genderId").html("男");
+            }else if(data.userSex ==2){
+                $("#genderId").html("女");
+            }else{
+                $("#genderId").html("未知");
+            }
+            $("#PhoneId").html(data.phone);
+        },
+        error:function(){
+            alert("查询用户出错");
+        }
+    })
+}
+</script>
+</body>
+</html>

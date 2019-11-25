@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+
+    <title>Title</title>
+</head>
+<body>
+<form  id="update-form"  method="post">
+    <input type="hidden" th:value="${dai.blogs_id }" name="blogs_id">
+    标题：<input  type="text"    name="blogs_title"   th:value="${dai.blogs_title}"><br>
+    内容：<input  type="text"    name="blogs_content"   th:value="${dai.blogs_content}"><br>
+    作者：<input  type="text"    name="blogs_userid"   th:value="${dai.blogs_userid}"><br>
+    发表日期：<input  type="date"  name="blogs_time"   th:value="${dai.blogs_time}" ><br>
+
+</form>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jk.tree.mapper.TreeMapper" >
+
+    <select id="queryTree" resultType="com.jk.tree.model.Tree">
+
+		select * from t_tree t
+        left join t_role_tree rp on t.id=rp.t_treeId
+        left join t_user_role ur on ur.roid=rp.t_roleId
+        where ur.uid=#{userId} and t.pid=#{pid}
+        group by t.id
+	</select>
+	<select id="queryRoleTreeList" resultType="java.util.Map">
+	     select id as value, text from t_tree where pid=#{pid}
+    </select>
+	<select id="queryTreeByRoleId" parameterType="int" resultType="int">
+         select t_treeId from t_role_tree where t_roleId=#{roleId}
+    </select>
+
+	<delete id="deleteRoleTree" parameterType="int">
+	     delete from t_role_tree where t_roleId=#{roleId}
+	</delete>
+
+	<insert id="addRoleTree">
+		insert into t_role_tree(t_roleId,t_treeId) values
+		<foreach collection="split" item="aa" separator="," >
+			(#{roleId},#{aa})
+		</foreach>
+	</insert>
+</mapper>

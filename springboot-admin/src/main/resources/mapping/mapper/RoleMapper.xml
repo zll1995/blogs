@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jk.role.mapper.RoleMapper" >
+
+	<select id="queryRoleList" resultType="com.jk.role.model.Role">
+	     select * from t_role
+	</select>
+	<insert id="addRole" parameterType="com.jk.role.model.Role">
+	     insert into t_role(rname) values(#{rname})
+	</insert>
+	<delete id="delRole" parameterType="int">
+	     delete from t_role where rid=#{id}
+	</delete>
+	<select id="queryRoleById" parameterType="int" resultType="com.jk.role.model.Role">
+	     select * from t_role where rid=#{id}
+	</select>
+	<update id="updRole" parameterType="com.jk.role.model.Role">
+	     update t_role set rname=#{rname} where rid=#{rid}
+	</update>
+	<delete id="deleteRoleTree" parameterType="int">
+	     delete from t_role_tree where t_roleId=#{roleId}
+	</delete>
+</mapper>

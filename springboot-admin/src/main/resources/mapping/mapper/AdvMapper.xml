@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jk.adv.mapper.AdvMapper" >
+
+    <select id="queryAdvType" resultType="com.jk.adv.model.AdvType">
+		select * from t_advType
+	</select>
+
+	<delete id="deleteAdvByIds" parameterType="string">
+		delete from t_advType where advTypeId in (${ids})
+	</delete>
+
+	<insert id="addAdvType" parameterType="com.jk.adv.model.AdvType">
+		insert into t_advType(advTypeName) values (#{advTypeName});
+	</insert>
+
+	<select id="queryAdvTypeById" parameterType="int" resultType="com.jk.adv.model.AdvType">
+		select * from t_advType where advTypeId=#{id}
+	</select>
+
+	<update id="updAdvType" parameterType="com.jk.adv.model.AdvType">
+		update t_advType set advTypeName = #{advTypeName} where advTypeId = #{advTypeId}
+	</update>
+
+	<select id="queryAdv" resultType="com.jk.adv.model.Adv">
+		select a.advId,a.advTitle,a.advUrl,a.advImg,a.topTime,a.topStatus,t.advTypeName as advTypeName
+		from t_adv a,t_advType t where a.typeId = t.advTypeId order by topStatus desc ,topTime desc
+	</select>
+
+	<delete id="deleteAdv" parameterType="string">
+		delete from t_adv where advId in (${ids})
+	</delete>
+
+	<update id="updateAdvTopStatus" parameterType="int">
+        <if test="flag==1">
+			update t_adv set topStatus=1,topTime=sysdate() where advId = #{id}
+		</if>
+        <if test="flag==2">
+			update t_adv set topStatus=0,topTime=null where advId = #{id}
+		</if>
+	</update>
+	
+	<insert id="addAdv" parameterType="com.jk.adv.model.Adv">
+		insert into t_adv (advTitle,advUrl,advImg,typeId,topStatus) values (#{advTitle},#{advUrl},#{advImg},#{typeId},0);
+	</insert>
+
+	<select id="queryAdvById" parameterType="int" resultType="com.jk.adv.model.Adv">
+		select * from t_adv where advId = #{id}
+	</select>
+
+	<update id="updAdv" parameterType="com.jk.adv.model.Adv">
+		update t_adv set advTitle=#{advTitle},advUrl=#{advUrl},advImg=#{advImg},typeId=#{typeId} where advId = #{advId}
+	</update>
+</mapper>

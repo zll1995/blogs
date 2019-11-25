@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="../js/jquery-1.9.1.min.js"></script>
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="../js/bootstrap3/css/bootstrap.css"/>
+    <script type="text/javascript" src="../js/bootstrap3/js/bootstrap.js"></script>
+    <!-- bootstrap 表格 -->
+    <link rel="stylesheet" href="../js/bootstrap-table/bootstrap-table.css" />
+    <script src="../js/bootstrap-table/bootstrap-table.js"></script>
+    <script src="../js/bootstrap-table/locale/bootstrap-table-zh-CN.js"></script>
+    <!-- bootstrap 弹框 -->
+    <script src="../js/bootstrap-bootbox/bootbox.js"></script>
+</head>
+<body>
+<button id="addAdvType" class="btn btn-success glyphicon glyphicon-save">新增</button>
+<button id="delAdvType" class="btn btn-danger glyphicon glyphicon-remove">批量删除</button>
+<table class="table" id="myTable"></table>
+</body>
+<script>
+
+    $(function () {
+        queryAdvType();
+    })
+
+    //修改
+    function updateAdvTypeDialog(id){
+        // 回显
+        $.ajax({
+            url: "../adv/queryAdvTypeById",
+            type: "post",
+            data: {"id": id},
+            dataType: "json",
+            success: function(data){
+                $("[name='advTypeId']").val(data.advTypeId);
+                $("[name='advTypeName']").val(data.advTypeName);
+            }
+        })
+        bootbox.dialog({
+            title: "修改广告类型",
+            message: createAddContent("../page/toAddAdvType"),
+            closeButton: true,
+            buttons: {
+                "success": {
+                    "label": "<i class='icon-ok'></i>保存",
+                    "className": "btn btn-success",
+                    "callback":function(){
+                        $.ajax({
+                            url: "../adv/updAdvType",
+                            type: "post",
+                            data: $("#addForm").serialize(),
+                            success: function(){
+                                $("#myTable").bootstrapTable("refresh");
+                            }
+                        })
+                    }
+                },
+                "cancel": {
+                    "label": "<i class='icon-info'></i>取消",
+                    "className": "btn btn-warning",
+                    "callback":function(){}
+                }
+            }
+        })
+    }
+
+    //新增
+    $("#addAdvType").click(function(){
+        bootbox.dialog({
+            title: "新增广告类型",
+            message: createAddContent("../page/toAddAdvType"),
+            closeButton: true,
+            buttons: {
+                "success": {
+                    "label": "<i class='icon-ok'></i>保存",
+                    "className": "btn btn-success",
+                    "callback":function(){
+                        $.ajax({
+                            url: "../adv/addAdvType",
+                            type: "post",
+                            data: $("#addForm").serialize(),
+                            success: function(){
+                                $("#myTable").bootstrapTable("refresh");
+                            }
+                        })
+
+                    }
+                },
+                "cancel": {
+                    "label": "<i class='icon-info'></i>取消",
+                    "className": "btn btn-warning",
+                    "callback":function(){}
+                }
+            }
+        })
+    })
+    //查询
+    function queryAdvType(){
+        $('#myTable').bootstrapTable({
+            url:'../adv/queryAdvType',//获取数据地址     
+            pagination:true, //是否展示分页    
+            pageList:[2,4,6,8,10],//分页组件    
+            pageNumber:1,
+            pageSize:2,//默认每页条数  
+            search:true,//是否显示搜索框
+            showColumns:false,//是否显示 内容列下拉框    
+            showToggle:false,//是否显示 切换试图（table/card）按钮    
+            showPaginationSwitch:false,//是否显示 数据条数选择框    
+            showRefresh:false,//是否显示刷新按钮    
+            detailView:false,//设置为 true 可以显示详细页面模式。    
+            showFooter:false,//是否显示列脚
+            clickToSelect: true, //是否启用点击选中行    
+            sidePagination:'client',//分页方式：client客户端分页，server服务端分页   
+            striped:true,
+            columns:[
+                {checkbox:true},
+                {field:'advTypeId',title:'ID',align:'center',width:100},
+                {field:'advTypeName',title:'广告类型',align:'center',width:150},
+                {field:'111',title:'操作',width:150,formatter:function(value,row,index){
+                    return '<button class="btn btn-link" onclick="updateAdvTypeDialog('+ row.advTypeId +')" >修改</button><button class="btn btn-link" onclick="deleteAdvTypeById('+ row.advTypeId +',\''+row.advTypeName+'\')" >删除</button>';
+                }}
+            ]
+        });
+    }
+
+    //批删
+    $("#delAdvType").click(function(){
+        var row = $("#myTable").bootstrapTable("getSelections");
+        var ids="";
+        var names="";
+        if(row==null || row.length==0){
+            bootbox.alert({
+                size: "small",
+                title: "提示",
+                message: "请选择要删除的数据！",
+                callback: function(){}
+            });
+            return;
+        }
+        for(var i=0;i<row.length;i++){
+            ids += ids==""?row[i].advTypeId:","+row[i].advTypeId;
+            names += names==""?row[i].advTypeName:","+row[i].advTypeName;
+        }
+        bootbox.confirm({
+            size: "small",
+            message: "你确定要删除 "+names+" 吗?",
+            buttons: {
+                confirm: {
+                    "label": "确认",
+                    "className": "btn-success",
+                },
+                cancel: {
+                    "label": "取消",
+                    "className": "btn-danger",
+                }
+            },
+            callback: function(result){
+                if(result){
+                    $.ajax({
+                        url: "../adv/deleteAdvTypeByIds",
+                        type: "post",
+                        data: {"ids":ids},
+                        success:function(){
+                            $("#myTable").bootstrapTable("refresh");
+                        }
+                    })
+                }
+            }
+        })
+    })
+    //单删
+    function deleteAdvTypeById(advTypeId, advTypeName){
+        bootbox.confirm({
+            size: "small",
+            message: "你确定要删除 "+advTypeName+" 吗?",
+            buttons: {
+                confirm: {
+                    "label": "确认",
+                    "class": "btn-success",
+                },
+                cancel: {
+                    "label": "取消",
+                    "class": "btn-danger",
+                }
+            },
+            callback: function(result){
+                if(result){
+                    $.ajax({
+                        url: "../adv/deleteAdvTypeByIds",
+                        type: "post",
+                        data: {"ids":advTypeId},
+                        success:function(){
+                            $("#myTable").bootstrapTable("refresh");
+                        }
+                    })
+                }
+            }
+        })
+    }
+
+    var res;
+    function createAddContent(url){
+        $.ajax({
+            url:url,
+            async:false,
+            success:function(data){
+                res = data;
+            }
+        });
+        return res;
+    }
+</script>
+</html>

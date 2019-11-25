@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jk.user.mapper.UserMapper" >
+
+    <select id="queryUserList" resultType="com.jk.user.model.User">
+		select * from t_user6
+	</select>
+
+	<select id="queryAdminUser" resultType="com.jk.user.model.AdminUser">
+		select au.*,r.rname as rname ,d.dept_name as deptname from admin_user au,t_role r,t_user_role ur,t_dept d
+		where au.userId = ur.uid and r.rid = ur.roid and au.deptId = d.dept_id
+	</select>
+
+	<select id="queryAdminUserById" parameterType="int" resultType="com.jk.user.model.AdminUser">
+		select au.*,r.rname as rname ,d.dept_name as deptname from admin_user au,t_role r,t_user_role ur,t_dept d
+		where au.userId = ur.uid and r.rid = ur.roid and au.deptId = d.dept_id and au.userId = #{id}
+	</select>
+
+	<update id="updAdminUser" parameterType="com.jk.user.model.AdminUser">
+		update admin_user set username=#{username},name=#{name},userSex=#{userSex},deptId=#{deptId},userImg=#{userImg}
+		 where userId = #{userId}
+	</update>
+	
+	<delete id="deleteUserByIds" parameterType="string">
+		delete from admin_user where userId in (${ids})
+	</delete>
+
+	<delete id="deleteUserRoleByIds" parameterType="string">
+		delete from t_user_role where uid in (${ids})
+	</delete>
+
+	<select id="queryUserOfRole" parameterType="int" resultType="int">
+		select roid from t_user_role where uid=#{id}
+	</select>
+
+	<insert id="addUserRole">
+		insert into t_user_role(uid,roid) values (#{id},#{roleId})
+
+	</insert>
+
+	<select id="queryUserByUsername" parameterType="string" resultType="com.jk.user.model.AdminUser">
+		select * from admin_user where username = #{username}
+	</select>
+
+	<update id="updPwd">
+		update admin_user set password = #{pwd} where userId=#{id}
+	</update>
+</mapper>

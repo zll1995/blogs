@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>注册中心</title>
+    <script type="text/javascript" src="../js/jquery-1.8.0.js"></script>
+    <link rel="shortcut icon" th:href="@{/static/img/favicon.ico}" />
+    <link rel="stylesheet" type="text/css"
+          th:href="@{/plugins/bootstrap/css/bootstrap.min.css}">
+    <link rel="stylesheet" type="text/css"
+          th:href="@{/plugins/vali/css/main.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/plugins/toast/jquery.toast.css}">
+    <link rel="stylesheet" type="text/css"
+          th:href="@{/plugins/font-awesome-4.7.0/css/font-awesome.min.css}">
+    <!-- bootstrap上传插件 -->
+    <script src="../js/bootstrap-fileinput/js/fileinput.js"></script>
+    <script src="../js/bootstrap-fileinput/js/locales/zh.js"></script>
+    <link rel="stylesheet" href="../js/bootstrap-fileinput/css/fileinput.css">
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="../js/bootstrap3/css/bootstrap.css"/>
+    <script type="text/javascript" src="../js/bootstrap3/js/bootstrap.js"></script>
+    <!-- bootstrap 表格 -->
+    <link rel="stylesheet" href="../js/bootstrap-table/bootstrap-table.css" />
+    <script src="../js/bootstrap-table/bootstrap-table.js"></script>
+    <script src="../js/bootstrap-table/locale/bootstrap-table-zh-CN.js"></script>
+</head>
+<body style="background-color: #0c5460;">
+<div class="col-md-12">
+    <div class="row mt-5">
+        <div class="col-md-8 offset-md-2">
+            <h1 class="font-weight-bold text-center"
+                style="font-family: 'verdana'">
+                手机登录页面 <small class="font-weight-bold"
+                              style="font-family: 'verdana'"><a href="../page/toRegister">注册</a></small>
+            </h1>
+        </div>
+    </div>
+    <div class="row mt-5">
+        <div class="col-md-4 offset-md-4">
+            <div class="tile">
+                <form class="form-horizontal" id="phone">
+                    <div class="form-group row">
+                        <div class="col-md-10">
+                            <h5>手机号</h5><input class="form-control" type="text" name="phone" onblur="aaa()" placeholder="请输入手机号">
+                            <span id="ooo"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-10">
+                            <h5><a href="javaScript:phoneLogin()"><font size="2" color="red">获取验证码</font></a>
+                                <span id="SpanId"></span>
+                            </h5>
+                            <input class="form-control" type="text"  id="yzmkk" placeholder="请输入验证码">
+                        </div>
+                    </div>
+                    <div class="container-login100-form-btn">
+                        <button   class="login100-form-btn" onclick="login()">
+                            Login
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script>
+    /*
+    * 查询手机号是否存在
+    * */
+    function aaa() {
+        $.ajax({
+            url:"../user/queryPhone",
+            type:"post",
+            data:$("#phone").serialize(),
+            success:function(data){
+                if(data == "fail"){
+                    $("#ooo").html("<font color='green'>√</font>")
+                }else{
+                    $("#ooo").html("<font color='red'>手机号不存在</font>")
+                }
+            }
+        });
+    }
+var a="";
+    function phoneLogin(){
+        $.ajax({
+            url:"../user/hqyzm",
+            data:$("#phone").serialize(),
+            type:"post",
+            success:function(data){
+                alert(data);
+                $("#SpanId").html(data);
+            }
+        });
+    }
+
+  function login() {
+        var b=$("#SpanId").val();
+        var a=$("#yzmkk").val();
+      if(a!=b){
+          alert("验证码不一致，请重新获取验证码")
+      }else{
+          location.href = "../page/toMain";
+      }
+  }
+</script>
+</html>

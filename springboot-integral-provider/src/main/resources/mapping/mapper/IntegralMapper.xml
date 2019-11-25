@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jk.integral.mapper.IntegralMapper" >
+
+    <select id="queryBoutique" resultType="com.jk.integral.model.Store">
+        select * from t_store where commType = 1 and commStatus = 1
+    </select>
+
+    <select id="queryHouseHome" resultType="com.jk.integral.model.Store">
+        select * from t_store where commType = 2 and commStatus = 1
+    </select>
+
+    <select id="queryAppliance" resultType="com.jk.integral.model.Store">
+        select * from t_store where commType = 3 and commStatus = 1
+    </select>
+
+    <select id="queryNumerical" resultType="com.jk.integral.model.Store">
+        select * from t_store where commType = 4 and commStatus = 1
+    </select>
+
+    <select id="queryCar" resultType="com.jk.integral.model.Store">
+        select * from t_store where commType = 5 and commStatus = 1
+    </select>
+
+    <select id="queryIntegralById" resultType="com.jk.integral.model.Integral">
+        select * from t_integral where integralUserId = #{userId}
+    </select>
+
+    <update id="exchange" parameterType="int">
+        update t_integral set amount = amount-#{commIntegral} where integralUserId = #{uid}
+    </update>
+
+    <select id="queryCommById" resultType="com.jk.integral.model.Store">
+        select * from t_store where commId = #{commId}
+    </select>
+
+</mapper>

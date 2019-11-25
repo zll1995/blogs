@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="../js/jquery-1.9.1.min.js"></script>
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="../js/bootstrap3/css/bootstrap.css"/>
+    <script type="text/javascript" src="../js/bootstrap3/js/bootstrap.js"></script>
+    <!-- bootstrap 表格 -->
+    <link rel="stylesheet" href="../js/bootstrap-table/bootstrap-table.css" />
+    <script src="../js/bootstrap-table/bootstrap-table.js"></script>
+    <script src="../js/bootstrap-table/locale/bootstrap-table-zh-CN.js"></script>
+    <!-- bootstrap 弹框 -->
+    <script src="../js/bootstrap-bootbox/bootbox.js"></script>
+    <!-- bootstrap日期插件 -->
+    <script src="../js/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js"></script>
+    <script src="../js/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+    <link rel="stylesheet" href="../js/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css">
+    <!-- bootstrap上传插件 -->
+    <script src="../js/bootstrap-fileinput/js/fileinput.js"></script>
+    <script src="../js/bootstrap-fileinput/js/locales/zh.js"></script>
+    <link rel="stylesheet" href="../js/bootstrap-fileinput/css/fileinput.css">
+</head>
+<body>
+<button id="addAdv" class="btn btn-success glyphicon glyphicon-save">新增</button>
+<button id="delAdv" class="btn btn-danger glyphicon glyphicon-remove">批量删除</button>
+<table class="table" id="myTable"></table>
+</body>
+<script>
+
+    $(function () {
+        queryAdv();
+    })
+
+    //修改
+    function updateAdvDialog(id){
+        bootbox.dialog({
+            title: "修改广告",
+            message: createAddContent("../page/toUpdAdv"),
+            closeButton: true,
+            buttons: {
+                "success": {
+                    "label": "<i class='icon-ok'></i>保存",
+                    "className": "btn btn-success",
+                    "callback":function(){
+                        $.ajax({
+                            url: "../adv/updAdv",
+                            type: "post",
+                            data: $("#updForm").serialize(),
+                            success: function(){
+                                $("#myTable").bootstrapTable("refresh");
+                            }
+                        })
+                    }
+                },
+                "cancel": {
+                    "label": "<i class='icon-info'></i>取消",
+                    "className": "btn btn-warning",
+                    "callback":function(){}
+                }
+            }
+        })
+        // 回显
+        $.ajax({
+            url: "../adv/queryAdvById",
+            type: "post",
+            data: {"id": id},
+            dataType: "json",
+            success: function(data){
+                $("#advId").val(data.advId);
+                $("#advTitle2").val(data.advTitle);
+                $("#advUrl2").val(data.advUrl);
+                $("#typeId2").val(data.typeId);
+                $("#testimg").val(data.advImg);
+                editFileInput(data.advImg);
+            }
+        })
+    }
+    // 修改回显图片使用，不能用于新增
+    function editFileInput(url){
+        $('#headImg').fileinput({
+            initialPreview:url,//回显地址url
+            initialPreviewConfig: [
+                {key: 1, showDelete: false}
+            ],
+            initialPreviewAsData: true,
+            language: 'zh', //设置语言
+            uploadUrl: '../img/updaloadImg', //上传的地址
+            allowedFileExtensions: ['jpg', 'png', 'jpeg', 'gif', 'bmp'],//接收的文件后缀
+            showUpload: true, //是否显示上传按钮
+            showCaption: false,//是否显示标题
+            browseClass: "btn btn-primary", //按钮样式
+            //dropZoneEnabled: false,//是否显示拖拽区域
+            //minImageWidth: 50, //图片的最小宽度
+            //minImageHeight: 50,//图片的最小高度
+            //maxImageWidth: 1000,//图片的最大宽度
+            //maxImageHeight: 1000,//图片的最大高度
+            //maxFileSize: 0,//单位为kb，如果为0表示不限制文件大小
+            //minFileCount: 0,
+            maxFileCount: 2, //表示允许同时上传的最大文件个数
+            enctype: 'multipart/form-data',
+            validateInitialCount:true,
+            previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
+            msgFilesTooMany: "选择上传的文件数量({n}) 超过允许的最大数值{m}！",
+
+        }).on('fileuploaded', function(event, data, previewId, index) {
+            var imgval = '';
+            if(imgval == null || imgval == "" || imgval == undefined){
+                imgval = data.response.imgUrl;
+            }else{
+                imgval += ","+data.response.imgUrl;
+            }
+            $('#testimg').val(imgval);
+        });
+    }
+    //新增
+    $("#addAdv").click(function(){
+        bootbox.dialog({
+            title: "新增广告",
+            message: createAddContent("../page/toAddAdv"),
+            closeButton: true,
+            buttons: {
+                "success": {
+                    "label": "<i class='icon-ok'></i>保存",
+                    "className": "btn btn-success",
+                    "callback":function(){
+                        $.ajax({
+                            url: "../adv/addAdv",
+                            type: "post",
+                            data: $("#addForm").serialize(),
+                            success: function(){
+                                $("#myTable").bootstrapTable("refresh");
+                            }
+                        })
+
+                    }
+                },
+                "cancel": {
+                    "label": "<i class='icon-info'></i>取消",
+                    "className": "btn btn-warning",
+                    "callback":function(){}
+                }
+            }
+        })
+    })
+
+    var res;
+    function createAddContent(url){
+        $.ajax({
+            url:url,
+            async:false,
+            success:function(data){
+                res = data;
+            }
+        });
+        return res;
+    }
+
+    //置顶
+    function updateAdvTopStatus(id,flag){
+        $.ajax({
+            url:'../adv/updateAdvTopStatus',
+            data:{id:id,flag:flag},
+            success:function () {
+                $("#myTable").bootstrapTable("refresh");
+            },
+            error:function () {
+                alert("后台错误")
+            }
+        })
+    }
+
+
+    //批删
+    $("#delAdv").click(function(){
+        var row = $("#myTable").bootstrapTable("getSelections");
+        var ids="";
+        var names="";
+        if(row==null || row.length==0){
+            bootbox.alert({
+                size: "small",
+                title: "提示",
+                message: "请选择要删除的数据！",
+                callback: function(){}
+            });
+            return;
+        }
+        for(var i=0;i<row.length;i++){
+            ids += ids==""?row[i].advId:","+row[i].advId;
+            names += names==""?row[i].advTitle:","+row[i].advTitle;
+        }
+        bootbox.confirm({
+            size: "small",
+            message: "你确定要删除 "+names+" 吗?",
+            buttons: {
+                confirm: {
+                    "label": "确认",
+                    "className": "btn-success",
+                },
+                cancel: {
+                    "label": "取消",
+                    "className": "btn-danger",
+                }
+            },
+            callback: function(result){
+                if(result){
+                    $.ajax({
+                        url: "../adv/deleteAdvByIds",
+                        type: "post",
+                        data: {"ids":ids},
+                        success:function(){
+                            $("#myTable").bootstrapTable("refresh");
+                        }
+                    })
+                }
+            }
+        })
+    })
+    //查询
+    function queryAdv(){
+        $('#myTable').bootstrapTable({
+            url:'../adv/queryAdv',//获取数据地址   
+            pagination:true, //是否展示分页    
+            pageList:[5,10,15,20,25],//分页组件    
+            pageNumber:1,
+            pageSize:5,//默认每页条数  
+            search:true,//是否显示搜索框
+            showColumns:false,//是否显示 内容列下拉框    
+            showToggle:false,//是否显示 切换试图（table/card）按钮    
+            showPaginationSwitch:false,//是否显示 数据条数选择框    
+            showRefresh:false,//是否显示刷新按钮    
+            detailView:false,//设置为 true 可以显示详细页面模式。    
+            showFooter:false,//是否显示列脚
+            clickToSelect: true, //是否启用点击选中行    
+            sidePagination:'client',//分页方式：client客户端分页，server服务端分页   
+            striped:true,
+            columns:[
+                {checkbox:true},
+                {field:'advId',title:'广告ID',align:'center',width:100},
+                {field:'advTypeName',title:'广告类型',align:'center',width:150},
+                {field:'advTitle',title:'标题',align:'center',width:150},
+                {field:'advUrl',title:'URL',align:'center',width:150},
+                {field:'advImg',title:'图片',width:150,formatter:function(value,row,index){
+                        return '<img width="120px" src="'+value+'"/>'
+                    }},
+                {field:'topTime',title:'置顶时间',width:150,formatter:function(value,row,index){
+                        var date =new Date(value);
+                        var tol=date.toLocaleDateString(date);
+                        return tol;
+                    }},
+                {field:'111',title:'操作',width:150,formatter:function(value,row,index){
+                    if(row.topStatus==0){
+                        return '<button class="btn btn-link" onclick="updateAdvDialog('+ row.advId +')" >修改</button><button class="btn btn-link" onclick="updateAdvTopStatus('+row.advId+',1)" >置顶</button>';
+                    }else if(row.topStatus==1){
+                        return '<button class="btn btn-link" onclick="updateAdvDialog('+ row.advId +')" >修改</button><button class="btn btn-link" onclick="updateAdvTopStatus('+row.advId+',2)" >取消置顶</button>';
+                    }
+                }}
+            ]
+        });
+    }
+    //日期插件
+    $('.date').datetimepicker({
+        language: 'zh-CN',//显示中文
+//		  format: 'yyyy-mm-dd hh:ii:ss',//显示格式
+        format: 'yyyy-mm-dd',//显示格式
+        minView: "month",//设置只显示到月份
+        initialDate: new Date(),//初始化当前日期
+        autoclose: true,//选中自动关闭
+        todayBtn: true//显示今日按钮
+    });
+</script>
+</html>

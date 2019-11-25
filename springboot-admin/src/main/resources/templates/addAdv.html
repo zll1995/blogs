@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form class="form-horizontal" id="addForm">
+    <div class="form-group">
+        <label for="advTitle" class="col-sm-2 control-label">广告标题</label>
+        <div class="col-sm-8">
+            <input type="text" name="advTitle" id="advTitle" class="form-control" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="advUrl" class="col-sm-2 control-label">URL</label>
+        <div class="col-sm-8">
+            <input type="text" name="advUrl" id="advUrl" class="form-control"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="typeId" class="col-sm-2 control-label">广告类型</label>
+        <div class="col-sm-8">
+            <select id="typeId" name="typeId" class="form-control" ></select>
+        </div>
+    </div>
+    <div class="row myrow">
+        <div class="col-md-2">
+            <label for="headImg">广告图片</label>
+        </div>
+        <div class="col-md-10" >
+            <input type="hidden" id="testimg" name="advImg" />
+            <input type="file"  class="projectfile"  name="img" id="headImg">
+        </div>
+    </div>
+</form>
+</body>
+<script>
+    
+    $(function () {
+        initAdvType();
+        uploadify();
+    })
+
+    function initAdvType(){
+        $.ajax({
+            url: "../adv/queryAdvType",
+            type: "post",
+            success: function(data){
+                var html = "<option value='0'>请选择</option>";
+                for(var i=0; i<data.length; i++){
+                    html += "<option value='"+data[i].advTypeId+"'>"+data[i].advTypeName+"</option>";
+                }
+                $("#typeId").html(html);
+            }
+        })
+    }
+
+    //文件上传
+    function uploadify(){
+        $('#headImg').fileinput({
+            language: 'zh', //设置语言
+            uploadUrl: '../img/updaloadImg', //上传的地址
+            allowedFileExtensions: ['jpg', 'png', 'jpeg', 'gif', 'bmp'],//接收的文件后缀
+            showUpload: true, //是否显示上传按钮
+            showCaption: false,//是否显示标题
+            browseClass: "btn btn-primary", //按钮样式
+            maxFileCount: 5, //表示允许同时上传的最大文件个数
+            enctype: 'multipart/form-data',
+            validateInitialCount:true,
+            previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
+            msgFilesTooMany: "选择上传的文件数量({n}) 超过允许的最大数值{m}！",
+        }).on('fileuploaded', function(event, data, previewId, index) {
+            var imgval = $('#testimg').val();
+            if(imgval == null || imgval == "" || imgval == undefined){
+                imgval = data.response.imgUrl;
+            }else{
+                imgval += ","+data.response.imgUrl;
+            }
+            $('#testimg').val(imgval);
+        });
+
+    }
+</script>
+</html>

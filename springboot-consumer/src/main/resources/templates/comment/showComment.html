@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+
+<!-- Bootstrap 插件 css -->
+<link href="../js1/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
+<!-- Bootstrap 核心css -->
+<link href="../js1/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<!-- Bootstrap TreeView css -->
+<link href="../js1/bootstrap-treeview/dist/bootstrap-treeview.min.css" rel="stylesheet">
+
+<!-- Bootstrap addTabs css -->
+<link href="../js1/bootStrap-addTabs/bootstrap.addtabs.css" rel="stylesheet">
+
+<!-- Bootstrap table css -->
+<link href="../js1/bootstrap-table/dist/bootstrap-table.css" rel="stylesheet">
+<!-- bootstrap-datetimepicker css -->
+<link href="../js1/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css" rel="stylesheet">
+
+<!-- bootstrap-dialog css -->
+<link href="../js1/bootstrap-dialog/dist/css/bootstrap-dialog.css" rel="stylesheet">
+<!-- bootstrap-fileinput css -->
+<link href="../js1/bootstrap-fileinput/css/fileinput.css" rel="stylesheet">
+
+<body>
+
+<button type="button" class="btn btn-success" onclick="goBottom()">发表我的评论</button>
+<!--显示评论表格-->
+<table id="CommentTableShowId"></table>
+<!--editor评论框-->
+
+            <form id="saveCommentForm"><!--新增评论,表单内为活数据-->
+
+                <input type="hidden"  name="blogs_id" value="1"/><!--展示单个blog主键-->
+                <input type="hidden"  name="userId" value="12"/><!--登录用户取值**********-->
+                <input type="hidden"  name="username" value="老杨"/><!--登录用户取值**********-->
+                <input type="hidden"  name="headImg" value="123.jpg"/><!--登录用户取值**********-->
+
+                <input type="hidden"  id="commentContentId" name="commentContent"/><!--点击按钮赋值-->
+            <div id="editor" type="text/plain" style="width:700px;height:300px"></div>
+
+            <!--发表评论按钮-->
+                <button type="button" class="btn btn-success" onclick="saveCommentForm()">点击发表评论</button>
+            </form>
+<!--editor回复框-->
+            <form id="saveReplyForm"><!--新增评论,表单内为活数据-->
+                <input type="hidden"  name="commentedId" id="IDcommentedId"/><!--点击按钮赋值-->
+                <input type="hidden"  name="replyedId" id="IDreplyedId"/><!--点击按钮赋值-->
+
+                <input type="hidden"  name="userId" value="12"/><!--登录用户取值**********-->
+                <input type="hidden"  name="username" value="老杨"/><!--登录用户取值**********-->
+                <input type="hidden"  name="headImg" value="123.jpg"/><!--登录用户取值**********-->
+
+
+                <input type="hidden"  name="replyuserId" id="IDreplyuserId"/><!--点击按钮赋值-->
+                <input type="hidden"  name="replyuserName" id="IDreplyuserName"/><!--点击按钮赋值-->
+
+                <input type="hidden"  name="replyContent" id="replyContentId"/><!--点击按钮赋值-->
+            </form>
+
+<!--ueditor富文本编辑器-->
+<script type="text/javascript" charset="utf-8" src="../ueditor/ueditor.config.js"></script>
+<script type="text/javascript" charset="utf-8" src="../ueditor/ueditor.all.min.js"> </script>
+<!--建议手动加在语言，避免在ie下有时因为加载语言失败导致编辑器加载失败-->
+<!--这里加载的语言文件会覆盖你在配置项目里添加的语言类型，比如你在配置项目里配置的是英文，这里加载的中文，那最后就是中文-->
+<script type="text/javascript" charset="utf-8" src="../ueditor/lang/zh-cn/zh-cn.js"></script>
+<!--jQuery核心js  -->
+<script src="../js1/jquery.min.js"></script>
+<!-- bootstrap 核心js文件 -->
+<script src="../js1/bootstrap/js/bootstrap.min.js"></script>
+<!-- bootStrap TreeView -->
+<script src="../js1/bootstrap-treeview/dist/bootstrap-treeview.min.js"></script>
+
+<!-- bootStrap addTabs -->
+<script src="../js1/bootStrap-addTabs/bootstrap.addtabs.js"></script>
+
+<!-- bootStrap table -->
+<script src="../js1/bootstrap-table/dist/bootstrap-table.js"></script>
+<!-- bootStrap table 语言包中文-->
+<script src="../js1/bootstrap-table/dist/locale/bootstrap-table-zh-CN.js"></script>
+
+<!-- bootstrap-datetimepicker -->
+<script src="../js1/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js"></script>
+<script src="../js1/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+
+<!-- bootstrap-dialog -->
+<script src="../js1/bootstrap-dialog/dist/js/bootstrap-dialog.js"></script>
+<!-- bootstrap-fileinput -->
+<script src="../js1/bootstrap-fileinput/js/fileinput.js"></script>
+<script src="../js1/bootstrap-fileinput/js/locales/zh.js"></script>
+<script>
+function searchLogistics(){
+    $("#CommentTableShowId").bootstrapTable("refresh");
+}
+$(function (){
+    $("#CommentTableShowId").bootstrapTable({
+        url:"../comment/queryComment",
+//        striped: true,			//隔行变色
+//        showColumns:true,			//是否显示 内容列下拉框
+//         showPaginationSwitch:true,//是否显示 数据条数选择框
+        minimumCountColumns:2,	//最小留几列 默认值1
+//        // showRefresh:true,			//显示刷新按钮
+//        showToggle:true,			//显示切换视图
+//		  search:true,				//是否显示搜索框
+//		  searchOnEnterKey:true,	//设置为 true时，按回车触发搜索方法，否则自动触发搜索方法
+        pagination:true,			//开启分页
+//        paginationLoop:true,		//开启分页无限循环
+        pageNumber:1,				//当前页数
+        pageSize:20,				//每页条数
+        // pageList:[1,2,3,4],		//如果设置了分页，设置可供选择的页面数据条数。设置为All 则显示所有记录。
+        sidePagination:"server",	//
+        method:'post',			//发送请求的方式
+        contentType:"application/x-www-form-urlencoded",//必须的否则条件查询时会乱码
+        queryParams:function(obj){
+            return {
+                blogs_id:1,
+                page:this.pageNumber,//当前页
+                rows:this.pageSize //每页条数
+            }
+        },
+        columns: [
+            {field:'头像',width: 100,
+                formatter:function(value,row,index){
+                        return row.headImg+"<br><br><br><br>"+row.username;
+                }
+            },
+            {field:'评论',
+                formatter:function(value,row,index){
+                    var html=""
+                    var commentedId=row.commentId
+                        $.ajax({
+                        url:"../comment/queryReply?commentedId="+row.commentId,
+                        type:"post",
+                        async:false,
+                        dataType:"json",
+                        success:function(data) {
+                            for (var i=0;i<data.length;i++){
+                                var flag="对<font color='blue'>"+data[i].replyuserName+"</font>";
+                                if(data[i].replyuserName==null ||data[i].replyuserName==""){
+                                    flag="";
+                                }
+                                html+=""+
+                                "<font>"+data[i].headImg+"</font>"+
+                                "<font color='blue'>"+data[i].username+"</font>"+
+                                flag+"说："+
+                                "<font>"+data[i].replyContent+"</font>"+
+                                "<button type=\"button\" class=\"glyphicon glyphicon-thumbs-up\" /><font>"+data[i].preseCount+"</font>"+
+                                '<button type="button" class="btn btn-default btn-xs" onclick="sendReplyForm('+commentedId+','+data[i].replyedId+','+data[i].userId+',\''+data[i].username+'\')">回复Ta</button><br><br></div>';
+                            }
+                        }
+                    });
+                     return row.commentContent+"<br><br><br><br>"+
+                        "<a>举报<span class=\"glyphicon glyphicon-warning-sign\"></span></a>"+row.preseCount+"<button type=\"button\" class=\"glyphicon glyphicon-thumbs-up\" />"+row.creatTime+"<br>"+
+                        "<button type=\"button\" class=\"btn btn-default\" onclick='sendReplyForm("+commentedId+")'>我来说一句</button><br><br>"+
+                         html+
+                         '<div id='+commentedId+' class="addClass"></div>';
+
+                }
+            }
+        ]
+    })
+})
+//// ab= JSON.stringify(data);
+function goBottom() {
+    window.scrollTo(0, document.documentElement.scrollHeight-document.documentElement.clientHeight);
+}
+
+//实例化编辑器
+//建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
+var ue = UE.getEditor('editor');
+
+function saveCommentForm(){
+    $("#commentContentId").val(ue.getContent());
+    $.ajax({
+        url:"../comment/addComment",
+        data:$("#saveCommentForm").serialize(),
+        dataType: "json",
+        success: function(data) {
+            msgDia = BootstrapDialog.show({
+                message:data.flag
+            });
+            setTimeout(function(){
+                msgDia.close();
+            }, 2000);
+        }
+    })
+}
+function sendReplyForm(commentedId,replyedId,replyuserId,replyuserName) {
+    $(".addClass").html('')
+
+    // alert(commentedId)
+    // alert(replyedId)
+    // alert(replyuserId)
+    // alert(replyuserName)
+
+    $("#IDcommentedId").val(commentedId);
+    $("#IDreplyedId").val(replyedId);
+    $("#IDreplyuserId").val(replyuserId);
+    $("#IDreplyuserName").val(replyuserName);
+    $("#"+commentedId+"").html('<div id="editorId" type="text/plain" style="width:500px;height:200px"></div><button type="button" class="btn btn-success" onclick="saveReplyForm()">点击回复</button>');
+    ueR = UE.getEditor('editorId');
+}
+function saveReplyForm( ) {
+    $("#replyContentId").val(ueR.getContent());
+    alert()
+    $.ajax({
+        url:"../comment/addReply",
+        data:$("#saveReplyForm").serialize(),
+        dataType: "json",
+        success: function(data) {
+            msgDia = BootstrapDialog.show({
+                message:data.flag
+            });
+            setTimeout(function(){
+                msgDia.close();
+            }, 2000);
+        }
+    })
+}
+</script>
+</body>
+</html>

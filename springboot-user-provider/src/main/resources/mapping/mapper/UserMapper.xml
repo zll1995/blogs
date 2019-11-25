@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jk.user.mapper.UserMapper" >
+
+	<select id="queryUserByName" resultType="com.jk.user.model.User">
+		select username,password from t_user6 where username=#{username}
+	</select>
+
+    <select id="queryPhone" resultType="com.jk.user.model.User">
+		select username,password from t_user6 where phone=#{phone}
+	</select>
+
+    <select id="queryUserById" parameterType="int" resultType="com.jk.user.model.User">
+        select * from t_user6 where userId = #{userId}
+    </select>
+
+
+    <insert id="saveUser" parameterType="com.jk.user.model.User" useGeneratedKeys="true" keyProperty="userId">
+	INSERT INTO t_user6
+	(username,password,headImg,phone,named,birthday,userSex)
+	VALUES
+	(#{username},#{password},#{headImg},#{phone},#{named},sysdate(),#{userSex})
+   </insert>
+
+    <insert id="saveIntegral" parameterType="int">
+
+        insert into t_integral(integralAmount,integralUserId) values(0,#{a})
+
+
+    </insert>
+
+</mapper>

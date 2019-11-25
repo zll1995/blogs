@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jk.dept.mapper.DeptMapper" >
+
+	<select id="queryDeptList" resultType="com.jk.dept.model.Dept">
+	    select * from t_dept
+	</select>
+	<insert id="addDept" parameterType="com.jk.dept.model.Dept">
+	    insert into t_dept(dept_name) values(#{dept_name})
+	</insert>
+	<delete id="delDept" parameterType="string">
+		delete  from t_dept where dept_id in (${ids})
+	</delete>
+	<select id="queryDeptById" resultType="com.jk.dept.model.Dept" parameterType="int">
+		select * from t_dept where dept_id=#{id}
+	</select>
+	<update id="updDept" parameterType="com.jk.dept.model.Dept">
+		update t_dept set dept_name=#{dept_name} where dept_id=#{dept_id}
+	</update>
+</mapper>

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jk.integral.mapper.IntegralMapper" >
+
+	<select id="querySum" resultType="int">
+		select count(*) from t_integral ti,t_user6 tu where ti.integralUserId = tu.userId
+		<if test="integralName!=null and integralName!=''">
+			and (tu.userName like '%${integralName}%' or tu.name like '%${integralName}%' or tu.phone = #{integralName})
+		</if>
+		<if test="integralUserSex!=null and integralUserSex!=-1">
+			and tu.userSex = #{integralUserSex}
+		</if>
+	</select>
+
+	<select id="queryIntegral" resultType="java.util.Map">
+		select ti.*,tu.named as integralName,tu.phone as integralPhone,tu.userName as integralUserName,tu.userSex as integralUserSex from t_integral ti,t_user6 tu where ti.integralUserId = tu.userId
+		<if test="i.integralName!=null and i.integralName!=''">
+			and (tu.userName like '%${i.integralName}%' or tu.name like '%${i.integralName}%' or tu.phone = #{i.integralName})
+		</if>
+		<if test="i.integralUserSex!=null and i.integralUserSex!=-1">
+			and tu.userSex = #{i.integralUserSex}
+		</if>
+		limit #{s},#{e}
+	</select>
+
+	<select id="queryStoreSum" resultType="int">
+        select count(*) from t_store ts,store_type st where ts.commType = st.typeId
+			<if test="commName!=null and commName!=''">
+				and commName like '%${commName}%'
+			</if>
+			<if test="startDate!=null and startDate!=''">
+				and commDate &gt;= #{startDate}
+			</if>
+			<if test="endDate!=null and endDate!=''">
+				and commDate &lt;= #{endDate}
+			</if>
+		<if test="commType!=null and commType!=-1">
+			and commType = #{commType}
+		</if>
+    </select>
+
+	<select id="queryStore" resultType="java.util.Map">
+        select ts.*,st.typeName as commTypeName from t_store ts,store_type st where ts.commType = st.typeId
+			<if test="store.commName!=null and store.commName!=''">
+				and commName like '%${store.commName}%'
+			</if>
+			<if test="store.startDate!=null and store.startDate!=''">
+				and commDate &gt;= #{store.startDate}
+			</if>
+			<if test="store.endDate!=null and store.endDate!=''">
+				and commDate &lt;= #{store.endDate}
+			</if>
+			<if test="store.commType!=null and store.commType!=-1">
+				and commType = #{store.commType}
+			</if>
+		limit #{start},#{end}
+    </select>
+
+	<insert id="addStore" parameterType="com.jk.integral.model.Store">
+        insert into t_store(commName,commIntegral,commImg,commCount,commDate,commType,commStatus) values (#{commName},#{commIntegral},#{commImg},#{commCount},sysdate(),#{commType},#{commStatus})
+    </insert>
+
+	<delete id="delStore" parameterType="int">
+        delete from t_store where commId = #{commId}
+    </delete>
+
+	<select id="queryStoreById" resultType="com.jk.integral.model.Store">
+        select * from t_store where commId = #{commId}
+    </select>
+
+	<update id="updStore" parameterType="com.jk.integral.model.Store">
+		update t_store set commName=#{commName},commIntegral=#{commIntegral},commCount=#{commCount},
+		commImg=#{commImg} where commId = #{commId}
+	</update>
+
+	<select id="queryCommType" resultType="com.jk.integral.model.StoreType">
+		select * from store_type
+	</select>
+
+	<update id="upComm" parameterType="int">
+		update t_store set commStatus = 1 where commId = #{commId}
+	</update>
+
+	<update id="downComm" parameterType="int">
+		update t_store set commStatus = 2 where commId = #{commId}
+	</update>
+</mapper>

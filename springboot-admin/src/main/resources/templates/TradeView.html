@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="../js/highcharts/jquery.min.js"></script>
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="../js/bootstrap3/css/bootstrap.css"/>
+    <script type="text/javascript" src="../js/bootstrap3/js/bootstrap.js"></script>
+
+
+    <script src="../js/highcharts/code/highcharts.js"></script>
+    <script src="../js/highcharts/code/modules/exporting.js"></script>
+    <script src="../js/highcharts/code/modules/export-data.js"></script>
+
+</head>
+<body>
+<div class="row">
+    <div class="col-md-5">
+        <div id="type" style="min-width:350px;height:350px"></div>
+    </div>
+    <div class="col-md-2">
+            <div style="background-color: #0f0f0f;height: 350px;width: 1px;margin:0 auto"></div>
+    </div>
+    <div class="col-md-5">
+        <div id="WeetMoney" style="min-width:350px;height:350px"></div>
+    </div>
+</div>
+<script>
+    $(function(){
+        initTypeShow();
+        //initWeetMoney();
+    })
+function initTypeShow(){
+$.ajax({
+    url:"../trade/TypeShow",
+    type:"post",
+    success:function(data){
+        TypeShow(data)
+    },
+    error:function(){
+        alert("错误")
+    }
+})
+}
+function TypeShow(data){
+    Highcharts.chart('type', {
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false,
+            type: 'pie'
+        },
+        title: {
+            text: '异清轩收入账单类型份额'
+        },
+        tooltip: {
+            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: true,
+                    format: '<b>{point.name}</b>: {point.y}单',
+                    style: {
+                        color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                    }
+                }
+            }
+        },
+        series: [{
+            name: '占有率',
+            colorByPoint: true,
+            data: data
+        }]
+    });
+}
+function initWeetMoney(){
+    $.ajax({
+        url:"../trade/WeetMoney",
+        type:"post",
+        success:function(data){
+            alert(data)
+        },
+        error:function(){
+            alert("错误")
+        }
+    })
+}
+function WeetMoney(){
+    Highcharts.chart('WeetMoney', {
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false,
+            type: 'pie'
+        },
+        title: {
+            text: '2018年1月浏览器市场份额'
+        },
+        tooltip: {
+            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: true,
+                    format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                    style: {
+                        color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                    }
+                }
+            }
+        },
+        series: [{
+            name: 'Brands',
+            colorByPoint: true,
+            data: [{
+                name: 'Chrome',
+                y: 61.41,
+                sliced: true,
+                selected: true
+            }, {
+                name: 'Internet Explorer',
+                y: 11.84
+            }, {
+                name: 'Firefox',
+                y: 10.85
+            }, {
+                name: 'Edge',
+                y: 4.67
+            }, {
+                name: 'Safari',
+                y: 4.18
+            }, {
+                name: 'Sogou Explorer',
+                y: 1.64
+            }, {
+                name: 'Opera',
+                y: 1.6
+            }, {
+                name: 'QQ',
+                y: 1.2
+            }, {
+                name: 'Other',
+                y: 2.61
+            }]
+        }]
+    });
+}
+</script>
+</body>
+</html>

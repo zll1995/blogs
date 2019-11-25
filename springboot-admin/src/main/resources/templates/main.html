@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta charset="UTF-8" >
+    <title>异清源后台管理系统</title>
+    <!-- jquery -->
+    <script type="text/javascript" src="../js/jquery-1.9.1.min.js"></script>
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="../js/bootstrap3/css/bootstrap.css"/>
+    <script type="text/javascript" src="../js/bootstrap3/js/bootstrap.js"></script>
+    <!-- bootstrap treeview -->
+    <link rel="stylesheet" href="../js/bootstrap-treeview/bootstrap-treeview.min.css" />
+    <script src="../js/bootstrap-treeview/bootstrap-treeview.min.js"></script>
+    <!-- bootstrap 选项卡 -->
+    <link rel="stylesheet" href="../js/bootStrap-addTabs/bootstrap.addtabs.css">
+    <script src="../js/bootStrap-addTabs/bootstrap.addtabs.min.js"></script>
+    <!-- bootstrap 弹框 -->
+    <script src="../js/bootstrap-bootbox/bootbox.js"></script>
+</head>
+<body>
+<div style="margin-left:0px;margin-top:0;height:75px;">
+    <div style="margin-top:5px;" class="pull-left">
+        <marquee width="1000" onMouseOver="this.stop()" onMouseOut="this.start()" behavior="scroll" scrollamount="10">
+            <font size="4" id="Showweather" color="#1e90ff"></font>
+        </marquee>
+    </div>
+    <div class="pull-right" style="margin-right:40px">
+        <ul class="nav navbar-nav">
+            <li class="dropdown user user-menu">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    <img th:src="${session.user.userImg}" width="50px" height="50px" class="img-circle">
+                    <span class="hidden-xs" th:text="${session.user.username}"></span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li class="user-footer">
+                        <div class="pull-left">
+                            <input type="hidden" th:value="${session.user.userId}" id="userId">
+                            <a href="javaScript:openUpdPwdDialog()" class="btn btn-default btn-flat">修改密码</a>
+                        </div>
+                        <div class="pull-right">
+                            <a href="../user/loginout" class="btn btn-default btn-flat">注销</a>
+                        </div>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="container-fluid" style="margin-top: 30px;">
+    <div class="row">
+        <div class="col-md-2">
+            <div id="myTree"></div>
+        </div>
+        <div class="col-md-10">
+            <div id="myTabs">
+                <!-- 新选项卡 -->
+                <ul class="nav nav-tabs" id="tablist">
+                    <li role="presentation" class="active">
+                        <a href="#home" role="tab" data-toggle="tab">主页</a>
+                    </li>
+                </ul>
+                <!-- 选项卡下内容 -->
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane active" id="home">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+<script type="text/javascript">
+
+    $(function(){
+        initTree();
+        weather();
+    })
+    
+    function openUpdPwdDialog() {
+        var userId = $("#userId").val();
+        bootbox.dialog({
+            title: "修改密码",
+            message: createAddContent("../page/toUpdPwd"),
+            closeButton: true,
+            buttons: {
+                "success": {
+                    "label": "<i class='icon-ok'></i>保存",
+                    "className": "btn btn-success",
+                    "callback":function(){
+                         $.ajax({
+                             url:"../user/queryAdminUserById",
+                             data:{id:userId},
+                             success:function (data) {
+                                 if($("#password").val()==data.password){
+                                     if($("#password2").val()==$("#conPwd").val()){
+                                         $.ajax({
+                                             url:"../user/updPwd",
+                                             data:{id:userId,pwd:$("#password2").val()},
+                                             success:function () {
+                                                 location.href="../user/loginout";
+                                             },
+                                             error:function () {
+                                                 alert("修改密码失败")
+                                             }
+                                         })
+                                     }else {
+                                         alert("俩次输入密码不一致")
+                                     }
+                                 }else {
+                                     alert("原密码错误")
+                                 }
+                             },
+                             error:function () {
+                                 alert("后台错误");
+                             }
+                         })
+
+                    }
+                },
+                "cancel": {
+                    "label": "<i class='icon-info'></i>取消",
+                    "className": "btn btn-warning",
+                    "callback":function(){}
+                }
+            }
+        })
+    }
+    function initTree(){
+        $.ajax({
+            url:"../tree/queryTree",
+            data:{userId:$("#userId").val()},
+            type: "post",
+            dataType: "json",
+            success:function(data){
+                $("#myTree").treeview({
+                    data:data,
+                    onNodeSelected:function(event, node) {
+                        $.addtabs({iframeHeight: 700});
+                        $.addtabs.add({
+                            id:node.id,
+                            title:node.text,
+                            url:node.href
+                        });
+                    }
+                })
+            }
+        })
+    }
+function weather() {
+    $.ajax({
+        url:"../user/weather",
+        type:"post",
+        dataType:"json",
+        success:function(data){
+            var weather = data.today+'    '+data.city+'当前天气：<span id="type">'+data.weather+'</span>，温度：<span id="temp">'+data.temp+'</span>，'+data.wd+data.wdforce+',湿度：<span id="humidity">'+data.humidity+'</span>';
+        $("#Showweather").html(weather);
+            },
+        error:function(){
+            alert("tianqi")
+        }
+    })
+}
+
+    var res;
+    function createAddContent(url){
+        $.ajax({
+            url:url,
+            async:false,
+            success:function(data){
+                res = data;
+            }
+        });
+        return res;
+    }
+</script>
+</html>

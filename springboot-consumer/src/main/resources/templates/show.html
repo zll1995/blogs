@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+
+<!-- Bootstrap 插件 css -->
+<link href="../js1/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
+<!-- Bootstrap 核心css -->
+<link href="../js1/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<!-- Bootstrap TreeView css -->
+<link href="../js1/bootstrap-treeview/dist/bootstrap-treeview.min.css" rel="stylesheet">
+
+<!-- Bootstrap addTabs css -->
+<link href="../js1/bootStrap-addTabs/bootstrap.addtabs.css" rel="stylesheet">
+
+<!-- Bootstrap table css -->
+<link href="../js1/bootstrap-table/dist/bootstrap-table.css" rel="stylesheet">
+<!-- bootstrap-datetimepicker css -->
+<link href="../js1/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css" rel="stylesheet">
+
+<!-- bootstrap-dialog css -->
+<link href="../js1/bootstrap-dialog/dist/css/bootstrap-dialog.css" rel="stylesheet">
+<!-- bootstrap-fileinput css -->
+<link href="../js1/bootstrap-fileinput/css/fileinput.css" rel="stylesheet">
+
+<body>
+<input   type="button"     value="回收站"  onclick="huishou()">
+<input  type="button"  value="发布"  onclick="addblogs()">
+<table id="zhang-table"></table>
+<!--jQuery核心js  -->
+<script src="../js1/jquery.min.js"></script>
+<!-- bootstrap 核心js文件 -->
+<script src="../js1/bootstrap/js/bootstrap.min.js"></script>
+<!-- bootStrap TreeView -->
+<script src="../js1/bootstrap-treeview/dist/bootstrap-treeview.min.js"></script>
+
+<!-- bootStrap addTabs -->
+<script src="../js1/bootStrap-addTabs/bootstrap.addtabs.js"></script>
+
+<!-- bootStrap table -->
+<script src="../js1/bootstrap-table/dist/bootstrap-table.js"></script>
+<!-- bootStrap table 语言包中文-->
+<script src="../js1/bootstrap-table/dist/locale/bootstrap-table-zh-CN.js"></script>
+
+<!-- bootstrap-datetimepicker -->
+<script src="../js1/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js"></script>
+<script src="../js1/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+
+<!-- bootstrap-dialog -->
+<script src="../js1/bootstrap-dialog/dist/js/bootstrap-dialog.js"></script>
+<!-- bootstrap-fileinput -->
+<script src="../js1/bootstrap-fileinput/js/fileinput.js"></script>
+<script src="../js1/bootstrap-fileinput/js/locales/zh.js"></script>
+
+
+
+<script>
+
+    msgDia = null;
+    addDia = null;
+
+
+    function searchLogistics(){
+        $("#zhang-table").bootstrapTable("refresh");
+    }
+    $(function (){
+        $("#zhang-table").bootstrapTable({
+            url:"../blogs/queryzhangAll",
+//        striped: true,			//隔行变色
+//        showColumns:true,			//是否显示 内容列下拉框
+//         showPaginationSwitch:true,//是否显示 数据条数选择框
+            minimumCountColumns:2,	//最小留几列 默认值1
+//        // showRefresh:true,			//显示刷新按钮
+//        showToggle:true,			//显示切换视图
+//		  search:true,				//是否显示搜索框
+//		  searchOnEnterKey:true,	//设置为 true时，按回车触发搜索方法，否则自动触发搜索方法
+            pagination:true,			//开启分页
+//        paginationLoop:true,		//开启分页无限循环
+            pageNumber:1,				//当前页数
+            pageSize:5,				//每页条数
+            pageList:[1,2,3,4],		//如果设置了分页，设置可供选择的页面数据条数。设置为All 则显示所有记录。
+            sidePagination:"server",	//
+            method:'post',			//发送请求的方式
+            contentType:"application/x-www-form-urlencoded",//必须的否则条件查询时会乱码
+            queryParams:function(obj){
+                return {
+
+                    page:this.pageNumber,//当前页
+                    rows:this.pageSize //每页条数
+                }
+            },
+            columns: [
+                { field: 'blogs_id',title: '编号',width: 100},
+                { field: 'blogs_title',title: '标题',width: 100},
+
+                { field: 'blogs_like',title: '点赞数',width: 100},
+                { field: 'blogs_time',title: '发布时间',width: 100},
+                {field: 'act',title: '操作', width: 100,
+                    formatter:function(value,row,index){
+                        var  str="<input onclick='editblogs(\""+row.blogs_id+"\")' value='修改' type='button'>" +
+                            "<input type='button' value='丢弃' onclick='diu("+row.blogs_id+")'>"
+                        return  str;
+                    }
+                }
+            ]
+        })
+    })
+
+    function huishou() {
+       location.href="../blogs/queryhuishou"
+    }
+
+
+
+    function diu(){
+        //alert(meterid)
+        $.ajax({
+            url:"../blogs/updateblogsautus",
+            type:"post",
+            data:{blogs_id:blogs_id},
+            success:function(){
+                $("#zhang-table").bootstrapTable('refresh');
+            },
+        })
+    }
+
+
+
+
+    function addblogs(){
+        addDia =BootstrapDialog.show({
+            title: '发布文章',
+            message: $('<div></div>').load('../blogs/toAddblogs'),
+            buttons: [{
+                label: '保存',
+                action: function(dialog) {
+                    $.ajax({
+                        type:"post",
+                        url:"../blogs/addblogs",
+                        data:$("#add-form").serialize(),
+                        success:function(msg){
+                            msgDia = BootstrapDialog.show({
+                                message:"保存成功"
+                            })
+                            searchuser();
+                            setTimeout(function(){
+                                msgDia.close();
+                                addDia.close();
+                            }, 2000)
+                        }
+                    })
+                }
+            }, {
+                label: '取消',
+                action: function(dialog) {
+                    //更改弹框标题
+//	                     dialog.setTitle('Title 2');
+                    dialog.close();
+                }
+            }]
+        });
+    }
+
+
+
+
+    function editblogs(blogs_id){
+        addDia =BootstrapDialog.show({
+            title: '修改文章信息',
+            message: $('<div></div>').load('../blogs/toblogs?blogs_id='+blogs_id),
+            buttons: [{
+                label: '保存',
+                action: function(dialog) {
+                    $.ajax({
+                        type:"post",
+                        url:"../blogs/updateblogs",
+                        data:$("#update-form").serialize(),
+                        success:function(msg){
+                            msgDia = BootstrapDialog.show({
+                                message:"保存成功"
+                            })
+
+                            setTimeout(function(){
+                                msgDia.close();
+                                addDia.close();
+                            }, 2000)
+                        }
+                    })
+                }
+            }, {
+                label: '取消',
+                action: function(dialog) {
+                    //更改弹框标题
+//                   dialog.setTitle('Title 2');
+                    dialog.close();
+                }
+            }]
+        });
+    }
+
+</script>
+</body>
+</html>

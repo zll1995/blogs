@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="../js/jquery-1.9.1.min.js"></script>
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="../js/bootstrap3/css/bootstrap.css"/>
+    <script type="text/javascript" src="../js/bootstrap3/js/bootstrap.js"></script>
+    <!-- bootstrap 表格 -->
+    <link rel="stylesheet" href="../js/bootstrap-table/bootstrap-table.css" />
+    <script src="../js/bootstrap-table/bootstrap-table.js"></script>
+    <script src="../js/bootstrap-table/locale/bootstrap-table-zh-CN.js"></script>
+    <!-- bootstrap 弹框 -->
+    <script src="../js/bootstrap-bootbox/bootbox.js"></script>
+    <!-- bootstrap treeview -->
+    <link rel="stylesheet" href="../js/bootstrap-treeview/bootstrap-treeview.min.css" />
+    <script src="../js/bootstrap-treeview/bootstrap-treeview.min.js"></script>
+</head>
+<body>
+<div id="toolbar" class="container">
+    <button id="addRole" class="btn btn-success glyphicon glyphicon-save">新增</button>
+</div>
+<table class="table" id="myTable"></table>
+</body>
+<script>
+    $(function(){
+        initRole();
+    })
+
+    //赋权限弹框
+    function showTreeDialog(roleId){
+        bootbox.dialog({
+            title: "权限列表",
+            message: createAddContent("../page/queryRoleTree?roleId="+roleId),
+            closeButton: true,
+            buttons: {
+                "success": {
+                    "label": "<i class='icon-ok'></i>保存",
+                    "className": "btn btn-success",
+                    "callback":function(){
+                        var arr = $("#searchTree").treeview("getChecked");
+                        var roleTreeIds="";
+                        for(var i=0; i<arr.length; i++){
+                            roleTreeIds+= roleTreeIds==""?arr[i].value:","+arr[i].value;
+                        }
+                        $.ajax({
+                            url: "../tree/addRoleTree",
+                            type: "post",
+                            data: {roleId:roleId,roleTreeIds:roleTreeIds},
+                            success: function(){
+                                $("#myTable").bootstrapTable("refresh");
+                            }
+                        })
+                    }
+                },
+                "cancel": {
+                    "label": "<i class='icon-info'></i>取消",
+                    "className": "btn btn-warning",
+                    "callback":function(){}
+                }
+            }
+        })
+    }
+    //修改
+    function updateRoleDialog(id){
+        bootbox.dialog({
+            title: "修改角色",
+            message: createAddContent("../page/toAddRole"),
+            closeButton: true,
+            buttons: {
+                "success": {
+                    "label": "<i class='icon-ok'></i>保存",
+                    "className": "btn btn-success",
+                    "callback":function(){
+                        $.ajax({
+                            url: "../role/addRole",
+                            type: "post",
+                            data: $("#addRoleForm").serialize(),
+                            success: function(){
+                                $("#myTable").bootstrapTable("refresh");
+                            }
+                        })
+
+                    }
+                },
+                "cancel": {
+                    "label": "<i class='icon-info'></i>取消",
+                    "className": "btn btn-warning",
+                    "callback":function(){}
+                }
+            }
+        })
+        // 回显
+        $.ajax({
+            url: "../role/queryRoleById",
+            type: "post",
+            data: {"id": id},
+            dataType: "json",
+            success: function(data){
+                $("#rid").val(data.rid);
+                $("[name='rname']").val(data.rname);
+            }
+        })
+    }
+
+    //单删
+    function deleteRoleById(id,name){
+        bootbox.confirm({
+            size: "small",
+            message: "你确定要删除 "+name+" 吗?",
+            buttons: {
+                confirm: {
+                    "label": "确认",
+                    "class": "btn-success",
+                },
+                cancel: {
+                    "label": "取消",
+                    "class": "btn-danger",
+                }
+            },
+            callback: function(result){
+                if(result){
+                    $.ajax({
+                        url: "../role/delRole",
+                        type: "post",
+                        data: {"id":id},
+                        success:function(){
+                            $("#myTable").bootstrapTable("refresh");
+                        }
+                    })
+                }
+            }
+        })
+    }
+    //新增
+    $("#addRole").click(function(){
+        bootbox.dialog({
+            title:"新增部门",
+            message:createAddContent("../page/toAddRole"),
+            closeButton: true,
+            buttons:{
+                "success":{
+                    "label": "<i class='icon-ok'></i>保存",
+                    "className": "btn btn-success",
+                    "callback":function(){
+                        $.ajax({
+                            url: "../role/addRole",
+                            type: "post",
+                            data: $("#addRoleForm").serialize(),
+                            success: function(){
+                                $("#myTable").bootstrapTable("refresh");
+                            }
+                        })
+                    }
+                },"cancel": {
+                    "label": "<i class='icon-info'></i>取消",
+                    "className": "btn btn-warning",
+                    "callback":function(){}
+                }
+            }
+        })
+    })
+    var res;
+    function createAddContent(url){
+        $.ajax({
+            url:url,
+            async:false,
+            success:function(data){
+                res = data;
+            }
+        });
+        return res;
+    }
+    //列表展示
+    function initRole(){
+        $('#myTable').bootstrapTable({
+            toolbar:'#toolbar',
+            url:'../role/queryRoleList',//获取数据地址     
+            pagination:true, //是否展示分页    
+            pageList:[2,4,6,8,10],//分页组件    
+            pageNumber:1,
+            pageSize:2,//默认每页条数  
+            search:true,//是否显示搜索框
+            showColumns:false,//是否显示 内容列下拉框    
+            showToggle:false,//是否显示 切换试图（table/card）按钮    
+            showPaginationSwitch:false,//是否显示 数据条数选择框    
+            showRefresh:false,//是否显示刷新按钮    
+            detailView:false,//设置为 true 可以显示详细页面模式。    
+            showFooter:false,//是否显示列脚
+            clickToSelect: true, //是否启用点击选中行    
+            sidePagination:'client',//分页方式：client客户端分页，server服务端分页   
+            striped:true,
+            columns:[
+                {checkbox:true},
+                {field:'rid',title:'编号',align:'center',width:100},
+                {field:'rname',title:'角色名称',align:'center',width:150},
+                {field:'111',title:'操作',width:150,formatter:function(value,row,index){
+                        return '<button class="btn btn-link" onclick="updateRoleDialog('+ row.rid +')" >修改</button><button class="btn btn-link" onclick="deleteRoleById('+ row.rid +',\''+row.rname+'\')" >删除</button>' +
+                            '<button class="btn btn-link" onclick="showTreeDialog('+row.rid+')" >绑定权限</button>';
+                    }}
+            ]
+        });
+    }
+</script>
+</html>

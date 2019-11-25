@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form class="form-horizontal" id="updForm">
+    <input type="hidden" name="advId" id="advId">
+    <div class="form-group">
+        <label for="advTitle2" class="col-sm-2 control-label">广告标题</label>
+        <div class="col-sm-8">
+            <input type="text" name="advTitle" id="advTitle2" class="form-control" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="advUrl2" class="col-sm-2 control-label">URL</label>
+        <div class="col-sm-8">
+            <input type="text" name="advUrl" id="advUrl2" class="form-control"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="typeId2" class="col-sm-2 control-label">广告类型</label>
+        <div class="col-sm-8">
+            <select id="typeId2" name="typeId" class="form-control" ></select>
+        </div>
+    </div>
+    <div class="row myrow">
+        <div class="col-md-2">
+            <label for="headImg">广告图片</label>
+        </div>
+        <div class="col-md-10" >
+            <input type="hidden" id="testimg" name="advImg" />
+            <input type="file"  class="projectfile"  name="img" id="headImg">
+        </div>
+    </div>
+</form>
+</body>
+<script>
+
+    $(function () {
+        initAdvType();
+    })
+
+    function initAdvType(){
+        $.ajax({
+            url: "../adv/queryAdvType",
+            type: "post",
+            success: function(data){
+                var html = "<option value='0'>请选择</option>";
+                for(var i=0; i<data.length; i++){
+                    html += "<option value='"+data[i].advTypeId+"'>"+data[i].advTypeName+"</option>";
+                }
+                $("#typeId2").html(html);
+            }
+        })
+    }
+
+</script>
+</html>

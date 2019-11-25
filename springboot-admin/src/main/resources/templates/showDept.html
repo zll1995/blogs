@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="../js/jquery-1.9.1.min.js"></script>
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="../js/bootstrap3/css/bootstrap.css"/>
+    <script type="text/javascript" src="../js/bootstrap3/js/bootstrap.js"></script>
+    <!-- bootstrap 表格 -->
+    <link rel="stylesheet" href="../js/bootstrap-table/bootstrap-table.css" />
+    <script src="../js/bootstrap-table/bootstrap-table.js"></script>
+    <script src="../js/bootstrap-table/locale/bootstrap-table-zh-CN.js"></script>
+    <!-- bootstrap 弹框 -->
+    <script src="../js/bootstrap-bootbox/bootbox.js"></script>
+</head>
+<body>
+<div id="toolbar" class="container">
+    <button id="addDept" class="btn btn-success glyphicon glyphicon-save">新增</button>
+    <button id="delDept" class="btn btn-danger glyphicon glyphicon-remove">批量删除</button>
+</div>
+<table class="table" id="myTable"></table>
+</body>
+<script>
+    $(function(){
+        initDept();
+    })
+    //修改
+    function updateDeptDialog(id){
+        bootbox.dialog({
+            title: "修改部门",
+            message: createAddContent("../page/toAddDept"),
+            closeButton: true,
+            buttons: {
+                "success": {
+                    "label": "<i class='icon-ok'></i>保存",
+                    "className": "btn btn-success",
+                    "callback":function(){
+                        $.ajax({
+                            url: "../dept/updDept",
+                            type: "post",
+                            data: $("#addDeptForm").serialize(),
+                            success: function(){
+                                $("#myTable").bootstrapTable("refresh");
+                            }
+                        })
+
+                    }
+                },
+                "cancel": {
+                    "label": "<i class='icon-info'></i>取消",
+                    "className": "btn btn-warning",
+                    "callback":function(){}
+                }
+            }
+        })
+        // 回显
+        $.ajax({
+            url: "../dept/queryDeptById",
+            type: "post",
+            data: {"id": id},
+            dataType: "json",
+            success: function(data){
+                $("#dept_id").val(data.dept_id);
+                $("[name='dept_name']").val(data.dept_name);
+            }
+        })
+    }
+    //批删
+    $("#delDept").click(function(){
+        var row = $("#myTable").bootstrapTable("getSelections");
+        var ids="";
+        var names="";
+        if(row==null || row.length==0){
+            bootbox.alert({
+                size: "small",
+                title: "提示",
+                message: "请选择要删除的数据！",
+                callback: function(){}
+            });
+            return;
+        }
+        for(var i=0;i<row.length;i++){
+            ids += ids==""?row[i].dept_id:","+row[i].dept_id;
+            names += names==""?row[i].dept_name:","+row[i].dept_name;
+        }
+        bootbox.confirm({
+            size: "small",
+            message: "你确定要删除 "+names+" 吗?",
+            buttons: {
+                confirm: {
+                    "label": "确认",
+                    "class": "btn-success",
+                },
+                cancel: {
+                    "label": "取消",
+                    "class": "btn-danger",
+                }
+            },
+            callback: function(result){
+                if(result){
+                    $.ajax({
+                        url: "../dept/delDept",
+                        type: "post",
+                        data: {"ids":ids},
+                        success:function(){
+                            $("#myTable").bootstrapTable("refresh");
+                        }
+                    })
+                }
+            }
+        })
+    })
+    //单删
+    function deleteDeptById(id,name){
+        bootbox.confirm({
+            size: "small",
+            message: "你确定要删除 "+name+" 吗?",
+            buttons: {
+                confirm: {
+                    "label": "确认",
+                    "class": "btn-success",
+                },
+                cancel: {
+                    "label": "取消",
+                    "class": "btn-danger",
+                }
+            },
+            callback: function(result){
+                if(result){
+                    $.ajax({
+                        url: "../dept/delDept",
+                        type: "post",
+                        data: {"ids":id},
+                        success:function(){
+                            $("#myTable").bootstrapTable("refresh");
+                        }
+                    })
+                }
+            }
+        })
+    }
+    //新增
+    $("#addDept").click(function(){
+        bootbox.dialog({
+            title:"新增部门",
+            message:createAddContent("../page/toAddDept"),
+            closeButton: true,
+            buttons:{
+                "success":{
+                    "label": "<i class='icon-ok'></i>保存",
+                    "className": "btn btn-success",
+                    "callback":function(){
+                        $.ajax({
+                            url: "../dept/addDept",
+                            type: "post",
+                            data: $("#addDeptForm").serialize(),
+                            success: function(){
+                                $("#myTable").bootstrapTable("refresh");
+                            }
+                        })
+                    }
+                },"cancel": {
+                    "label": "<i class='icon-info'></i>取消",
+                    "className": "btn btn-warning",
+                    "callback":function(){}
+                }
+            }
+        })
+    })
+    var res;
+    function createAddContent(url){
+        $.ajax({
+            url:url,
+            async:false,
+            success:function(data){
+                res = data;
+            }
+        });
+        return res;
+    }
+    //列表展示
+    function initDept(){
+        $('#myTable').bootstrapTable({
+            toolbar:'#toolbar',
+            url:'../dept/queryDeptList',//获取数据地址     
+            pagination:true, //是否展示分页    
+            pageList:[2,4,6,8,10],//分页组件    
+            pageNumber:1,
+            pageSize:2,//默认每页条数  
+            search:true,//是否显示搜索框
+            showColumns:false,//是否显示 内容列下拉框    
+            showToggle:false,//是否显示 切换试图（table/card）按钮    
+            showPaginationSwitch:false,//是否显示 数据条数选择框    
+            showRefresh:false,//是否显示刷新按钮    
+            detailView:false,//设置为 true 可以显示详细页面模式。    
+            showFooter:false,//是否显示列脚
+            clickToSelect: true, //是否启用点击选中行    
+            sidePagination:'client',//分页方式：client客户端分页，server服务端分页   
+            striped:true,
+            columns:[
+                {checkbox:true},
+                {field:'dept_id',title:'编号',align:'center',width:100},
+                {field:'dept_name',title:'部门名称',align:'center',width:150},
+                {field:'111',title:'操作',width:150,formatter:function(value,row,index){
+                        return '<button class="btn btn-link" onclick="updateDeptDialog('+ row.dept_id +')" >修改</button><button class="btn btn-link" onclick="deleteDeptById('+ row.dept_id +',\''+row.dept_name+'\')" >删除</button>';
+                    }}
+            ]
+        });
+    }
+</script>
+</html>
