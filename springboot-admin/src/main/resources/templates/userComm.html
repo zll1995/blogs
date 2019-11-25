@@ -12,8 +12,10 @@
     <script src="../js/bootstrap-table/bootstrap-table.js"></script>
     <script src="../js/bootstrap-table/locale/bootstrap-table-zh-CN.js"></script>
 </head>
-<body>
+<body><br>
+<button type="button" class="btn btn-success glyphicon glyphicon-export">兑换信息导出</button>
 
+<br><br>
 <table class="table" id="userCommId"></table>
 
 <script>
@@ -23,7 +25,7 @@
 
     function queryUserComm() {
             $('#userCommId').bootstrapTable({
-                url:'../integral/queryUserComm',//获取数据地址     
+                url:'../integral/queryUserComm',//获取数据地址
                 pagination:true, //是否展示分页    
                 pageList:[5,10,15,20,25],//分页组件    
                 pageNumber:1,
