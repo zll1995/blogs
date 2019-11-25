@@ -147,56 +147,63 @@
         var spjf = $("#spjf").val();
         var userIntegral = $("#userIntegral").val();
         var nowJf = spjf*goodsCount;
-        if(userIntegral<nowJf){
+        var goodsNum = $("#goodsNum").text();
+        if (goodsNum - goodsCount < 0) {
             bootbox.alert({
                 size: "small",
                 title: "提示信息",
-                message: "您的积分不足,请到"+"<a href='../page/toBuyIntegral' target='_blank'>充值中心</a>"+"充值积分",
+                message: "<font color='red'><b>库存不足</b></font>",
                 callback: function () {
                 }
             })
-        }else {
-            var goodsNum = $("#goodsNum").text();
-            if (goodsNum - goodsCount < 0) {
-                bootbox.alert({
-                    size: "small",
-                    title: "提示信息",
-                    message: "<font color='red'><b>库存不足</b></font>",
-                    callback: function () {
-                    }
-                })
-            } else if (goodsNum - goodsCount >= 0) {
-                bootbox.confirm({
-                    size: "small",
-                    message: "你确定要兑换该商品吗",
-                    buttons: {
-                        confirm: {
-                            "label": "确认",
-                            "class": "btn-success",
-                        },
-                        cancel: {
-                            "label": "取消",
-                            "class": "btn-danger",
-                        }
+        }else if (goodsNum - goodsCount >= 0) {
+            bootbox.confirm({
+                size: "small",
+                message: "你确定要兑换该商品吗",
+                buttons: {
+                    confirm: {
+                        "label": "确认",
+                        "class": "btn-success",
                     },
-                    callback: function (result) {
-                        if (result) {
-
-                        }
+                    cancel: {
+                        "label": "取消",
+                        "class": "btn-danger",
                     }
-                })
-                /*$.ajax({
-                url:"../integral/buyComm",
-                data:{spjf:spjf,goodsCount:goodsCount},
-                type:"post",
-                success:function () {
-
                 },
-                error:function () {
-                    alert("程序出错了！");
+                callback: function (result) {
+                    if (result) {
+                        $.ajax({
+                            url:"../integral/addUserComm",
+                            data:{nowJf:nowJf,goodsCount:$("#goodsCount").val(),commId:$("#buyCommId").val()},
+                            type:"post",
+                            success:function (data) {
+                                if(data=="jfbz"){
+                                    bootbox.alert({
+                                        size: "small",
+                                        title: "提示信息",
+                                        message: "您的积分不足,请到"+"<a href='../page/toBuyIntegral?userId=1'>充值中心</a>"+"充值积分",
+                                        callback: function () {
+                                            location.href="../page/toBuyIntegral?userId="+1;
+                                        }
+                                    })
+                                }else {
+                                    bootbox.alert({
+                                        size: "small",
+                                        title: "提示信息",
+                                        message: "兑换成功",
+                                        callback: function () {
+                                            location.href = "../page/toMyStore";
+                                        }
+                                    })
+                                }
+                            },
+                            error:function () {
+                                alert("程序出错了！");
+                            }
+                        })
+                    }
                 }
-            })*/
-            }
+            })
         }
     }
 </script>

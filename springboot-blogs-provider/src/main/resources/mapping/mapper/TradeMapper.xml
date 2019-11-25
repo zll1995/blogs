@@ -25,4 +25,16 @@
     <delete id="deleteExpireVip">
         delete from t_vip where vip_endtime &lt;= NOW()
     </delete>
+
+    <select id="queryIntegralByUserId" resultType="com.jk.integral.model.Integral">
+        select * from t_integral where integralUserId = #{user_id}
+    </select>
+
+    <update id="updIntegral" parameterType="int">
+        update t_integral set integralAmount = integralAmount + #{count} where integralUserId = #{id}
+    </update>
+
+    <insert id="addIntegral" parameterType="int">
+        insert into t_integral(integralAmount,integralUserId) values (#{count},#{id})
+    </insert>
 </mapper>

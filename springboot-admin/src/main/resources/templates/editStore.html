@@ -26,6 +26,14 @@
         </div>
     </div>
     <div class="form-group">
+        <label for="commType3" class="col-sm-2 control-label">商品类型</label>
+        <div class="col-sm-8">
+            <select class="form-control" id="commType3" name="commType">
+                <option value="">请选择</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
         <label for="commImgId" class="col-sm-2 control-label">商品图片</label>
         <div class="col-sm-8">
             <!-- 后台传参使用 -->
@@ -37,6 +45,26 @@
 </form>
 
 <script>
+    $(function () {
+        queryCommType();
+    })
+
+    function queryCommType(){
+        $.ajax({
+            url:"../integral/queryCommType",
+            success:function (data) {
+                var commType = "<option value='-1'>请选择";
+                for(var i=0;i<data.length;i++){
+                    commType += '<option value="'+data[i].typeId+'">'+data[i].typeName+'</option>';
+                }
+                $("#commType3").html(commType);
+            },
+            error:function () {
+                alert("程序出错了！");
+            }
+        })
+    }
+
     $('.date').datetimepicker({
         language: 'zh-CN',//显示中文
       //format: 'yyyy-mm-dd hh:ii:ss',//显示格式

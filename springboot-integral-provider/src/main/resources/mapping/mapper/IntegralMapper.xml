@@ -34,4 +34,28 @@
         select * from t_store where commId = #{commId}
     </select>
 
+    <insert id="addUserComm" parameterType="int">
+        insert into t_user_comm(userId,commId,goodsCount,exchangeTime) values (1,#{commId},#{goodsCount},sysdate())
+    </insert>
+
+    <update id="updGoodsCount" parameterType="int">
+        update t_store set commCount = commCount - #{gc} where commId = #{ci}
+    </update>
+    
+    <update id="updUserIntegral" parameterType="int">
+        update t_integral set integralAmount = integralAmount - #{nowJf} where integralUserId = 1;
+    </update>
+
+    <select id="queryMyStore" resultType="java.util.Map">
+        select * from t_user_comm uc
+        left join t_store ts on uc.commId = ts.commId
+        left join store_type st on ts.commType = st.typeId
+        where uc.userId = 1
+        group by uc.userCommId desc
+    </select>
+
+    <select id="initUserImg" resultType="com.jk.user.model.User">
+        select * from t_user6 tu,t_integral ti where tu.userId = ti.integralUserId and tu.userId = #{userId}
+    </select>
+
 </mapper>

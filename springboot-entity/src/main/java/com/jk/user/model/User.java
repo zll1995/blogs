@@ -27,6 +27,8 @@ public class User implements Serializable {
 
     private String email;  //电子邮箱
 
+    private Integer integralAmount; //用户剩余积分
+
     public Integer getUserId() {
         return userId;
     }

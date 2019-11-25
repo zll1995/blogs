@@ -5,6 +5,7 @@ import com.jk.integral.model.Integral;
 import com.jk.integral.model.Store;
 import com.jk.integral.model.StoreType;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -22,6 +23,9 @@ import java.util.Map;
 public class IntegralServiceImpl implements IntegralService{
     @Autowired
     private IntegralMapper integralMapper;
+
+    @Autowired
+    private RedisTemplate<String,String> redisTemplate;
 
     //查询用户积分列表  -----段王峰
     @Override
@@ -52,13 +56,23 @@ public class IntegralServiceImpl implements IntegralService{
     //添加积分商品信息      -----段王峰
     @Override
     public void addStore(Store store) {
+        String key = "store"+store.getCommType();
+        Boolean hasKey = redisTemplate.hasKey(key);
+        if(hasKey){
+            redisTemplate.delete(key);
+        }
         integralMapper.addStore(store);
     }
 
     //删除积分商品信息      -----段王峰
     @Override
-    public void delStore(Integer commId) {
-        integralMapper.delStore(commId);
+    public void delStore(Store store) {
+        String key = "store"+store.getCommType();
+        Boolean hasKey = redisTemplate.hasKey(key);
+        if(hasKey){
+            redisTemplate.delete(key);
+        }
+        integralMapper.delStore(store.getCommId());
     }
 
     //根据商品ID查询回显        -----段王峰
@@ -70,6 +84,11 @@ public class IntegralServiceImpl implements IntegralService{
     //修改积分商品信息      -----段王峰
     @Override
     public void updStore(Store store) {
+        String key = "store"+store.getCommType();
+        Boolean hasKey = redisTemplate.hasKey(key);
+        if(hasKey){
+            redisTemplate.delete(key);
+        }
         integralMapper.updStore(store);
     }
 
@@ -80,12 +99,27 @@ public class IntegralServiceImpl implements IntegralService{
     }
 
     @Override
-    public void upComm(Integer commId) {
-        integralMapper.upComm(commId);
+    public void upComm(Store store) {
+        String key = "store"+store.getCommType();
+        Boolean hasKey = redisTemplate.hasKey(key);
+        if(hasKey){
+            redisTemplate.delete(key);
+        }
+        integralMapper.upComm(store.getCommId());
     }
 
     @Override
-    public void downComm(Integer commId) {
-        integralMapper.downComm(commId);
+    public void downComm(Store store) {
+        String key = "store"+store.getCommType();
+        Boolean hasKey = redisTemplate.hasKey(key);
+        if(hasKey){
+            redisTemplate.delete(key);
+        }
+        integralMapper.downComm(store.getCommId());
+    }
+
+    @Override
+    public List queryUserComm() {
+        return integralMapper.queryUserComm();
     }
 }

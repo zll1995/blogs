@@ -3,7 +3,9 @@ package com.jk.Integral;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.jk.integral.model.Integral;
 import com.jk.integral.model.Store;
+import com.jk.integral.model.UserComm;
 import com.jk.integral.service.IntegralService;
+import com.jk.user.model.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,12 +29,17 @@ public class IntegralController {
         return integraService.queryIntegralById(userId);
     }
 
-    //积分兑换
-    @RequestMapping("buyComm")
+    //新增用户兑换商品表
+    @RequestMapping("addUserComm")
     @ResponseBody
-    public void buyComm(Integer spjf, Integer goodsCount, HttpServletRequest request){
-        request.getSession().getAttribute("login");
+    public String buyComm(Integer nowJf,Integer goodsCount,Integer commId,Integer userId){
+        Integral integral = integraService.queryIntegralById(userId);
 
+        if(integral.getIntegralAmount()<nowJf){
+            return "jfbz";
+        }
+        integraService.addUserComm(nowJf,goodsCount,commId,userId);
+        return null;
     }
 
     //查询汽车周边商城      -----段王峰
@@ -75,11 +82,26 @@ public class IntegralController {
         return integraService.queryAppliance();
     }
 
+    //根据id查询商品信息
     @RequestMapping("queryCommById")
     @ResponseBody
     public Store queryCommById(Integer commId){
         Store store = integraService.queryCommById(commId);
 
         return store;
+    }
+
+    //查询用户兑换过的商品
+    @RequestMapping("queryMyStore")
+    @ResponseBody
+    public List queryMyStore(Integer userId){
+        return integraService.queryMyStore(userId);
+    }
+
+    //充值页面加载用户信息
+    @RequestMapping("initUserImg")
+    @ResponseBody
+    public User initUserImg(Integer userId){
+        return integraService.initUserImg(userId);
     }
 }

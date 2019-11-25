@@ -93,6 +93,7 @@
                             type: "post",
                             data: $("#addStoreForm").serialize(),
                             success:function(){
+                                $('#showStoreId').bootstrapTable('refresh');
                                 bootbox.alert({
                                     size: "small",
                                     title: "提示信息",
@@ -101,7 +102,6 @@
 
                                     }
                                 })
-                                $('#showStoreId').bootstrapTable('refresh');
                             }
                         })
                     }
@@ -169,14 +169,14 @@
                 {field:'2',title:'操作',align:'center',
                     formatter:function(value,row,index){
                         if(row.commStatus==1){
-                            return '<button type="button" onclick="downComm('+row.commId+')" class="btn btn-warning glyphicon glyphicon-download">下架</button> '+
-                                   '<button type="button" onclick="queryStoreById('+row.commId+')" class="btn btn-info glyphicon glyphicon-pencil">修改</button> '+
-                                   ' <button type="button" onclick="delStore('+row.commId+',\''+row.commName+'\')" class="btn btn-danger glyphicon glyphicon-trash">删除</button>';
+                            return '<button type="button" onclick="downComm('+row.commId+','+row.commType+')" class="btn btn-warning glyphicon glyphicon-download">下架</button> '+
+                                   '<button type="button" onclick="queryStoreById('+row.commId+','+row.commType+')" class="btn btn-info glyphicon glyphicon-pencil">修改</button> '+
+                                   ' <button type="button" onclick="delStore('+row.commId+','+row.commType+',\''+row.commName+'\')" class="btn btn-danger glyphicon glyphicon-trash">删除</button>';
                         }
                         if(row.commStatus==2){
-                            return '<button type="button" onclick="upComm('+row.commId+')" class="btn btn-success glyphicon glyphicon-upload">上架</button> '+
-                                   '<button type="button" onclick="queryStoreById('+row.commId+')" class="btn btn-info glyphicon glyphicon-pencil">修改</button> '+
-                                   ' <button type="button" onclick="delStore('+row.commId+',\''+row.commName+'\')" class="btn btn-danger glyphicon glyphicon-trash">删除</button>';
+                            return '<button type="button" onclick="upComm('+row.commId+','+row.commType+')" class="btn btn-success glyphicon glyphicon-upload">上架</button> '+
+                                   '<button type="button" onclick="queryStoreById('+row.commId+','+row.commType+')" class="btn btn-info glyphicon glyphicon-pencil">修改</button> '+
+                                   ' <button type="button" onclick="delStore('+row.commId+','+row.commType+',\''+row.commName+'\')" class="btn btn-danger glyphicon glyphicon-trash">删除</button>';
                         }
                     }
                 },
@@ -184,7 +184,7 @@
         });
     }
 
-    function downComm(commId) {
+    function downComm(commId,commType) {
         bootbox.confirm({
             size: "small",
             message: "你确定要下架此商品吗?",
@@ -202,7 +202,7 @@
                 if (result) {
                     $.ajax({
                         url:"../integral/downComm",
-                        data:{commId:commId},
+                        data:{commId:commId,commType:commType},
                         type:"post",
                         success:function () {
                             bootbox.alert({
@@ -224,7 +224,7 @@
         })
     }
 
-    function upComm(commId) {
+    function upComm(commId,commType) {
         bootbox.confirm({
             size: "small",
             message: "你确定要上架此商品吗?",
@@ -242,7 +242,7 @@
                 if (result) {
                     $.ajax({
                         url:"../integral/upComm",
-                        data:{commId:commId},
+                        data:{commId:commId,commType:commType},
                         type:"post",
                         success:function () {
                             bootbox.alert({
@@ -264,7 +264,7 @@
         })
     }
 
-    function queryStoreById(commId) {
+    function queryStoreById(commId,commType) {
         bootbox.dialog({
             title: "修改商品信息",
             message: createAddContent("../page/toEditStore"),
@@ -306,7 +306,7 @@
             $.ajax({
                 url: "../integral/queryStoreById",
                 type: "post",
-                data: {"commId":commId},
+                data: {"commId":commId,commType:commType},
                 dataType: "json",
                 success: function(data){
                     $("#commId").val(data.commId);
@@ -314,6 +314,7 @@
                     $("#commIntegral").val(data.commIntegral);
                     $("#commCount").val(data.commCount);
                     $("#testimg").val(data.commImg);
+                    $("#commType3").val(data.commType);
                     editFileInput(data.commImg);
                 }
             })
@@ -370,7 +371,7 @@
         return res;
     }
 
-    function delStore(commId,commName) {
+    function delStore(commId,commType,commName) {
         bootbox.confirm({
             size: "small",
             message: "你确定要删除"+commName+"吗?",
@@ -388,7 +389,7 @@
                 if (result) {
                     $.ajax({
                         url:"../integral/delStore",
-                        data:{commId:commId},
+                        data:{commId:commId,commType:commType},
                         type:"post",
                         success:function () {
                             $('#showStoreId').bootstrapTable('refresh');

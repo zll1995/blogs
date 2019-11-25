@@ -90,8 +90,14 @@ public class PageController {
 
     //跳转购买积分页面
     @RequestMapping("toBuyIntegral")
-    public String toBuyIntegral(){
+    public String toBuyIntegral(Integer userId,Model model){
+        model.addAttribute("userId",userId);
         return "buyIntegral";
     }
 
+    //跳转我兑换的商品页面
+    @RequestMapping("toMyStore")
+    public String toMyStore(){
+        return "myStore";
+    }
 }

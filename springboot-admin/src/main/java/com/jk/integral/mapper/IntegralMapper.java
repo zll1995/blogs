@@ -51,4 +51,6 @@ public interface IntegralMapper {
     void upComm(Integer commId);
 
     void downComm(Integer commId);
+
+    List queryUserComm();
 }

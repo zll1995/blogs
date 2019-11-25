@@ -25,7 +25,7 @@ public interface IntegralService {
     void addStore(Store store);
 
     //删除积分商品信息      -----段王峰
-    void delStore(Integer commId);
+    void delStore(Store store);
 
     //根据商品ID查询回显        -----段王峰
     Store queryStoreById(Integer commId);
@@ -36,7 +36,9 @@ public interface IntegralService {
     //查询商品类型
     List<StoreType> queryCommType();
 
-    void upComm(Integer commId);
+    void upComm(Store store);
 
-    void downComm(Integer commId);
+    void downComm(Store store);
+
+    List queryUserComm();
 }

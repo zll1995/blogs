@@ -73,8 +73,8 @@ public class IntegralController {
     //删除积分商品信息      -----段王峰
     @RequestMapping("delStore")
     @ResponseBody
-    public void delStore(Integer commId){
-        integralService.delStore(commId);
+    public void delStore(Store store){
+        integralService.delStore(store);
     }
 
     //根据商品ID查询回显        -----段王峰
@@ -101,14 +101,20 @@ public class IntegralController {
     //上架
     @RequestMapping("upComm")
     @ResponseBody
-    public void upComm(Integer commId){
-        integralService.upComm(commId);
+    public void upComm(Store store){
+        integralService.upComm(store);
     }
 
     //下架
     @RequestMapping("downComm")
     @ResponseBody
-    public void downComm(Integer commId){
-        integralService.downComm(commId);
+    public void downComm(Store store){
+        integralService.downComm(store);
+    }
+
+    @RequestMapping("queryUserComm")
+    @ResponseBody
+    public List queryUserComm(){
+        return integralService.queryUserComm();
     }
 }

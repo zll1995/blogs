@@ -12,8 +12,6 @@ public class Integral implements Serializable {
 
     private Integer integralAmount;             //积分数量
 
-    private Integer integralStatus;     //积分状态(0:正常,1:禁用)
-
     private Integer integralUserId;     //用户id
 
     private String  integralUserName;   //用户名

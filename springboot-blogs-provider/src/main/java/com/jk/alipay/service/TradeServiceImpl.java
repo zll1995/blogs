@@ -3,6 +3,7 @@ package com.jk.alipay.service;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.jk.alipay.mapper.TradeMapper;
 import com.jk.alipay.model.Trade;
+import com.jk.integral.model.Integral;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -29,5 +30,14 @@ public class TradeServiceImpl implements TradeService{
         }else{
             tradeMapper.addVIP(user_id,buy_count);
         }
+    }
+
+    @Override
+    public void addIntegral(Integer user_id, Integer buy_count) {
+        Integral inte = tradeMapper.queryIntegralByUserId(user_id);
+        if(inte==null){
+            tradeMapper.addIntegral(user_id,buy_count);
+        }
+        tradeMapper.updIntegral(user_id,buy_count);
     }
 }

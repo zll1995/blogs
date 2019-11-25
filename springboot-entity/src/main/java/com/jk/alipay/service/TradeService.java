@@ -14,4 +14,6 @@ public interface TradeService {
     void saveTrade(Trade trade);
 
     void RenewVIP(Integer user_id, Integer buy_count);
+
+    void addIntegral(Integer user_id, Integer buy_count);
 }

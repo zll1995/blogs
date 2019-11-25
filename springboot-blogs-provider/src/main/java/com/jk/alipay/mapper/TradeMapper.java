@@ -1,6 +1,7 @@
 package com.jk.alipay.mapper;
 
 import com.jk.alipay.model.Trade;
+import com.jk.integral.model.Integral;
 import org.apache.ibatis.annotations.Param;
 
 /**
@@ -21,4 +22,10 @@ public interface TradeMapper {
     void updateVIPEndTime(@Param("id") Integer user_id,@Param("count") Integer buy_count);
 
     void deleteExpireVip();
+
+    void updIntegral(@Param("id") Integer user_id, @Param("count") Integer buy_count);
+
+    Integral queryIntegralByUserId(Integer user_id);
+
+    void addIntegral(@Param("id")Integer user_id, @Param("count")Integer buy_count);
 }

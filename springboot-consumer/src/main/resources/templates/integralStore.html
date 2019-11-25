@@ -32,7 +32,7 @@
     <div style="margin-top: 5px;background-color: #f4f3f3;width: 88%">
         <h1 align="center">欢迎登陆！ 我的积分：</h1>
         <div style="margin-left: 1000px">
-            <a href=""><h3>注销</h3></a>
+            <a href="../page/toMyStore"><h3>我兑换的</h3></a>
         </div>
     </div>
 
@@ -170,7 +170,7 @@
             success:function (data) {
                 var html = "";
                 for (var i=0;i<data.length;i++){
-                    html += '<li><a href="../page/toStoreInfo?commId='+data[i].commId+'" target="_blank"><img src="'+data[i].commImg+'" width="210px" height="210px"></a><a href="../page/toStoreInfo?commId='+data[i].commId+'" target="_blank" class="goodsName">'+data[i].commName+'</a><span><i>'+data[i].commIntegral+'</i>积分 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;剩余数量:'+data[i].commCount+'</span><br><a href="">立即兑换</a></li>';
+                    html += '<li><a href="../page/toStoreInfo?commId='+data[i].commId+'" target="_blank"><img src="'+data[i].commImg+'" width="210px" height="210px"></a><a href="../page/toStoreInfo?commId='+data[i].commId+'" target="_blank" class="goodsName">'+data[i].commName+'</a><span><i>'+data[i].commIntegral+'</i>积分 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;剩余数量:'+data[i].commCount+'件</span><br><a href="">立即兑换</a></li>';
                 }
                 $("#Boutique").html(html);
             },
@@ -186,7 +186,7 @@
             success:function (data) {
                 var html = "";
                 for (var i=0;i<data.length;i++){
-                    html += '<li><a href="../page/toStoreInfo?commId='+data[i].commId+'" target="_blank"><img src="'+data[i].commImg+'" width="210px" height="210px"></a><a href="../page/toStoreInfo?commId='+data[i].commId+'" target="_blank" class="goodsName">'+data[i].commName+'</a><span><i>'+data[i].commIntegral+'</i>积分 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;剩余数量:'+data[i].commCount+'</span></li>';
+                    html += '<li><a href="../page/toStoreInfo?commId='+data[i].commId+'" target="_blank"><img src="'+data[i].commImg+'" width="210px" height="210px"></a><a href="../page/toStoreInfo?commId='+data[i].commId+'" target="_blank" class="goodsName">'+data[i].commName+'</a><span><i>'+data[i].commIntegral+'</i>积分 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;剩余数量:'+data[i].commCount+'件</span></li>';
                 }
                 $("#numerical").html(html);
             },
@@ -202,7 +202,7 @@
             success:function (data) {
                 var html = "";
                 for (var i=0;i<data.length;i++){
-                    html += '<li><a href="../page/toStoreInfo?commId='+data[i].commId+'" target="_blank"><img src="'+data[i].commImg+'" width="210px" height="210px"></a><a href="../page/toStoreInfo?commId='+data[i].commId+'" target="_blank" class="goodsName">'+data[i].commName+'</a><span><i>'+data[i].commIntegral+'</i>积分 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;剩余数量:'+data[i].commCount+'</span></li>';
+                    html += '<li><a href="../page/toStoreInfo?commId='+data[i].commId+'" target="_blank"><img src="'+data[i].commImg+'" width="210px" height="210px"></a><a href="../page/toStoreInfo?commId='+data[i].commId+'" target="_blank" class="goodsName">'+data[i].commName+'</a><span><i>'+data[i].commIntegral+'</i>积分 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;剩余数量:'+data[i].commCount+'件</span></li>';
                 }
                 $("#appliance").html(html);
             },
@@ -218,7 +218,7 @@
             success:function (data) {
                 var html = "";
                 for (var i=0;i<data.length;i++){
-                    html += '<li><a href="../page/toStoreInfo?commId='+data[i].commId+'" target="_blank"><img src="'+data[i].commImg+'" width="210px" height="210px"></a><a href="../page/toStoreInfo?commId='+data[i].commId+'" target="_blank" class="goodsName">'+data[i].commName+'</a><span><i>'+data[i].commIntegral+'</i>积分 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;剩余数量:'+data[i].commCount+'</span></li>';
+                    html += '<li><a href="../page/toStoreInfo?commId='+data[i].commId+'" target="_blank"><img src="'+data[i].commImg+'" width="210px" height="210px"></a><a href="../page/toStoreInfo?commId='+data[i].commId+'" target="_blank" class="goodsName">'+data[i].commName+'</a><span><i>'+data[i].commIntegral+'</i>积分 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;剩余数量:'+data[i].commCount+'件</span></li>';
                 }
                 $("#houseHome").html(html);
             },
@@ -234,7 +234,7 @@
             success:function (data) {
                 var html = "";
                 for (var i=0;i<data.length;i++){
-                    html += '<li><a href="../page/toStoreInfo?commId='+data[i].commId+'" target="_blank"><img src="'+data[i].commImg+'" width="210px" height="210px"></a><a href="../page/toStoreInfo?commId='+data[i].commId+'" target="_blank" class="goodsName">'+data[i].commName+'</a><span><i>'+data[i].commIntegral+'</i>积分 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;剩余数量:'+data[i].commCount+'</span></li>';
+                    html += '<li><a href="../page/toStoreInfo?commId='+data[i].commId+'" target="_blank"><img src="'+data[i].commImg+'" width="210px" height="210px"></a><a href="../page/toStoreInfo?commId='+data[i].commId+'" target="_blank" class="goodsName">'+data[i].commName+'</a><span><i>'+data[i].commIntegral+'</i>积分 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;剩余数量:'+data[i].commCount+'件</span></li>';
                 }
                 $("#car").html(html);
             },

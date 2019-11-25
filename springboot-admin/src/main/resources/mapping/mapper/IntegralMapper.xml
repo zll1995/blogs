@@ -56,7 +56,7 @@
 		limit #{start},#{end}
     </select>
 
-	<insert id="addStore" parameterType="com.jk.integral.model.Store">
+	<insert id="addStore" parameterType="com.jk.integral.model.Store" useGeneratedKeys="true" keyProperty="commType">
         insert into t_store(commName,commIntegral,commImg,commCount,commDate,commType,commStatus) values (#{commName},#{commIntegral},#{commImg},#{commCount},sysdate(),#{commType},#{commStatus})
     </insert>
 
@@ -69,7 +69,7 @@
     </select>
 
 	<update id="updStore" parameterType="com.jk.integral.model.Store">
-		update t_store set commName=#{commName},commIntegral=#{commIntegral},commCount=#{commCount},
+		update t_store set commName=#{commName},commIntegral=#{commIntegral},commCount=#{commCount},commType=#{commType},
 		commImg=#{commImg} where commId = #{commId}
 	</update>
 
@@ -84,4 +84,8 @@
 	<update id="downComm" parameterType="int">
 		update t_store set commStatus = 2 where commId = #{commId}
 	</update>
+
+	<select id="queryUserComm" resultType="java.util.Map">
+		SELECT * FROM t_store ts,t_user6 tu,t_user_comm uc,store_type st WHERE ts.commId=uc.commId AND uc.userId=tu.userId AND ts.commType=st.typeId
+	</select>
 </mapper>

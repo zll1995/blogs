@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/html">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
     <link href="../images/icon/icon.png" rel="shortcut icon" type="image/x-icon" />
-    <script src="../js/bootstrap/jquery-1.9.1.min.js"></script>
+    <script src="../js/jquery-1.9.1.min.js"></script>
     <link rel="stylesheet" href="../css/bootstrap.min.css" />
 
     <style>
@@ -56,20 +57,21 @@
 
 </head>
 <body>
-
-<div  class="form-group" style="margin-top: 50px;margin-left:10%;background-color: royalblue;width: 80%;height: 66px">
-    <label for="tohome" class="col-sm-10 control-label">
+<input type="hidden" id="userId" th:value="${userId}">
+<div  class="form-group" style="margin-top: 20px;margin-left:10%;background-color: royalblue;width: 80%;height: 66px">
+    <label class="col-sm-10 control-label">
         <div style="margin-left: 50px;float: left;width: 150px"  class="divcss5">
             <font color="#f0f8ff"   size="5">充值中心</font>
         </div>
     </label>
-    <div class="col-sm-2" style="float: left;line-height: 60px;width: 100px;">
-        <button type="button" id="tohome" onclick="toMain()" class="btn btn-success glyphicon glyphicon-home">主页</button>
+    <div class="col-sm-2" style="margin-top: 15px">
+        <button type="button" onclick="toIntegralStore()" class="btn btn-success glyphicon glyphicon-shopping-cart">商城首页</button>
+        <button type="button" onclick="toMain()" class="btn btn-success glyphicon glyphicon-home">主页</button>
     </div>
 </div>
 
-<div  class="form-group" style="margin-top: 50px;margin-left: 200px;height: 100px;width: 75%;background-color:#e1f5ff">
-    <label for="tohome" class="col-sm-10 control-label">
+<div  class="form-group" style="margin-top: 20px;margin-left: 200px;height: 100px;width: 75%;background-color:#e1f5ff">
+    <label class="col-sm-10 control-label">
         <div style="margin-left: 50px;float: left;width: 80px;margin-top: 10px"  class="divcss5">
             <img id="userImgId" src="#" width="70px" height="70px">
         </div>
@@ -87,24 +89,31 @@
 
     <div  class="yemian" style="margin-left: 200px;height: 800px;width: auto" >
         <div style="float: left;margin-left: 50px;margin-top: 70px;">
-            <font color="#7fffd4" size="4">请选择充值金额</font><br><br>
-            <font color="black" size="4">目前本网站仅支持支付宝充值</font><br><br>
-            <img src="../images/timgjj.jpg" width="80px" height="80px">
-            <img src="../images/timg11.jpg" width="80px" height="80px">
+            <font color="black" size="4">请选择充值金额</font><br><br>
+            <font color="red" size="4">目前本网站仅支持支付宝充值</font><br><br>
+            <img src="../images/zfb.jpg" width="80px" height="78px">
 
             <br><br>
-            <form name=alipayment action='../alipay/goAlipay' method=post target="_blank">
-                <input type="radio" name="orderType" value="1">10元(110积分)
-                <input type="radio" name="orderType" value="2">20元(230积分)
-                <input type="radio" name="orderType" value="3">50元(600积分)
-                <input type="radio" name="orderType" value="4">100元(1300积分)
-                <input type="radio" name="orderType" value="5"> 500元(8000积分)<br><br>
-                <input id="WIDout_trade_no" type="hidden" name="id" />
+                <label class="radio-inline">
+                    <input type="radio" name="orderType" value="110"> 10元(110积分)
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="orderType" value="230"> 20元(230积分)
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="orderType" value="600"> 50元(600积分)
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="orderType" value="1300"> 100元(1300积分)
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="orderType" value="8000"> 500元(8000积分)
+                </label>
+                <br><br>
                 <div>
-                    <button type="submit"  class="btn btn-primary glyphicon glyphicon-plus">充值</button>
+                    <button type="button" onclick="goAlipay()" class="btn btn-primary glyphicon glyphicon-plus">充值</button>
                 </div>
-            </form>
-            <h1></h1>
+            <div style="margin-top: 300px"></div>
 
             <font color="#00008b">
                 <table>
@@ -116,7 +125,7 @@
                     </tr>
                     <tr>
                         <td>&nbsp&nbsp&nbsp&nbsp对于充值不方便的用户,也可通过手机QQ、网银转账、手机支付宝等方式支付，
-                            支付方式详见:<a href="javaScript:topupHelp()"><font color="#c71585">充值帮助</font></a></td>
+                            支付方式详见:<a href="javaScript:topupHelp()"><font color="red">充值帮助</font></a></td>
                     </tr>
                     <tr>
                         <td>&nbsp&nbsp&nbsp&nbsp积分充值的费用将主要用于数据的存储以及服务器带宽费用,再次感谢您的支持！<br></td>
@@ -135,27 +144,36 @@
 
 <script>
 
-    /*$(function(){
-        GetDateNow();
+    $(function(){
         initUserImg();
     })
 
+    function goAlipay() {
+        var czjf = $("[name='orderType']:checked").val();
+        location.href="../goAlipay?count="+czjf+"&type=integral";
+    }
+
     function initUserImg(){
         $.ajax({
-            url: "/userData/findUserInFor",
+            url: "/integral/initUserImg",
+            data:{userId:$("#userId").val()},
             type: "post",
             success:function(data){
-                $("#userImgId").attr("src",data.userImg);
+                $("#userImgId").attr("src",data.headImg);
 
-                $("#zhanghaoId").html(data.account);
+                $("#zhanghaoId").html(data.username);
 
-                $("#jifenId").html(data.jifen);
+                $("#jifenId").html(data.integralAmount);
             }
         })
-    }*/
+    }
 
     function toMain(){
-            location.href="../page/toMain";
+        location.href="../page/toMain";
+    }
+
+    function toIntegralStore() {
+        location.href="../page/toIntegralStore";
     }
 
     /*function GetDateNow() {
@@ -170,20 +188,6 @@
         sNow += String(vNow.getMilliseconds());
         document.getElementById("WIDout_trade_no").value =  sNow;
 
-    }
-
-
-
-    function creditsExchange() {
-        location.href="toShowcreditsExchange";
-    }
-    function upgradeMembership() {
-        location.href="toShowupgradeMembership";
-    }
-
-
-    function topupHelp() {
-        location.href="toShowTopupHelp";
     }*/
 </script>
 </body>

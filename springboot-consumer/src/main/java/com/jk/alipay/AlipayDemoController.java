@@ -62,7 +62,18 @@ public class AlipayDemoController {
             buy_type = "1";
             body="充值"+count+"个月会员";
         }else if("integral".equals(type)){
-            a = Integer.parseInt(count)*1.00;
+            Integer cc = Integer.parseInt(count);
+            if(cc==110){
+                a = 10.00;
+            }else if(cc==230){
+                a = 20.00;
+            }else if (cc==600){
+                a = 50.00;
+            }else if(cc==1300){
+                a = 100.00;
+            }else if(cc==8000){
+                a = 500.00;
+            }
             buy_type = "2";
             body = "充值"+count+"积分";
         }else{
@@ -126,7 +137,7 @@ public class AlipayDemoController {
             if(trade.getPay_type()==1){
                 tradeService.RenewVIP(trade.getUser_id(),trade.getBuy_count());
             }else if(trade.getPay_type()==2){
-
+                tradeService.addIntegral(trade.getUser_id(),trade.getBuy_count());
             }else{
 
             }

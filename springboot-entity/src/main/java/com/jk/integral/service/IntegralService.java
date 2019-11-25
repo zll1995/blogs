@@ -2,6 +2,8 @@ package com.jk.integral.service;
 
 import com.jk.integral.model.Integral;
 import com.jk.integral.model.Store;
+import com.jk.integral.model.UserComm;
+import com.jk.user.model.User;
 
 import java.util.List;
 import java.util.Map;
@@ -25,4 +27,10 @@ public interface IntegralService {
     List<Store> queryAppliance();
 
     Store queryCommById(Integer commId);
+
+    void addUserComm(Integer nowJf, Integer goodsCount, Integer commId, Integer userId);
+
+    List queryMyStore(Integer userId);
+
+    User initUserImg(Integer userId);
 }

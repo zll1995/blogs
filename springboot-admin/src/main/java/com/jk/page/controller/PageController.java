@@ -53,4 +53,9 @@ public class PageController {
     public String toViewAnalysis(){
         return "TradeView";
     }
+
+    @RequestMapping("toUserComm")
+    public String toUserComm(){
+        return "userComm";
+    }
 }
